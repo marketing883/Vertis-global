@@ -1,0 +1,558 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Vertis Global: Data Pixels design tokens
+   ------------------------------------------------------------
+   Palette derived directly from the Vertis logo (blue V with a
+   trail of colored pixel squares). Light editorial base; one
+   statement-dark surface per page; per-page pixel accents.
+   ============================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-bg-base: #fafaf8;
+  --color-bg-surface: #ffffff;
+  --color-bg-statement: #0a0f1f;
+  --color-bg-subtle: #f2f3f5;
+
+  /* Ink (text) */
+  --color-ink-primary: #0b1a2f;
+  --color-ink-secondary: #5b6a7c;
+  --color-ink-tertiary: #8d98a6;
+  --color-ink-rule: #d9dee6;
+  --color-ink-inverse: #f2f5fa;
+  --color-ink-inverse-secondary: #a9b6c8;
+
+  /* Brand: from the V mark */
+  --color-brand-blue: #0066ff;
+  --color-brand-cyan: #00c6ff;
+  --color-brand-deep: #0033a0;
+
+  /* Data pixel accents: from the logo's pixel trail */
+  --color-pixel-cyan: #00c6ff;
+  --color-pixel-blue: #0066ff;
+  --color-pixel-yellow: #ffcc00;
+  --color-pixel-orange: #ff7a1a;
+  --color-pixel-magenta: #e91e63;
+  --color-pixel-green: #6dc24b;
+  --color-pixel-purple: #7b2fbe;
+
+  /* Typography */
+  --font-display: "Fraunces", ui-serif, "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Editorial type scale */
+  --text-meta: 0.75rem;       /* 12px: section numbers, captions */
+  --text-meta--line-height: 1.4;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;        /* 22px */
+  --text-2xl: 1.75rem;        /* 28px */
+  --text-3xl: 2.25rem;        /* 36px */
+  --text-4xl: 3rem;           /* 48px */
+  --text-5xl: 4rem;           /* 64px */
+  --text-6xl: 5.5rem;         /* 88px */
+  --text-hero: clamp(3.25rem, 9vw, 9rem);
+  --text-hero--line-height: 0.95;
+  --text-hero--letter-spacing: -0.035em;
+
+  /* Measurements */
+  --container-prose: 40rem;   /* 640px readable column */
+  --container-wide: 92rem;    /* 1472px content frame */
+
+  /* Motion */
+  --ease-editorial: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ============================================================
+   Self-hosted variable fonts
+   Copied into /assets/fonts/ at build time (scripts/copy-fonts.mjs)
+   ============================================================ */
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/fraunces-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/fraunces-latin-wght-italic.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("/assets/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/* ============================================================
+   Base layer: typography defaults, accessibility, resets
+   ============================================================ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink-primary);
+    background: var(--color-bg-base);
+  }
+
+  body {
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    min-height: 100dvh;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    color: var(--color-ink-primary);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  h1 { font-weight: 500; }
+  h2, h3 { font-weight: 450; }
+
+  p { text-wrap: pretty; }
+
+  ::selection {
+    background: var(--color-brand-blue);
+    color: white;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Focus visible: keyboard only */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-blue);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ============================================================
+   Components: editorial primitives
+   ============================================================ */
+
+@layer components {
+  .wrapper {
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 48rem) {
+    .wrapper { padding-inline: 2rem; }
+  }
+  @media (min-width: 80rem) {
+    .wrapper { padding-inline: 3rem; }
+  }
+
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-ink-primary);
+    height: 0;
+    margin: 0;
+  }
+  .rule-subtle {
+    border: 0;
+    border-top: 1px solid var(--color-ink-rule);
+    height: 0;
+    margin: 0;
+  }
+
+  .meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-secondary);
+  }
+
+  /* Section-number tag with the section's pixel color. The accent
+     color is bound via CSS var --accent on the parent section. */
+  .section-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-number::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--accent, var(--color-brand-blue));
+    display: inline-block;
+    translate: 0 -1px;
+  }
+
+  /* Editorial link: hover underline animates from left to right */
+  .link-edit {
+    position: relative;
+    display: inline-block;
+    color: var(--color-ink-primary);
+    padding-block: 0.125rem;
+  }
+  .link-edit::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.4s var(--ease-editorial);
+  }
+  .link-edit:hover::after,
+  .link-edit:focus-visible::after {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+  /* Button: editorial, square, no gradient */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--text-base);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    border: 1px solid var(--color-ink-primary);
+    transition: background-color 0.3s var(--ease-editorial), color 0.3s var(--ease-editorial), transform 0.3s var(--ease-editorial);
+  }
+  .btn svg { transition: transform 0.3s var(--ease-editorial); }
+  .btn-primary {
+    background: var(--color-ink-primary);
+    color: var(--color-ink-inverse);
+  }
+  .btn-primary:hover { background: var(--color-brand-blue); border-color: var(--color-brand-blue); }
+  .btn-primary:hover svg { transform: translateX(4px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink-primary);
+  }
+  .btn-ghost:hover {
+    background: var(--color-ink-primary);
+    color: var(--color-ink-inverse);
+  }
+  .btn-ghost:hover svg { transform: translateX(4px); }
+
+  /* Scroll-in reveal: class toggled by IntersectionObserver */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s var(--ease-editorial), transform 0.9s var(--ease-editorial);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.08s; }
+  .reveal-delay-2 { transition-delay: 0.16s; }
+  .reveal-delay-3 { transition-delay: 0.24s; }
+  .reveal-delay-4 { transition-delay: 0.32s; }
+
+  /* Clip-path mask reveal for hero headlines.
+     padding-bottom gives italic descenders room so clip-path doesn't crop them.
+     Negative insets in the final state extend the visible region past the box,
+     so italic right-edges and descenders stay intact. */
+  .reveal-mask > * {
+    display: inline-block;
+    padding-bottom: 0.18em;
+    clip-path: inset(-0.15em 100% -0.2em 0);
+    transition: clip-path 1.2s var(--ease-editorial);
+  }
+  .reveal-mask.is-in > * {
+    clip-path: inset(-0.15em -0.15em -0.2em 0);
+  }
+
+  /* Pixel marquee: used in footer and pixel-trail partial */
+  .pixel-track {
+    display: flex;
+    gap: 0.5rem;
+    animation: pixel-scroll 40s linear infinite;
+    width: max-content;
+  }
+  .pixel-track > span {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+  }
+  @keyframes pixel-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Sectional layout */
+  .section {
+    padding-block: clamp(4rem, 10vw, 8rem);
+    position: relative;
+  }
+  .section-statement {
+    background: var(--color-bg-statement);
+    color: var(--color-ink-inverse);
+  }
+  .section-statement h1,
+  .section-statement h2,
+  .section-statement h3,
+  .section-statement h4 {
+    color: var(--color-ink-inverse);
+  }
+
+  /* 12-col editorial grid */
+  .grid-edit {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 1.25rem;
+    row-gap: 2rem;
+  }
+  @media (min-width: 64rem) {
+    .grid-edit { column-gap: 1.75rem; row-gap: 2.5rem; }
+  }
+
+  /* Hero with video background. Dark palette overrides for text inside. */
+  .hero-video {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--color-bg-statement);
+    color: var(--color-ink-inverse);
+  }
+  .hero-video__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-video__media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    mix-blend-mode: luminosity;
+  }
+  .hero-video__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10, 15, 31, 0.55) 0%, rgba(10, 15, 31, 0.8) 100%),
+      linear-gradient(120deg, rgba(0, 51, 160, 0.35) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  /* Scattered pixel accents over the video, echoing the logo trail. */
+  .hero-video__pixels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-video__pixels > span {
+    position: absolute;
+    display: block;
+    width: var(--sz, 0.5rem);
+    height: var(--sz, 0.5rem);
+    background: var(--c);
+    top: var(--y);
+    left: var(--x);
+    opacity: var(--o, 0.9);
+  }
+  .hero-video > .wrapper,
+  .hero-video > .hero-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Text inversion for content inside a dark hero. */
+  .hero-dark h1,
+  .hero-dark h2,
+  .hero-dark h3,
+  .hero-dark h4 {
+    color: var(--color-ink-inverse);
+  }
+  .hero-dark .meta {
+    color: var(--color-ink-inverse-secondary);
+  }
+  .hero-dark .text-ink-secondary,
+  .hero-dark .text-ink-tertiary {
+    color: var(--color-ink-inverse-secondary) !important;
+  }
+  .hero-dark .btn-primary {
+    background: var(--color-ink-inverse);
+    color: var(--color-ink-primary);
+    border-color: var(--color-ink-inverse);
+  }
+  .hero-dark .btn-primary:hover {
+    background: var(--color-brand-blue);
+    color: var(--color-ink-inverse);
+    border-color: var(--color-brand-blue);
+  }
+  .hero-dark .btn-ghost {
+    color: var(--color-ink-inverse);
+    border-color: var(--color-ink-inverse-secondary);
+    background: transparent;
+  }
+  .hero-dark .btn-ghost:hover {
+    background: var(--color-ink-inverse);
+    color: var(--color-ink-primary);
+    border-color: var(--color-ink-inverse);
+  }
+
+  /* Respect reduced motion: swap video for a static poster image. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video__media {
+      display: none;
+    }
+    .hero-video__bg {
+      background-image: url("/video/hero-bg-poster.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  /* ============================================================
+     Site navigation: fixed over content, transparent by default,
+     glassy on scroll. Dark-hero pages invert nav colors until
+     scrolled past the hero, then transition to light-glassy.
+     First sections carry enough top padding (pt-20 md:pt-28 or
+     pt-24 md:pt-32) to clear the nav without extra offset.
+     ============================================================ */
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: color-mix(in srgb, var(--color-bg-base) 88%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid var(--color-ink-rule);
+    color: var(--color-ink-primary);
+    transition:
+      background-color 0.35s var(--ease-editorial),
+      border-color 0.35s var(--ease-editorial),
+      color 0.35s var(--ease-editorial),
+      backdrop-filter 0.35s var(--ease-editorial);
+  }
+  .site-nav__links a {
+    color: var(--color-ink-secondary);
+    transition: color 0.3s var(--ease-editorial);
+  }
+  .site-nav__links a:hover,
+  .site-nav__links a.is-active {
+    color: var(--color-ink-primary);
+  }
+  .site-nav__panel {
+    border-top: 1px solid var(--color-ink-rule);
+  }
+  .site-nav__panel a { color: var(--color-ink-primary); }
+  .site-nav__panel-cta { color: var(--color-brand-blue) !important; }
+
+  /* Logo gradient stops — default (light pages / scrolled state) */
+  .logo-stop-1 { stop-color: #0033A0; }
+  .logo-stop-2 { stop-color: #0066FF; }
+  .logo-stop-3 { stop-color: #00C6FF; }
+
+  /* Dark hero pages: nav starts transparent with inverse text/logo */
+  body.has-dark-hero .site-nav:not(.is-scrolled) {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+    color: var(--color-ink-inverse);
+  }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__links a {
+    color: color-mix(in srgb, var(--color-ink-inverse) 75%, transparent);
+  }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__links a:hover,
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__links a.is-active {
+    color: var(--color-ink-inverse);
+  }
+  /* CTA: flip to inverse fill with dark text on dark hero (non-scrolled) */
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__cta {
+    background: var(--color-ink-inverse);
+    color: var(--color-ink-primary);
+    border-color: var(--color-ink-inverse);
+  }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__cta:hover {
+    background: var(--color-brand-blue);
+    color: var(--color-ink-inverse);
+    border-color: var(--color-brand-blue);
+  }
+  /* Mobile menu toggle: light icon on dark hero */
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__toggle {
+    color: var(--color-ink-inverse);
+  }
+  /* Wordmark text inverts too (covers .text-ink-primary and inherited) */
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__logo span {
+    color: var(--color-ink-inverse);
+  }
+  /* Logo gradient swaps to brighter stops over dark hero */
+  body.has-dark-hero .site-nav:not(.is-scrolled) .logo-stop-1 { stop-color: #f2f5fa; }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .logo-stop-2 { stop-color: #9fd7ff; }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .logo-stop-3 { stop-color: #00c6ff; }
+
+  /* Mobile menu panel on dark-hero (non-scrolled) stays readable */
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__panel {
+    background: color-mix(in srgb, var(--color-bg-statement) 92%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top-color: color-mix(in srgb, var(--color-ink-inverse) 15%, transparent);
+  }
+  body.has-dark-hero .site-nav:not(.is-scrolled) .site-nav__panel a {
+    color: var(--color-ink-inverse);
+  }
+}
+
+/* ============================================================
+   Utilities: small, intentional
+   ============================================================ */
+
+@utility balance {
+  text-wrap: balance;
+}
+@utility pretty {
+  text-wrap: pretty;
+}
+
+/* Accent helper: let templates set the per-section pixel color via style="--accent: ...;" */

@@ -1,0 +1,64 @@
+---
+layout: case-study-page.njk
+tags: work
+title: Retail data, one layer
+tagline: Four sources to one platform.
+description: A specialty retail chain rebuilt four disparate data stacks on Snowflake plus dbt, lifted forecast accuracy by twelve points, and cut weekly reporting from three days to one hour.
+intro: A specialty retail chain ran four reporting stacks. Merchandising, finance, marketing, and operations each had their own pipelines, their own definitions of revenue, and their own excuses for late dashboards. We rebuilt the data platform on Snowflake with dbt, unified the definitions, and stood up a customer data platform on top. Weekly reporting went from three days of spreadsheet gymnastics to one hour of automated publication.
+permalink: /work/retail-data-platform/
+industry: Retail and Consumer
+year: 2024
+engagementType: Project plus dedicated squad
+accent: var(--color-pixel-orange)
+metrics:
+  - label: Weekly reporting
+    value: 3 days to 1 hour
+    detail: From manual consolidation to automated publication.
+  - label: Forecast accuracy
+    value: +12 pts
+    detail: MAPE improvement at the store-SKU level versus the prior baseline.
+  - label: Data pipelines consolidated
+    value: 4 to 1
+    detail: One platform replacing four independent stacks.
+challenge: >
+  The CFO opened every finance review asking why the three revenue numbers on the dashboard did not match. They did not match because three teams pulled the same data three ways. Merchandising wanted store-SKU forecasting but the source data was not clean enough. Marketing wanted a customer data platform but the customer identity was split across loyalty, POS, and digital. Leadership had funding for one platform rebuild and no appetite for another.
+approach:
+  - title: Metrics alignment first
+    description: Four weeks with finance, merchandising, and marketing aligning on metric definitions before any code. Revenue, margin, and customer defined once. Written down. Signed.
+  - title: Platform rebuild on Snowflake
+    description: Snowflake as the warehouse, Fivetran for ingestion, dbt for modeling, Looker for BI. Chosen for the team's skills and the query shape, not the headline.
+  - title: Customer data platform
+    description: Identity resolution across loyalty, POS, and digital. Consent and preferences respected. Activation to Klaviyo and the paid media side.
+  - title: Store-SKU forecasting
+    description: Demand forecast at the store-SKU level, backtested before deployment. Promo, weather, and calendar effects included. Integrated into replenishment planning.
+  - title: Migration and cutover
+    description: Six-week migration of reporting off the legacy stacks. Reports rebuilt once against the new model. Old stacks read-only, then quiet, then archived.
+  - title: Dedicated squad for ongoing work
+    description: Four-person squad continued post-launch under a quarterly commitment. Product roadmap owned by the client VP, delivery led by our tech lead.
+outcome: >
+  Weekly reporting moved from three days of finance-ops consolidation to one hour of automated publication. Store-SKU forecast accuracy improved by twelve MAPE points against the prior baseline. The customer data platform activated audiences into marketing within the first quarter. Four separate stacks retired within six months of cutover.
+outcomeBullets:
+  - Three revenue numbers on the dashboard became one. Finance review quieter.
+  - Forecast accuracy improvement visible in inventory and lost-sales numbers.
+  - Marketing activating personalized audiences by month three.
+  - Dedicated squad continuing to ship against a ranked backlog.
+teamShape:
+  - label: Duration
+    value: 18 weeks (build)
+  - label: Team
+    value: 6 people
+  - label: Ongoing
+    value: Dedicated squad, quarterly
+  - label: Stakeholders
+    value: Finance, merch, marketing, ops
+servicesUsed:
+  - title: Data & Analytics
+    url: /services/data-analytics/
+    kind: Projects
+  - title: Dedicated Squads
+    url: /staffing/dedicated-squads/
+    kind: Staffing
+  - title: Data Platform Operations
+    url: /managed-services/data-platform-operations/
+    kind: Managed
+---

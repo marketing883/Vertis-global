@@ -1,0 +1,76 @@
+{%- set pageTitle = title or site.name -%}
+{%- set fullTitle = (title + " | " + site.name) if (title and title != site.name) else site.name -%}
+{%- set pageDescription = description or site.description -%}
+{%- set pageUrl = site.url + (page.url or "/") -%}
+{%- set pageImage = ogImage or (site.url + "/og-default.png") -%}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="{{ site.themeColor }}">
+
+<title>{{ fullTitle }}</title>
+<meta name="description" content="{{ pageDescription }}">
+<link rel="canonical" href="{{ pageUrl }}">
+
+{# Icons #}
+<link rel="icon" type="image/png" href="{{ site.favicon }}">
+<link rel="apple-touch-icon" href="{{ site.favicon }}">
+
+{# Open Graph #}
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{{ fullTitle }}">
+<meta property="og:description" content="{{ pageDescription }}">
+<meta property="og:type" content="{{ ogType or 'website' }}">
+<meta property="og:url" content="{{ pageUrl }}">
+<meta property="og:image" content="{{ pageImage }}">
+<meta property="og:locale" content="en_US">
+
+{# Twitter #}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ fullTitle }}">
+<meta name="twitter:description" content="{{ pageDescription }}">
+<meta name="twitter:image" content="{{ pageImage }}">
+
+{# Robots #}
+<meta name="robots" content="{{ robots or 'index,follow,max-image-preview:large,max-snippet:-1' }}">
+
+{# Font preloads. Only the body Inter and display Fraunces on first paint. #}
+<link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+{# Stylesheet #}
+<link rel="stylesheet" href="/assets/css/main.css">
+
+{# JSON-LD Organization schema. Slogan field intentionally omitted. #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ site.name }}",
+  "legalName": "{{ site.legalName }}",
+  "url": "{{ site.url }}",
+  "logo": "{{ site.url }}{{ site.logo }}",
+  "description": "{{ site.description }}",
+  "foundingDate": "{{ site.founded }}",
+  "award": "2023 Diversity Supplier of the Year",
+  "areaServed": ["United States", "Europe", "Asia Pacific"],
+  "sameAs": [
+    "{{ site.social.linkedin }}"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "sales",
+    "url": "{{ site.url }}/contact/",
+    "email": "{{ site.email }}",
+    "areaServed": "Global",
+    "availableLanguage": ["English"]
+  }
+}
+</script>
+
+{% if jsonLd %}
+<script type="application/ld+json">
+{{ jsonLd | safe }}
+</script>
+{% endif %}

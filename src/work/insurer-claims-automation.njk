@@ -1,0 +1,62 @@
+---
+layout: case-study-page.njk
+tags: work
+title: Claims, straight through
+tagline: Seven days to two.
+description: A regional P&C insurer rebuilt claims intake, applied document AI with clinical-grade evaluation, and cut the claims cycle from seven days to two.
+intro: A regional property and casualty insurer handled first notice of loss through email, fax, and a portal from 2011. Adjusters spent their first hour of every case transcribing. The claims SVP wanted touchless claims and a better cycle time. We rebuilt intake, applied document AI with proper evaluation, and moved 80% of first notices to straight-through processing.
+permalink: /work/insurer-claims-automation/
+industry: Financial Services
+year: 2025
+engagementType: Project plus staffing
+accent: var(--color-pixel-cyan)
+metrics:
+  - label: Claims cycle time
+    value: 7 to 2 days
+    detail: Median cycle from first notice to first payment decision.
+  - label: Straight-through rate
+    value: 80%
+    detail: Of first notices now processed without manual transcription.
+  - label: Adjuster capacity
+    value: +22%
+    detail: Additional claims handled per adjuster per week.
+challenge: >
+  First notice of loss arrived in five different formats. Adjusters transcribed every claim into the policy admin system before they could work it. Document accuracy mattered: a wrong policy number or date meant rework downstream. The claims SVP had tried an AI vendor pilot that failed evaluation in the first 100 claims. She wanted a system with accuracy gates a claims lead would sign, not a vendor promise.
+approach:
+  - title: Evaluation-first design
+    description: We built the evaluation harness before we built the extraction pipeline. Held-out set of 500 historical FNOLs with ground truth. Accuracy thresholds agreed with the claims lead before development started.
+  - title: Document understanding pipeline
+    description: Intake across email, fax, and portal into one normalized document store. Extraction with an LLM pipeline, validated against the evaluation harness on every model change.
+  - title: Policy admin integration
+    description: Idempotent write path into the policy admin system. Audit trail for every claim touch. Human-in-the-loop review for anything that fell below the accuracy threshold.
+  - title: Adjuster workflow redesign
+    description: Adjuster screen redesigned around the automated draft. Three clicks to accept, one click to escalate, a clear reason code for each.
+  - title: Model governance
+    description: Model registry, versioning, and quarterly review. Drift monitoring on document types and extracted field accuracy. Runbooks for downgrade and rollback.
+outcome: >
+  The claims cycle time dropped from 7 days median to 2 days median across the pilot portfolio and held. Eighty percent of first notices processed without manual transcription. Adjuster capacity increased 22% without headcount change. The evaluation harness became the basis for quarterly model reviews with the claims lead signing each one.
+outcomeBullets:
+  - 80% straight-through first notice rate inside the pilot portfolio.
+  - Claims cycle time cut from 7 days to 2 days, median.
+  - Adjuster productivity up 22% with no quality regression.
+  - Quarterly model review signed by the claims lead, not by engineering.
+teamShape:
+  - label: Duration
+    value: 12 weeks
+  - label: Team
+    value: 4 people
+  - label: Staffed role
+    value: ML engineer embedded post-launch
+  - label: Ongoing
+    value: Quarterly model review
+servicesUsed:
+  - title: AI & Automation
+    url: /services/ai-automation/
+    kind: Projects
+  - title: MLOps
+    url: /managed-services/mlops/
+    kind: Managed
+  - title: Staff Augmentation
+    url: /staffing/staff-augmentation/
+    kind: Staffing
+---

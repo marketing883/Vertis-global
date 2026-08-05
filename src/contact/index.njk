@@ -1,0 +1,86 @@
+---
+layout: base.njk
+title: Contact
+description: Tell Vertis Global what you want to move. Projects, managed services, or staffing. Expect a response within one business day.
+permalink: /contact/
+showContactCta: false
+---
+
+<section class="section pt-20 md:pt-28 pb-16 md:pb-24">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <h1 class="font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] text-balance reveal-mask">
+        <span>What are you</span>
+        <span class="block italic text-brand-blue">moving next?</span>
+      </h1>
+      <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">
+        Projects, managed services, staffing, or not sure yet. Start with a short note. We reply inside one business day. Scope, team, and timeline in plain English.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-5">
+      <h2 class="font-display font-medium text-3xl md:text-4xl leading-tight tracking-[-0.02em] balance reveal">Start a conversation.</h2>
+      <dl class="mt-10 space-y-6">
+        <div>
+          <dt class="meta text-ink-secondary">Email</dt>
+          <dd class="mt-1 text-lg"><a class="link-edit" href="mailto:{{ site.email }}">{{ site.email }}</a></dd>
+        </div>
+        <div>
+          <dt class="meta text-ink-secondary">Response time</dt>
+          <dd class="mt-1 text-lg">One business day</dd>
+        </div>
+        <div>
+          <dt class="meta text-ink-secondary">First call</dt>
+          <dd class="mt-1 text-lg">30 minutes, with a practitioner on your topic</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="col-span-12 md:col-span-7 md:pl-8">
+      <form action="/api/contact" method="POST" class="reveal reveal-delay-1 flex flex-col gap-6" data-contact-form>
+        <div class="grid grid-cols-2 gap-4">
+          <label class="flex flex-col gap-2">
+            <span class="meta text-ink-secondary">Name</span>
+            <input type="text" name="name" required autocomplete="name" class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue">
+          </label>
+          <label class="flex flex-col gap-2">
+            <span class="meta text-ink-secondary">Work email</span>
+            <input type="email" name="email" required autocomplete="email" class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue">
+          </label>
+          <label class="flex flex-col gap-2">
+            <span class="meta text-ink-secondary">Company</span>
+            <input type="text" name="company" required autocomplete="organization" class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue">
+          </label>
+          <label class="flex flex-col gap-2">
+            <span class="meta text-ink-secondary">Role</span>
+            <input type="text" name="role" autocomplete="organization-title" class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue">
+          </label>
+        </div>
+        <label class="flex flex-col gap-2">
+          <span class="meta text-ink-secondary">What do you want to move?</span>
+          <select name="interest" required class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue">
+            <option value="">Select one</option>
+            <option value="project">A project with fixed scope</option>
+            <option value="managed">Managed services</option>
+            <option value="staffing">Staffing</option>
+            <option value="not-sure">Not sure yet</option>
+          </select>
+        </label>
+        <label class="flex flex-col gap-2">
+          <span class="meta text-ink-secondary">A few sentences about the need</span>
+          <textarea name="message" rows="4" required class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue resize-y"></textarea>
+        </label>
+        <div class="flex items-center gap-4 pt-4">
+          <button type="submit" class="btn btn-primary">
+            Send note
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </button>
+          <p class="meta text-ink-tertiary">We reply within one business day.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

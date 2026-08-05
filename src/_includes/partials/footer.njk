@@ -1,0 +1,86 @@
+<footer class="mt-24 border-t border-ink-primary">
+  {# Pixel marquee. Subtle, continuous. #}
+  <div class="relative overflow-hidden py-4 border-b border-ink-rule" aria-hidden="true">
+    <div class="pixel-track">
+      {% for _ in range(0, 24) %}
+        <span style="background: var(--color-pixel-cyan)"></span>
+        <span style="background: var(--color-pixel-blue)"></span>
+        <span style="background: var(--color-pixel-purple)"></span>
+        <span style="background: var(--color-pixel-magenta)"></span>
+        <span style="background: var(--color-pixel-orange)"></span>
+        <span style="background: var(--color-pixel-yellow)"></span>
+        <span style="background: var(--color-pixel-green)"></span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="wrapper py-16 grid-edit">
+    <div class="col-span-12 md:col-span-5 flex flex-col gap-6">
+      <a href="/" class="inline-flex items-center gap-3" aria-label="{{ site.name }} home">
+        {% set size = 48 %}{% include "partials/logo-mark.njk" %}
+        <span class="font-display font-medium text-2xl leading-none tracking-[-0.02em]">Vertis Global</span>
+      </a>
+      <p class="font-display font-medium text-2xl md:text-3xl leading-tight max-w-md text-balance">
+        Build it. Run it. Staff it.
+      </p>
+      <p class="text-sm text-ink-secondary max-w-sm">
+        Technology projects, managed services, and staffing. One partner across the tech lifecycle. Delivering since 2012 across US, EMEA, and APAC.
+      </p>
+    </div>
+
+    <div class="col-span-6 md:col-span-7 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <div class="meta mb-4">Company</div>
+        <ul class="flex flex-col gap-2.5 text-sm">
+          {% for item in nav.footer.company %}
+            <li><a href="{{ item.url }}" class="link-edit text-ink-primary">{{ item.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <div class="meta mb-4">Projects</div>
+        <ul class="flex flex-col gap-2.5 text-sm">
+          {% for item in nav.footer.projects %}
+            <li><a href="{{ item.url }}" class="link-edit text-ink-primary">{{ item.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <div class="meta mb-4">Managed</div>
+        <ul class="flex flex-col gap-2.5 text-sm">
+          {% for item in nav.footer.managed %}
+            <li><a href="{{ item.url }}" class="link-edit text-ink-primary">{{ item.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <div class="meta mb-4">Staffing</div>
+        <ul class="flex flex-col gap-2.5 text-sm">
+          {% for item in nav.footer.staffing %}
+            <li><a href="{{ item.url }}" class="link-edit text-ink-primary">{{ item.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper py-10 grid-edit border-t border-ink-rule">
+    <div class="col-span-12 md:col-span-5 mb-6 md:mb-0">
+      <div class="meta mb-4">Industries</div>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
+        {% for item in nav.footer.industries %}
+          <li><a href="{{ item.url }}" class="link-edit text-ink-primary">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrapper flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-8 border-t border-ink-rule">
+    <p class="text-xs text-ink-secondary">© {{ site.name }} {{ site.founded }} to {{ page.date.getFullYear() if page.date else 2026 }}. All rights reserved.</p>
+    <div class="flex items-center gap-6 text-xs text-ink-secondary">
+      <a href="/privacy/" class="link-edit">Privacy</a>
+      <a href="/terms/" class="link-edit">Terms</a>
+      <a href="{{ site.social.linkedin }}" class="link-edit" rel="noopener" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</footer>

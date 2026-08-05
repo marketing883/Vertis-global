@@ -1,0 +1,56 @@
+{
+  "primary": [
+    { "label": "Projects", "url": "/services/" },
+    { "label": "Managed", "url": "/managed-services/" },
+    { "label": "Staffing", "url": "/staffing/" },
+    { "label": "Industries", "url": "/industries/" },
+    { "label": "Approach", "url": "/approach/" },
+    { "label": "Work", "url": "/work/" },
+    { "label": "Insights", "url": "/insights/" }
+  ],
+  "cta": { "label": "Talk to us", "url": "/contact/" },
+  "footer": {
+    "company": [
+      { "label": "Approach", "url": "/approach/" },
+      { "label": "Industries", "url": "/industries/" },
+      { "label": "Work", "url": "/work/" },
+      { "label": "Insights", "url": "/insights/" },
+      { "label": "Contact", "url": "/contact/" }
+    ],
+    "projects": [
+      { "label": "Data & Analytics", "url": "/services/data-analytics/" },
+      { "label": "AI & Automation", "url": "/services/ai-automation/" },
+      { "label": "Cloud Modernization", "url": "/services/cloud-modernization/" },
+      { "label": "Product Engineering", "url": "/services/product-engineering/" },
+      { "label": "Quality Engineering", "url": "/services/quality-engineering/" },
+      { "label": "Salesforce", "url": "/services/salesforce/" },
+      { "label": "SAP / S4HANA", "url": "/services/sap-s4hana/" },
+      { "label": "RPA", "url": "/services/rpa/" },
+      { "label": "Business Transformation", "url": "/services/business-transformation/" }
+    ],
+    "managed": [
+      { "label": "Cloud Operations + FinOps", "url": "/managed-services/cloud-operations/" },
+      { "label": "Data Platform Operations", "url": "/managed-services/data-platform-operations/" },
+      { "label": "Database Operations", "url": "/managed-services/database-operations/" },
+      { "label": "Integration Platform Ops", "url": "/managed-services/integration-platform-operations/" },
+      { "label": "Application Support", "url": "/managed-services/application-support/" },
+      { "label": "Security Operations", "url": "/managed-services/security-operations/" },
+      { "label": "MLOps", "url": "/managed-services/mlops/" }
+    ],
+    "staffing": [
+      { "label": "Staff Augmentation", "url": "/staffing/staff-augmentation/" },
+      { "label": "Fractional Tech Leadership", "url": "/staffing/fractional-leadership/" },
+      { "label": "Executive Search", "url": "/staffing/executive-search/" },
+      { "label": "Dedicated Squads", "url": "/staffing/dedicated-squads/" },
+      { "label": "Offshore Development Centers", "url": "/staffing/offshore-development-centers/" },
+      { "label": "Training & Enablement", "url": "/staffing/training/" }
+    ],
+    "industries": [
+      { "label": "Transportation and Logistics", "url": "/industries/transportation-logistics/" },
+      { "label": "Financial Services", "url": "/industries/financial-services/" },
+      { "label": "Healthcare", "url": "/industries/healthcare/" },
+      { "label": "Retail and Consumer", "url": "/industries/retail-consumer/" },
+      { "label": "Manufacturing", "url": "/industries/manufacturing/" }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+---
+layout: detail-page.njk
+pillar: managed
+title: MLOps
+tagline: ML that stays useful.
+description: Model lifecycle operations. Drift monitoring, retraining pipelines, feature stores, and cost and latency instrumentation. Under SLA.
+intro: Model lifecycle operations. Drift monitoring, retraining pipelines, feature stores, and cost and latency instrumentation. ML that stays useful after the launch demo.
+permalink: /managed-services/mlops/
+capabilitiesHeading: What is included.
+capabilities:
+  - title: Model monitoring and drift
+    description: Input distributions, output distributions, and concept drift. Alerts wired into on-call. Owners named before signals fire.
+  - title: Retraining pipelines
+    description: Scheduled or trigger-based. Validated against the current production baseline. Promotion gates before anything ships.
+  - title: Feature store operations
+    description: Feature freshness, versioning, and cost tracking. Offline-online parity checks.
+  - title: Cost and latency tracking
+    description: Per-endpoint and per-model dashboards. Budget alerts. Cost regression caught before it ships.
+  - title: Governance and audit
+    description: Lineage from data to training to deployment. Approval trails for regulated domains.
+  - title: Experiment tracking
+    description: Experiment registry, hyperparameter logs, and reproducibility support. What you need when someone asks where a number came from.
+technologiesEyebrow: Tooling
+technologiesHeading: What we run on.
+technologies:
+  - MLflow
+  - Weights & Biases
+  - Evidently
+  - Databricks ML
+  - SageMaker
+  - Vertex AI
+  - Feast
+  - Tecton
+  - Arize
+  - Fiddler
+  - LangSmith
+numbersHeading: How it works.
+numbers:
+  - label: Commitment
+    value: Quarterly
+  - label: Response
+    value: SLA-backed
+  - label: Reporting
+    value: Monthly
+  - label: Handoff path
+    value: Always open
+faqs:
+  - q: Do you cover LLM systems too?
+    a: Yes. Prompt regression, eval harnesses, cost and latency, and content safety monitoring. The shape is different from classical ML but the discipline is the same.
+  - q: Who owns the models?
+    a: You do. We operate, monitor, and retrain. We document decisions but the business owner stays accountable for the model.
+  - q: What about data quality?
+    a: Close loop with /managed-services/data-platform-operations/ if that is also covered. Otherwise we coordinate with your team.
+  - q: Can you pick up a model you did not build?
+    a: Yes. 2-week onboarding audit first. Output is a runbook and a monitoring baseline.
+  - q: How do you handle model deprecation?
+    a: Scheduled reviews. If a model is not earning its keep, we retire it. The cheapest model is the one you do not run.
+related:
+  - title: AI & Automation
+    url: /services/ai-automation/
+    blurb: The build phase of the ML or LLM system.
+    kind: Projects
+  - title: Data Platform Operations
+    url: /managed-services/data-platform-operations/
+    blurb: Keep the data the models depend on healthy.
+    kind: Managed
+  - title: Training & Enablement
+    url: /staffing/training/
+    blurb: Upskill your team on ML in production.
+    kind: Staffing
+---

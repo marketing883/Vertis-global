@@ -1,0 +1,88 @@
+---
+layout: base.njk
+title: Managed Services
+description: Day-two operations under SLA. Data platforms, cloud, applications, security, and ML in production. Monthly retainer. Measurable uptime. Predictable cost.
+permalink: /managed-services/
+---
+
+{% set accent = "var(--color-pixel-magenta)" %}
+
+<section class="section pt-20 md:pt-28 pb-16 md:pb-24">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <h1 class="font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] text-balance reveal-mask">
+        <span>Keep the platform</span>
+        <span class="block italic" style="color: {{ accent }}">running. Quietly.</span>
+      </h1>
+      <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">
+        The team that builds the platform runs it. SLA-backed operations across data, cloud, apps, security, and ML. Monthly retainer. Escalation path staffed.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section border-t border-ink-primary">
+  <div class="wrapper">
+    {% set managedServices = [
+      { slug: "cloud-operations",                num: "01", title: "Cloud Operations + FinOps",      blurb: "24×7 monitoring and incident response across AWS, Azure, GCP. Landing zone hygiene, IAM discipline, active cost governance with monthly optimization reports." },
+      { slug: "data-platform-operations",        num: "02", title: "Data Platform Operations",       blurb: "Pipelines healthy, models fresh, warehouse costs tracked. Snowflake, Databricks, Redshift, Fabric. We operate what we build and what you brought." },
+      { slug: "database-operations",             num: "03", title: "Database Operations",            blurb: "Managed Postgres, MySQL, MongoDB, SQL Server, Oracle. Monitoring, patching, backups, performance tuning. Databases that just run." },
+      { slug: "integration-platform-operations", num: "04", title: "Integration Platform Operations",blurb: "iPaaS, API gateways, event buses. MuleSoft, Boomi, Kong, Kafka, Azure Logic Apps. The integration plumbing, quiet." },
+      { slug: "application-support",             num: "05", title: "Application Support",            blurb: "Salesforce, SAP, and custom applications kept current, configured, and performing. Admin coverage, release management, L2 and L3 support." },
+      { slug: "security-operations",             num: "06", title: "Security Operations",            blurb: "Log pipeline, SIEM tuning, response runbooks, compliance evidence. SOC capability scaled to your security team." },
+      { slug: "mlops",                           num: "07", title: "MLOps",                          blurb: "Model lifecycle operations. Drift monitoring, retraining pipelines, feature stores, cost and latency instrumentation. ML that stays useful after launch." }
+    ] %}
+
+    <ul>
+      {% for svc in managedServices %}
+        <li class="reveal reveal-delay-{{ (loop.index0 % 4) + 1 }}">
+          <a href="/managed-services/{{ svc.slug }}/" class="group flex items-start gap-5 md:gap-8 py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+            <span class="meta pt-2 text-ink-secondary shrink-0">{{ svc.num }}</span>
+            <div class="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start lg:gap-14">
+              <h3 class="font-display font-medium text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.05] tracking-[-0.02em] lg:w-[44%] lg:shrink-0 min-w-0 flex items-center gap-3">
+                <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: {{ accent }}"></span>
+                {{ svc.title }}
+              </h3>
+              <p class="mt-3 lg:mt-0 lg:flex-1 min-w-0 text-ink-secondary pretty">{{ svc.blurb }}</p>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="section section-statement">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-5">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-yellow); color: var(--color-ink-inverse-secondary)">How it works</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Retainer, not a ticket queue.
+      </h2>
+      <p class="mt-6 text-ink-inverse-secondary max-w-md pretty reveal reveal-delay-1">
+        A dedicated pod. A named technical lead. A monthly report. Three questions it answers. Is it healthier, cheaper, and faster than last month? If not, we owe you an explanation.
+      </p>
+    </div>
+    <div class="col-span-12 md:col-span-7 md:pl-8">
+      <dl class="grid grid-cols-2 gap-x-8 gap-y-10 reveal reveal-delay-2">
+        <div>
+          <dt class="meta text-ink-inverse-secondary">Commitment</dt>
+          <dd class="font-display font-medium text-3xl md:text-4xl mt-2">Quarterly</dd>
+        </div>
+        <div>
+          <dt class="meta text-ink-inverse-secondary">Response</dt>
+          <dd class="font-display font-medium text-3xl md:text-4xl mt-2">SLA-backed</dd>
+        </div>
+        <div>
+          <dt class="meta text-ink-inverse-secondary">Reporting</dt>
+          <dd class="font-display font-medium text-3xl md:text-4xl mt-2">Monthly</dd>
+        </div>
+        <div>
+          <dt class="meta text-ink-inverse-secondary">Handoff path</dt>
+          <dd class="font-display font-medium text-3xl md:text-4xl mt-2">Always open</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>

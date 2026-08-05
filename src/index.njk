@@ -1,0 +1,414 @@
+---
+layout: base.njk
+title: Vertis Global
+description: Technology projects, managed services, and staffing. One team across the tech lifecycle. 14 years, 100+ consultants, 10+ countries.
+ogType: website
+hasDarkHero: true
+---
+
+{# ============================================================
+   01 / HERO
+   Video background with stylized overlay + pixel accents.
+   Text inverted via .hero-dark. Falls back to poster image for
+   users with prefers-reduced-motion or when video is blocked.
+   ============================================================ #}
+<section class="hero-video hero-dark section pt-24 md:pt-32 pb-20 md:pb-28" style="--accent: var(--color-brand-blue)">
+  <div class="hero-video__bg" aria-hidden="true">
+    <video
+      class="hero-video__media"
+      autoplay muted loop playsinline
+      preload="metadata"
+      poster="/video/hero-bg-poster.jpg">
+      <source src="/video/hero-bg.webm" type="video/webm">
+      <source src="/video/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video__overlay"></div>
+    <div class="hero-video__pixels">
+      <span style="--c: var(--color-pixel-cyan);    --x: 8%;  --y: 22%; --sz: 0.625rem"></span>
+      <span style="--c: var(--color-pixel-yellow);  --x: 14%; --y: 18%; --sz: 0.375rem; --o: 0.8"></span>
+      <span style="--c: var(--color-pixel-magenta); --x: 92%; --y: 28%; --sz: 0.5rem"></span>
+      <span style="--c: var(--color-pixel-green);   --x: 88%; --y: 80%; --sz: 0.5rem; --o: 0.7"></span>
+      <span style="--c: var(--color-pixel-orange);  --x: 6%;  --y: 82%; --sz: 0.375rem; --o: 0.7"></span>
+      <span style="--c: var(--color-pixel-purple);  --x: 96%; --y: 90%; --sz: 0.625rem; --o: 0.9"></span>
+      <span style="--c: var(--color-brand-cyan);    --x: 50%; --y: 12%; --sz: 0.25rem; --o: 0.6"></span>
+    </div>
+  </div>
+
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <h1 class="font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] text-balance reveal-mask">
+        <span>Build it.</span>
+        <span class="block italic" style="color: var(--color-brand-cyan)">Run it. Staff it.</span>
+      </h1>
+
+      <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">
+        A full technology partner across projects, managed services, and staffing. One team, one standard, whatever the work.
+      </p>
+
+      <div class="mt-10 md:mt-12 flex flex-wrap items-center gap-4 reveal reveal-delay-3">
+        <a href="/contact/" class="btn btn-primary">
+          Talk to us
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+        <a href="#pillars" class="btn btn-ghost">
+          See how we work
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   02 / TRUST STRIP
+   ============================================================ #}
+<section class="section py-14 md:py-20 border-y border-ink-primary" aria-label="Vertis Global at a glance">
+  <div class="wrapper">
+    <ul class="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 md:gap-x-10 md:gap-y-12">
+      {% set stats = [
+        { k: "14",   unit: "years",       label: "Delivering since 2012",                color: "var(--color-pixel-yellow)" },
+        { k: "3",    unit: "regions",     label: "Teams across US, EMEA, APAC",          color: "var(--color-pixel-magenta)" },
+        { k: "9",    unit: "practices",   label: "Flagship project capabilities",        color: "var(--color-pixel-green)" },
+        { k: "2023", unit: "recognition", label: "Diversity Supplier of the Year",       color: "var(--color-pixel-purple)" }
+      ] %}
+      {% for s in stats %}
+        <li class="reveal reveal-delay-{{ loop.index }}">
+          <div class="meta flex items-center gap-2 mb-4" style="color: var(--color-ink-secondary)">
+            <span style="display:inline-block;width:.5rem;height:.5rem;background:{{ s.color }}"></span>
+            <span>{{ '0' + loop.index | string if loop.index < 10 else loop.index }} / {{ s.unit }}</span>
+          </div>
+          <div class="font-display font-medium text-[clamp(3rem,8vw,5rem)] leading-none tracking-[-0.04em] text-balance">{{ s.k }}</div>
+          <p class="mt-3 text-sm text-ink-secondary max-w-[22ch] pretty">{{ s.label }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{# ============================================================
+   03 / THREE PILLARS
+   ============================================================ #}
+<section id="pillars" class="section">
+  <div class="wrapper">
+    <div class="grid-edit mb-16 md:mb-20">
+      <div class="col-span-12 md:col-span-4">
+        <span class="meta section-number reveal" style="--accent: var(--color-brand-blue)">02 / What we do</span>
+      </div>
+      <div class="col-span-12 md:col-span-8">
+        <h2 class="font-display font-medium text-4xl md:text-5xl lg:text-6xl leading-[0.98] tracking-[-0.025em] text-balance reveal">
+          Three ways to work with us.<br>
+          <span class="italic text-ink-secondary">Same standard every time.</span>
+        </h2>
+      </div>
+    </div>
+
+    {% set pillars = [
+      {
+        url: "/services/",
+        num: "01",
+        verb: "Build.",
+        title: "Projects",
+        color: "var(--color-pixel-cyan)",
+        blurb: "Fixed scope work with a set delivery date. Data platforms, AI, cloud migrations, Salesforce, SAP. We plan it in writing. We ship on time.",
+        items: ["Data & Analytics", "AI & Automation", "Cloud Modernization", "Salesforce", "SAP / S4HANA", "RPA", "Business Transformation"]
+      },
+      {
+        url: "/managed-services/",
+        num: "02",
+        verb: "Run.",
+        title: "Managed Services",
+        color: "var(--color-pixel-magenta)",
+        blurb: "We run the platforms we build. And the ones you already have. Monthly retainer. Measurable uptime. Predictable cost.",
+        items: ["Data Platform Operations", "Cloud Operations + FinOps", "Application Support", "Security Operations", "MLOps"]
+      },
+      {
+        url: "/staffing/",
+        num: "03",
+        verb: "Staff.",
+        title: "Talent",
+        color: "var(--color-pixel-green)",
+        blurb: "Senior specialists, fractional leaders, dedicated squads, and training. On your schedule, shaped to your roadmap.",
+        items: ["Staff Augmentation", "Fractional Tech Leadership", "Dedicated Squads", "Training & Enablement"]
+      }
+    ] %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-ink-primary border border-ink-primary">
+      {% for p in pillars %}
+        <a href="{{ p.url }}" class="group bg-bg-base p-8 md:p-10 flex flex-col gap-6 transition-colors duration-300 hover:bg-bg-subtle reveal reveal-delay-{{ loop.index }}">
+          <div class="flex items-center justify-between">
+            <span class="meta" style="color: var(--color-ink-secondary)">{{ p.num }}</span>
+            <span style="display:inline-block;width:.75rem;height:.75rem;background:{{ p.color }}"></span>
+          </div>
+          <div>
+            <div class="font-display font-medium text-5xl md:text-6xl leading-none tracking-[-0.04em]">{{ p.verb }}</div>
+            <h3 class="mt-3 text-lg md:text-xl font-sans font-medium tracking-tight">{{ p.title }}</h3>
+          </div>
+          <p class="text-ink-secondary pretty">{{ p.blurb }}</p>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            {% for item in p.items %}
+              <li class="text-xs meta border border-ink-rule px-2.5 py-1 inline-flex items-center gap-1.5">
+                <span style="display:inline-block;width:.3125rem;height:.3125rem;background:{{ p.color }}"></span>
+                {{ item }}
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="mt-auto pt-4 flex items-center gap-2 text-sm font-medium">
+            Explore {{ p.title | lower }}
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   04 / PROJECTS TEASER
+   ============================================================ #}
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-cyan)">03 / Projects</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Projects with a set delivery date.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-md pretty reveal reveal-delay-1">
+        Fixed scope. Written plan. Seven practice areas. Each one ships working software by the date we agreed.
+      </p>
+      <a href="/services/" class="btn btn-ghost mt-8 reveal reveal-delay-2">
+        All seven practices
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8 lg:pl-16">
+      {% set featuredProjects = [
+        { slug: "data-analytics",      num: "01", title: "Data & Analytics",    blurb: "Platforms that turn raw data into decisions. Warehouse builds, semantic layers, executive dashboards." },
+        { slug: "ai-automation",       num: "02", title: "AI & Automation",     blurb: "Applied AI that runs in production. LLM pipelines, forecasting, document intelligence." },
+        { slug: "cloud-modernization", num: "03", title: "Cloud Modernization", blurb: "Migrations, rearchitectures, and FinOps. AWS, Azure, GCP. Picked for your reality." }
+      ] %}
+      <ul>
+        {% for svc in featuredProjects %}
+          <li class="reveal reveal-delay-{{ loop.index }}">
+            <a href="/services/{{ svc.slug }}/" class="group flex items-start gap-5 md:gap-8 py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+              <span class="meta pt-2 text-ink-secondary shrink-0">{{ svc.num }}</span>
+              <div class="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start lg:gap-14">
+                <h3 class="font-display font-medium text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.05] tracking-[-0.02em] lg:w-[44%] lg:shrink-0 min-w-0 flex items-center gap-3">
+                  <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: var(--color-pixel-cyan)"></span>
+                  {{ svc.title }}
+                </h3>
+                <p class="mt-3 lg:mt-0 lg:flex-1 min-w-0 text-ink-secondary pretty">{{ svc.blurb }}</p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   05 / MANAGED SERVICES TEASER
+   ============================================================ #}
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-magenta)">04 / Managed Services</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Keep the platform running. Quietly.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-md pretty reveal reveal-delay-1">
+        SLA-backed operations across data, cloud, apps, security, and ML. Monthly retainer. One team that knows your stack.
+      </p>
+      <a href="/managed-services/" class="btn btn-ghost mt-8 reveal reveal-delay-2">
+        See managed services
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8 lg:pl-16">
+      {% set featuredManaged = [
+        { slug: "cloud-operations",         num: "01", title: "Cloud Operations + FinOps",  blurb: "24×7 operations across AWS, Azure, and GCP. Monitoring, incident response, and active cost governance." },
+        { slug: "data-platform-operations", num: "02", title: "Data Platform Operations",   blurb: "Pipelines healthy, models fresh, warehouse costs tracked. Snowflake, Databricks, Redshift, Fabric." },
+        { slug: "application-support",      num: "03", title: "Application Support",        blurb: "Salesforce, SAP, and custom apps kept current, configured, and performing." }
+      ] %}
+      <ul>
+        {% for svc in featuredManaged %}
+          <li class="reveal reveal-delay-{{ loop.index }}">
+            <a href="/managed-services/{{ svc.slug }}/" class="group flex items-start gap-5 md:gap-8 py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+              <span class="meta pt-2 text-ink-secondary shrink-0">{{ svc.num }}</span>
+              <div class="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start lg:gap-14">
+                <h3 class="font-display font-medium text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.05] tracking-[-0.02em] lg:w-[44%] lg:shrink-0 min-w-0 flex items-center gap-3">
+                  <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: var(--color-pixel-magenta)"></span>
+                  {{ svc.title }}
+                </h3>
+                <p class="mt-3 lg:mt-0 lg:flex-1 min-w-0 text-ink-secondary pretty">{{ svc.blurb }}</p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   06 / STAFFING TEASER
+   ============================================================ #}
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-green)">05 / Staffing</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Specialists on your schedule.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-md pretty reveal reveal-delay-1">
+        On-demand specialists, fractional leaders, full squads, or training. Four ways to add the skills your roadmap needs.
+      </p>
+      <a href="/staffing/" class="btn btn-ghost mt-8 reveal reveal-delay-2">
+        Ways we staff
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8 lg:pl-16">
+      {% set staffingModes = [
+        { slug: "staff-augmentation",     num: "01", title: "Staff Augmentation",      blurb: "Contract, contract-to-hire, or direct placement. Data engineers, cloud architects, ML specialists, DevOps, analytics engineers." },
+        { slug: "fractional-leadership",  num: "02", title: "Fractional Tech Leadership", blurb: "Fractional CTO, Head of Data, Head of Security. Strategy and operating discipline on a monthly retainer." },
+        { slug: "dedicated-squads",       num: "03", title: "Dedicated Squads",        blurb: "A cross-functional pod shaped to your backlog. Team as a service, committed by quarter." },
+        { slug: "training",               num: "04", title: "Training & Enablement",   blurb: "Short, practical programs. Modern data stack, cloud fundamentals, AI in production. Your team, our curriculum." }
+      ] %}
+      <ul>
+        {% for svc in staffingModes %}
+          <li class="reveal reveal-delay-{{ loop.index }}">
+            <a href="/staffing/{{ svc.slug }}/" class="group flex items-start gap-5 md:gap-8 py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+              <span class="meta pt-2 text-ink-secondary shrink-0">{{ svc.num }}</span>
+              <div class="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start lg:gap-14">
+                <h3 class="font-display font-medium text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.05] tracking-[-0.02em] lg:w-[44%] lg:shrink-0 min-w-0 flex items-center gap-3">
+                  <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: var(--color-pixel-green)"></span>
+                  {{ svc.title }}
+                </h3>
+                <p class="mt-3 lg:mt-0 lg:flex-1 min-w-0 text-ink-secondary pretty">{{ svc.blurb }}</p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   07 / INDUSTRY SPOTLIGHT
+   ============================================================ #}
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit items-end">
+    <div class="col-span-12 md:col-span-7">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-yellow)">06 / Industry spotlight</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Transportation and Logistics.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-xl pretty reveal reveal-delay-1">
+        Logistics runs on real-time data. We consolidate telematics. We cut dispatch latency. We build route optimization that holds up when fuel and weather change.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3 reveal reveal-delay-2">
+        {% for tag in ["Telematics ingestion", "Route optimization", "Dispatch intelligence", "Fleet cloud FinOps"] %}
+          <span class="inline-flex items-center gap-2 text-xs meta border border-ink-rule px-3 py-1.5">
+            <span style="display:inline-block;width:.375rem;height:.375rem;background: var(--color-pixel-yellow)"></span>
+            {{ tag }}
+          </span>
+        {% endfor %}
+      </div>
+      <a href="/industries/transportation-logistics/" class="btn btn-ghost mt-10 reveal reveal-delay-3">
+        How we work in logistics
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+    <div class="col-span-12 md:col-span-5 md:pl-8">
+      <figure class="reveal reveal-delay-2">
+        <svg viewBox="0 0 480 360" class="w-full h-auto border border-ink-rule" role="img" aria-label="Stylized route-optimization map with pixel markers">
+          <rect width="480" height="360" fill="var(--color-bg-subtle)"/>
+          <path d="M30 300 L120 220 L200 260 L290 140 L380 190 L450 90" stroke="var(--color-ink-primary)" stroke-width="1.5" fill="none"/>
+          <path d="M30 300 L90 270 L160 280 L240 200 L330 220 L400 140" stroke="var(--color-ink-tertiary)" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+          <rect x="26" y="296" width="8" height="8" fill="var(--color-pixel-green)"/>
+          <rect x="116" y="216" width="8" height="8" fill="var(--color-pixel-cyan)"/>
+          <rect x="196" y="256" width="8" height="8" fill="var(--color-pixel-blue)"/>
+          <rect x="286" y="136" width="8" height="8" fill="var(--color-pixel-purple)"/>
+          <rect x="376" y="186" width="8" height="8" fill="var(--color-pixel-orange)"/>
+          <rect x="446" y="86" width="8" height="8" fill="var(--color-pixel-magenta)"/>
+          <line x1="20" y1="340" x2="460" y2="340" stroke="var(--color-ink-rule)"/>
+          <text x="20" y="355" font-family="ui-monospace, monospace" font-size="10" fill="var(--color-ink-tertiary)">00:00</text>
+          <text x="430" y="355" font-family="ui-monospace, monospace" font-size="10" fill="var(--color-ink-tertiary)">23:59</text>
+        </svg>
+        <figcaption class="meta mt-3 text-ink-secondary">Dispatch latency, sample week. Optimized vs. legacy.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+{# ============================================================
+   08 / MANIFESTO
+   ============================================================ #}
+<section class="section py-16 md:py-24 border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-2">
+      <span class="meta reveal">Manifesto</span>
+    </div>
+    <blockquote class="col-span-12 md:col-span-10">
+      <p class="font-display font-medium text-3xl md:text-5xl leading-[1.05] tracking-[-0.022em] balance reveal">
+        Projects that finish. Systems that stay up. People who show up ready. <span class="italic text-ink-secondary">That is the whole promise.</span>
+      </p>
+    </blockquote>
+  </div>
+</section>
+
+{# ============================================================
+   09 / INSIGHTS TEASER
+   ============================================================ #}
+<section class="section">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-purple)">07 / Insights</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Field notes from the team.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-md pretty reveal reveal-delay-1">
+        Essays, patterns, and findings from real work. Written by the people doing it.
+      </p>
+      <a href="/insights/" class="btn btn-ghost mt-8 reveal reveal-delay-2">
+        Read all insights
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8">
+      {% set recent = collections.insights | limit(3) %}
+      {% if recent.length %}
+        <ul>
+          {% for post in recent %}
+            <li class="reveal reveal-delay-{{ loop.index }}">
+              <a href="{{ post.url }}" class="group flex items-start gap-6 md:gap-10 py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+                <span class="meta pt-2 text-ink-secondary">{{ post.data.date | readableDate }}</span>
+                <div class="flex-1">
+                  <h3 class="font-display font-medium text-2xl md:text-3xl leading-tight tracking-[-0.02em]">{{ post.data.title }}</h3>
+                  {% if post.data.description %}
+                    <p class="mt-2 text-ink-secondary pretty">{{ post.data.description }}</p>
+                  {% endif %}
+                </div>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="reveal border-t border-b border-ink-primary py-12 flex flex-col items-start gap-6">
+          <span class="meta" style="color: var(--color-pixel-purple)">
+            <span class="section-number" style="--accent: var(--color-pixel-purple)">In progress</span>
+          </span>
+          <p class="font-display font-medium text-2xl md:text-3xl leading-tight tracking-[-0.02em] max-w-xl balance">
+            First field notes go live at launch. Plain writing on data platforms, cloud costs, managed ML, and the staffing math every growing engineering team eventually runs into.
+          </p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

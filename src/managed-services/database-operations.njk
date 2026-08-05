@@ -1,0 +1,74 @@
+---
+layout: detail-page.njk
+pillar: managed
+title: Database Operations
+tagline: Databases that just run.
+description: Managed operations for Postgres, MySQL, MongoDB, SQL Server, and Oracle. Monitoring, patching, backups, performance tuning, and the quiet you want from the data layer.
+intro: Managed operations for the database layer. Postgres, MySQL, MongoDB, SQL Server, Oracle, and cloud-managed variants. Monitoring, patching, backups, tuning, and the steady uptime that lets the rest of your stack stop worrying about it.
+permalink: /managed-services/database-operations/
+capabilitiesHeading: What is included.
+capabilities:
+  - title: 24x7 monitoring and alerting
+    description: Health, connection pools, slow queries, replication lag. Alerts tuned to real signals. On-call staffed with engineers, not escalation desks.
+  - title: Patching and upgrades
+    description: Minor versions on schedule. Major versions planned, rehearsed, and cut over with a rollback. No surprise database restarts.
+  - title: Backup and restore
+    description: Backups tested with scheduled restore drills. Point-in-time recovery verified, not assumed. Cross-region copies where the workload warrants.
+  - title: Performance tuning
+    description: Index review, query optimization, connection pooling, vacuum and autovacuum tuning. Quarterly performance report with a ranked backlog.
+  - title: Replication and HA
+    description: Primary and replica topology designed for your workload. Failover tested. Promotion drills on a calendar, not on incident night.
+  - title: Security and access
+    description: User and role audits, credential rotation, TLS enforcement, and the audit logs your compliance team expects.
+technologiesEyebrow: Platforms
+technologiesHeading: What we operate.
+technologies:
+  - Postgres
+  - MySQL
+  - MongoDB
+  - SQL Server
+  - Oracle
+  - Amazon RDS
+  - Amazon Aurora
+  - Azure SQL
+  - Azure Database for Postgres
+  - Cloud SQL
+  - Redis
+  - Elasticsearch
+  - pgBackRest
+  - Percona
+numbersHeading: How it works.
+numbers:
+  - label: Commitment
+    value: Quarterly
+  - label: Response
+    value: SLA-backed
+  - label: Reporting
+    value: Monthly
+  - label: Handoff path
+    value: Always open
+faqs:
+  - q: Do you support self-managed or managed cloud databases?
+    a: Both. Self-managed on EC2, managed RDS or Aurora, Azure Database, Cloud SQL, and the equivalent across providers. Scope agreed before onboarding.
+  - q: What about major version upgrades?
+    a: Planned during quarterly review. Test environment upgrade first, soak, dress rehearsal, then production window. Rollback tested before cutover.
+  - q: Do you cover data warehouses too?
+    a: Data warehouses belong in /managed-services/data-platform-operations/ because the operating shape differs. Classic transactional databases belong here.
+  - q: Can you tune for read-heavy or write-heavy workloads?
+    a: Yes. Tuning is workload-specific. Quarterly review tracks query patterns and updates the index and caching strategy.
+  - q: What happens if we migrate off?
+    a: Runbooks, schemas, monitoring, and access controls documented. Handover to your team or the next vendor on a plan.
+related:
+  - title: Data Platform Operations
+    url: /managed-services/data-platform-operations/
+    blurb: When the workload is analytics, not transactional.
+    kind: Managed
+  - title: Cloud Operations + FinOps
+    url: /managed-services/cloud-operations/
+    blurb: Cloud infrastructure the database sits on.
+    kind: Managed
+  - title: Cloud Modernization
+    url: /services/cloud-modernization/
+    blurb: Moving databases to managed cloud variants.
+    kind: Projects
+---

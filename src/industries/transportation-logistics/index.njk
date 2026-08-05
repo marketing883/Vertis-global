@@ -1,0 +1,69 @@
+---
+layout: base.njk
+title: Transportation & Logistics
+description: Data, AI, cloud, managed services, and staffing for transportation and logistics operators. Consolidate telematics, cut dispatch latency, deploy route optimization that survives real-world volatility.
+permalink: /industries/transportation-logistics/
+---
+
+<section class="section pt-20 md:pt-28 pb-16 md:pb-24">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <h1 class="font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] text-balance reveal-mask">
+        <span>Transportation</span>
+        <span class="block italic" style="color: var(--color-pixel-yellow)">and Logistics.</span>
+      </h1>
+      <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">
+        Logistics runs on data that moves every second. We consolidate telematics. We cut dispatch latency. We build route optimization that holds up when fuel and weather change. And we stay to run it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-yellow)">02 / Capabilities</span>
+      <h2 class="font-display font-medium text-3xl md:text-4xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Across the stack.
+      </h2>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8">
+      {% set caps = [
+        { t: "Telematics ingestion and harmonization", d: "Unify feeds from multiple OEMs, TMSs, and ELDs into a single operational store. Late-arriving data handled. Units normalized. Faults surfaced." },
+        { t: "Dispatch intelligence", d: "Load board integration, dwell time analytics, carrier scorecards, and dispatcher tooling that reduces the meetings between tender and pickup." },
+        { t: "Route optimization that survives reality", d: "Models that respect hours of service, fuel prices, weather windows, and customer SLAs. Production validated. Not a whiteboard demo." },
+        { t: "Fleet cloud FinOps", d: "Cost governance for the cloud footprint behind your operations platform. Monthly visibility. Shared savings. Anomaly alerts." }
+      ] %}
+      <ul>
+        {% for c in caps %}
+          <li class="reveal reveal-delay-{{ (loop.index0 % 4) + 1 }} py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %}">
+            <h3 class="font-display font-medium text-2xl md:text-3xl leading-tight tracking-[-0.02em] flex items-center gap-3">
+              <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: var(--color-pixel-yellow)"></span>
+              {{ c.t }}
+            </h3>
+            <p class="mt-4 text-ink-secondary pretty">{{ c.d }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section-statement">
+  <div class="wrapper">
+    <figure class="max-w-4xl mx-auto text-center reveal">
+      <svg viewBox="0 0 480 220" class="w-full h-auto" role="img" aria-label="Stylized dispatch latency chart with pixel markers">
+        <rect width="480" height="220" fill="var(--color-bg-statement)"/>
+        <path d="M30 190 L80 160 L130 165 L180 130 L230 120 L280 85 L330 95 L380 60 L430 40" stroke="var(--color-pixel-yellow)" stroke-width="1.5" fill="none"/>
+        <path d="M30 190 L80 175 L130 180 L180 150 L230 160 L280 130 L330 140 L380 110 L430 100" stroke="var(--color-ink-inverse-secondary)" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+        <g>
+          <rect x="26" y="186" width="8" height="8" fill="var(--color-pixel-yellow)"/>
+          <rect x="226" y="116" width="8" height="8" fill="var(--color-pixel-yellow)"/>
+          <rect x="426" y="36" width="8" height="8" fill="var(--color-pixel-yellow)"/>
+        </g>
+        <line x1="20" y1="210" x2="460" y2="210" stroke="var(--color-ink-inverse-secondary)" stroke-width="0.5"/>
+      </svg>
+      <figcaption class="meta mt-6 text-ink-inverse-secondary">Dispatch latency, optimized (yellow) vs. legacy (dashed). Representative shape. Real numbers vary by engagement.</figcaption>
+    </figure>
+  </div>
+</section>

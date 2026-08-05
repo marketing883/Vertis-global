@@ -1,0 +1,87 @@
+---
+layout: base.njk
+title: Approach
+description: How Vertis Global engages. Clear scope. Real people. Work that finishes on time. The same steps across projects, managed services, and staffing.
+permalink: /approach/
+---
+
+<section class="section pt-20 md:pt-28 pb-16 md:pb-24">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <h1 class="font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] text-balance reveal-mask">
+        <span>How we</span>
+        <span class="block italic text-ink-secondary">work.</span>
+      </h1>
+      <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">
+        Clear scope. Real people. Work that finishes on time. The same steps whether we are building, running, or staffing.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-statement">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-5">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-orange); color: var(--color-ink-inverse-secondary)">02 / Four steps</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Four steps. Every engagement.
+      </h2>
+      <p class="mt-6 text-ink-inverse-secondary max-w-md pretty reveal reveal-delay-1">
+        Plain steps. Nothing branded. No phase ends until the work is done and everyone who needs to sign off has signed off.
+      </p>
+    </div>
+    <div class="col-span-12 md:col-span-7 md:pl-8">
+      {% set phases = [
+        { n: "01", t: "Scope",    d: "We agree on what is in and what is out. A short written brief, signed by both sides, before any work starts." },
+        { n: "02", t: "Plan",     d: "You get a written proposal and a named team. Architecture primitives, milestones, exit criteria. Not a sales deck." },
+        { n: "03", t: "Build",    d: "We ship in visible sprints. Working software, a set delivery date, and a cadence you control for demos and reviews." },
+        { n: "04", t: "Handover", d: "Documentation, enablement, runbooks. Managed services extension if you want one. Never required." }
+      ] %}
+      <ol class="flex flex-col">
+        {% for phase in phases %}
+          <li class="reveal reveal-delay-{{ loop.index }} py-6 md:py-8 border-t border-ink-inverse-secondary/30 {% if loop.last %}border-b{% endif %} grid grid-cols-12 gap-4">
+            <span class="col-span-2 md:col-span-1 meta" style="color: var(--color-ink-inverse-secondary)">{{ phase.n }}</span>
+            <h3 class="col-span-10 md:col-span-3 font-display font-medium text-2xl md:text-3xl leading-tight tracking-[-0.02em]">{{ phase.t }}</h3>
+            <p class="col-span-12 md:col-span-8 text-ink-inverse-secondary pretty">{{ phase.d }}</p>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-4">
+      <span class="meta section-number reveal" style="--accent: var(--color-brand-blue)">03 / Across three pillars</span>
+      <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] mt-6 balance reveal">
+        Same steps. Different pace.
+      </h2>
+      <p class="mt-6 text-ink-secondary max-w-md pretty reveal reveal-delay-1">
+        How the four steps apply whether you hire us to build, to run, or to staff.
+      </p>
+    </div>
+    <div class="col-span-12 md:col-span-8 md:pl-8">
+      {% set pillarShapes = [
+        { color: "var(--color-pixel-cyan)",    title: "Projects",         blurb: "All four steps in one engagement. Scope and Plan in the first three weeks. Build across the sprints. Handover at the end.", a: "8 to 14 weeks", b: "Fixed scope" },
+        { color: "var(--color-pixel-magenta)", title: "Managed Services", blurb: "Four steps as a rolling loop. Monthly Plan reviews. Quarterly Scope updates. Build equals operate. Handover is the monthly health report.", a: "Quarterly retainer", b: "SLA-backed" },
+        { color: "var(--color-pixel-green)",   title: "Staffing",         blurb: "Four steps, compressed. Scope is role definition. Plan is screening. Build is the placement. Handover is the 90 day check-in.", a: "2 to 3 week placement", b: "Flexible duration" }
+      ] %}
+      <ul class="flex flex-col">
+        {% for p in pillarShapes %}
+          <li class="reveal reveal-delay-{{ loop.index }} py-8 md:py-10 border-t border-ink-primary {% if loop.last %}border-b{% endif %} grid grid-cols-12 gap-4 md:gap-6">
+            <span class="col-span-12 md:col-span-3 flex items-center gap-3">
+              <span class="shrink-0" style="display:inline-block;width:.625rem;height:.625rem;background: {{ p.color }}"></span>
+              <span class="font-display font-medium text-2xl md:text-3xl leading-tight">{{ p.title }}</span>
+            </span>
+            <p class="col-span-12 md:col-span-6 text-ink-secondary pretty">{{ p.blurb }}</p>
+            <span class="col-span-6 md:col-span-3 flex flex-col text-sm text-ink-secondary">
+              <span class="meta">{{ p.a }}</span>
+              <span class="meta mt-1">{{ p.b }}</span>
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

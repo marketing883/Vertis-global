@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="{{ site.locale or 'en-US' }}">
+<head>
+{% include "partials/head-meta.njk" %}
+</head>
+<body class="min-h-dvh bg-bg-base text-ink-primary font-sans antialiased{% if hasDarkHero %} has-dark-hero{% endif %}">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-ink-primary focus:text-ink-inverse focus:px-4 focus:py-2">Skip to content</a>
+
+  {% include "partials/nav.njk" %}
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  {% block beforeFooter %}{% endblock %}
+  {% if showContactCta !== false %}
+    {% include "partials/contact-cta.njk" %}
+  {% endif %}
+  {% include "partials/footer.njk" %}
+
+  <script type="module" src="/assets/js/main.js" defer></script>
+</body>
+</html>

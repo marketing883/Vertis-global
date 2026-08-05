@@ -1,0 +1,40 @@
+{
+  "name": "vertis-global-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Vertis Global — editorial marketing site. Static HTML + Tailwind CSS v4 + lightweight JS. Built with Eleventy.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "rimraf _site",
+    "copy:fonts": "node scripts/copy-fonts.mjs",
+    "dev:css": "tailwindcss -i ./src/css/main.css -o ./_site/assets/css/main.css --watch",
+    "dev:eleventy": "eleventy --serve --quiet",
+    "dev": "npm-run-all copy:fonts --parallel dev:css dev:eleventy",
+    "build:css": "tailwindcss -i ./src/css/main.css -o ./_site/assets/css/main.css --minify",
+    "build:eleventy": "eleventy",
+    "build": "npm-run-all clean copy:fonts build:css build:eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-img": "^7.0.0",
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "markdown-it-anchor": "^9.2.0",
+    "npm-run-all2": "^7.0.2",
+    "rimraf": "^6.0.1",
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.1.0",
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource-variable/jetbrains-mono": "^5.1.0",
+    "lenis": "^1.1.17",
+    "motion": "^11.15.0"
+  }
+}

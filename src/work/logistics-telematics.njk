@@ -1,0 +1,62 @@
+---
+layout: case-study-page.njk
+tags: work
+title: Logistics telematics, consolidated
+tagline: Four feeds. One operational view.
+description: A regional logistics carrier consolidated telematics from four OEMs into one operational store, cut dispatch latency, and retired a legacy reporting stack.
+intro: A regional logistics carrier ran telematics from four OEMs, three TMSs, and an old historian nobody would touch. The dispatch team saw a fraction of the signal. We consolidated the feeds onto one platform, rebuilt the dispatch tooling, and moved reporting off the legacy stack.
+permalink: /work/logistics-telematics/
+industry: Transportation and Logistics
+year: 2025
+engagementType: Project plus managed services
+accent: var(--color-pixel-yellow)
+metrics:
+  - label: Dispatch latency
+    value: 40%
+    detail: Reduction in median latency from signal to assignment.
+  - label: Telematics feeds unified
+    value: 4 OEMs
+    detail: Plus 3 TMSs and the legacy historian retired.
+  - label: Operational store TCO
+    value: 32%
+    detail: Lower than the legacy stack it replaced.
+challenge: >
+  Dispatch saw one OEM's feed in near real time. The other three arrived in batches of varying reliability. Reporting ran on a legacy historian that the only person who understood it had retired. Every peak week, dispatch ran on gut feel and an Excel sheet. Finance could not trust the cost-per-mile numbers they published. The CIO had a budget to fix it and sixteen weeks to show progress.
+approach:
+  - title: Source and shape audit
+    description: Two weeks mapping every feed, every downstream consumer, every report anybody actually used. Fourteen reports retired in that audit alone.
+  - title: Target platform design
+    description: Snowflake chosen over Databricks based on the team's existing skills and the query shape. Ingestion through Fivetran and Kafka. Modeling in dbt.
+  - title: Unified telematics model
+    description: One canonical model across OEMs, normalized units, late-arriving data handled, fault codes reconciled. Dispatch tooling rebuilt on top.
+  - title: Migration and retirement
+    description: Legacy historian read-only, then quiet, then archived. Reporting moved to Looker. Old dashboards rebuilt once against the new model.
+  - title: Day-two handoff
+    description: Runbooks, monitoring, and a quarterly managed-services arrangement for the data platform. Cost governance reports in the first monthly cycle.
+outcome: >
+  Dispatch cut median signal-to-assignment latency by 40% in the first quarter after cutover and held it. The operational store cost 32% less to run than the legacy historian plus OEM portals it replaced. Finance closed the month on the new reports by month four. The managed-services arrangement continued after the project closed.
+outcomeBullets:
+  - Dispatch team working from one screen instead of four.
+  - Legacy historian decommissioned six weeks ahead of plan.
+  - Warehouse costs trending down every month for the last three quarters.
+  - One on-call rotation, one escalation path, one team.
+teamShape:
+  - label: Duration
+    value: 14 weeks (project)
+  - label: Team
+    value: 5 people
+  - label: Handover
+    value: Week 14, runbooks signed
+  - label: Ongoing
+    value: Quarterly managed retainer
+servicesUsed:
+  - title: Data & Analytics
+    url: /services/data-analytics/
+    kind: Projects
+  - title: Cloud Modernization
+    url: /services/cloud-modernization/
+    kind: Projects
+  - title: Data Platform Operations
+    url: /managed-services/data-platform-operations/
+    kind: Managed
+---

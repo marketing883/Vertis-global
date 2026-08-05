@@ -1,0 +1,23 @@
+{
+  "name": "Vertis Global",
+  "legalName": "Vertis Global",
+  "shortName": "Vertis",
+  "description": "Vertis Global delivers technology projects, managed services, and staffing. One team across the tech lifecycle. Delivering since 2012 across the US, EMEA, and APAC.",
+  "shortDescription": "Technology projects, managed services, and staffing. One team across the tech lifecycle.",
+  "url": "https://vertisglobal.com",
+  "logo": "/Vertis-Global-logo-light.png",
+  "favicon": "/favicon.png",
+  "email": "hello@vertisglobal.com",
+  "founded": "2012",
+  "stats": {
+    "years": 14,
+    "regions": "US, EMEA, APAC",
+    "practices": 9,
+    "award": "2023 Diversity Supplier of the Year"
+  },
+  "social": {
+    "linkedin": "https://www.linkedin.com/company/vertisglobal/"
+  },
+  "locale": "en-US",
+  "themeColor": "#0066FF"
+}

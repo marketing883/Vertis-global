@@ -1,0 +1,77 @@
+---
+layout: detail-page.njk
+pillar: managed
+title: Integration Platform Operations
+tagline: The plumbing, quiet.
+description: Operations for iPaaS, API gateways, event buses, and ETL. MuleSoft, Boomi, Kong, Kafka, Azure Logic Apps, and the rest of the integration layer.
+intro: Operations for the integration layer. iPaaS platforms, API gateways, event buses, and ETL. We run MuleSoft, Boomi, Kong, Kafka, Azure Logic Apps, and the rest of the plumbing that moves data between your systems.
+permalink: /managed-services/integration-platform-operations/
+capabilitiesHeading: What is included.
+capabilities:
+  - title: iPaaS operations
+    description: MuleSoft, Boomi, Workato, or Azure Logic Apps kept healthy. Flow monitoring, error reprocessing, and version upgrades handled on schedule.
+  - title: API gateway operations
+    description: Kong, Apigee, AWS API Gateway, or Azure API Management. Rate limiting, auth, and quota management with the usage analytics your product team asks for.
+  - title: Event bus operations
+    description: Kafka, Event Hubs, Pub/Sub, or SNS/SQS. Broker hygiene, consumer lag monitoring, schema registry, and the dead-letter handling nobody else wants to own.
+  - title: ETL and batch operations
+    description: Informatica, SSIS, Airflow, or Dagster jobs operated with the same discipline as real-time flows. Retries, alerts, and the honest report when something failed.
+  - title: Integration security
+    description: Credential rotation, secret management, TLS enforcement, and the audit logs the security team expects. OAuth flows monitored.
+  - title: Change management
+    description: Deployment pipelines for integrations. Environment promotion. Contract tests that catch breaking changes before they reach production.
+technologiesEyebrow: Platforms
+technologiesHeading: What we operate.
+technologies:
+  - MuleSoft
+  - Boomi
+  - Workato
+  - Azure Logic Apps
+  - Power Automate
+  - Kong
+  - Apigee
+  - AWS API Gateway
+  - Azure API Management
+  - Kafka
+  - Confluent
+  - Event Hubs
+  - SNS/SQS
+  - Informatica
+  - SSIS
+  - Airflow
+  - Dagster
+numbersHeading: How it works.
+numbers:
+  - label: Commitment
+    value: Quarterly
+  - label: Response
+    value: SLA-backed
+  - label: Reporting
+    value: Monthly
+  - label: Handoff path
+    value: Always open
+faqs:
+  - q: Can you operate platforms you did not build?
+    a: Yes. Two-week onboarding audit first. Output is a runbook, a monitoring baseline, and a ranked list of tech-debt items worth fixing.
+  - q: What happens when an upstream API breaks the integration?
+    a: Alerts fire before downstream consumers notice. We work the incident and the recovery. Permanent fix proposed and shipped on the next release cycle.
+  - q: Do you do integration development too?
+    a: Yes, as part of the retainer or as a separate project engagement. Most ongoing work lives inside the retainer.
+  - q: How do you handle version upgrades?
+    a: Planned quarterly, tested in non-production, cut over with rollback. Communicated to every owner of a flow that touches the change.
+  - q: What about observability?
+    a: Flow telemetry piped into whatever you already use. Datadog, Splunk, or the platform's native tooling. Dashboards we can read at 3 AM.
+related:
+  - title: Cloud Operations + FinOps
+    url: /managed-services/cloud-operations/
+    blurb: The cloud the integration platform runs on.
+    kind: Managed
+  - title: Application Support
+    url: /managed-services/application-support/
+    blurb: The apps on either end of the integrations.
+    kind: Managed
+  - title: Cloud Modernization
+    url: /services/cloud-modernization/
+    blurb: Modernizing integrations during a bigger platform move.
+    kind: Projects
+---

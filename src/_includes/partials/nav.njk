@@ -1,0 +1,32 @@
+<header class="site-nav z-40">
+  <div class="wrapper flex items-center justify-between h-16 md:h-20">
+    <a href="/" class="site-nav__logo flex items-center gap-2.5 md:gap-3" aria-label="{{ site.name }} home">
+      {% include "partials/logo-mark.njk" %}
+      <span class="font-display font-medium text-xl md:text-2xl leading-none tracking-[-0.02em]">Vertis Global</span>
+    </a>
+
+    <nav aria-label="Primary" class="site-nav__links hidden md:flex items-center gap-7 lg:gap-8">
+      {% for item in nav.primary %}
+        <a href="{{ item.url }}" class="link-edit font-sans text-sm tracking-tight{% if page.url and page.url.startsWith(item.url) %} is-active{% endif %}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+
+    <a href="{{ nav.cta.url }}" class="site-nav__cta hidden sm:inline-flex btn btn-primary text-sm px-4 py-2">
+      {{ nav.cta.label }}
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </a>
+
+    <button type="button" class="site-nav__toggle md:hidden flex items-center justify-center w-10 h-10 -mr-2" aria-label="Toggle menu" data-menu-toggle>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+    </button>
+  </div>
+
+  <div class="site-nav__panel md:hidden hidden" data-menu-panel>
+    <nav class="wrapper flex flex-col py-4 gap-1" aria-label="Mobile">
+      {% for item in nav.primary %}
+        <a href="{{ item.url }}" class="py-2 text-base font-sans">{{ item.label }}</a>
+      {% endfor %}
+      <a href="{{ nav.cta.url }}" class="py-2 text-base font-sans site-nav__panel-cta">{{ nav.cta.label }}</a>
+    </nav>
+  </div>
+</header>
