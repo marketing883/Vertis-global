@@ -1,0 +1,163 @@
+<!doctype html>
+<!--
+  Source for src/public/og-default.png — the default social preview card.
+
+  Rendered once at 1200x630 and committed; it is not part of the build. To
+  re-render after a branding change, run `npm run copy:fonts` first (the card
+  reads the woff2 files out of src/fonts/), then screenshot this file at that
+  exact viewport. With Playwright installed:
+
+    npx playwright screenshot --viewport-size=1200,630 \
+      scripts/og-card.html src/public/og-default.png
+
+  With a bare Chromium: note that headless reserves ~87px of window height for
+  chrome, so ask for a taller window and crop back to 630 —
+
+    chrome --headless --no-sandbox --hide-scrollbars \
+      --window-size=1200,717 --virtual-time-budget=3000 \
+      --screenshot=og-raw.png scripts/og-card.html
+    ffmpeg -i og-raw.png -vf "crop=1200:630:0:0" src/public/og-default.png
+
+  Fonts are referenced from src/fonts/ so the card uses the same Fraunces,
+  Inter, and JetBrains Mono as the site.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: "Fraunces";
+    font-weight: 100 900;
+    src: url("../src/fonts/fraunces-latin-wght-normal.woff2") format("woff2-variations");
+  }
+  @font-face {
+    font-family: "Inter";
+    font-weight: 100 900;
+    src: url("../src/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  }
+  @font-face {
+    font-family: "JetBrains Mono";
+    font-weight: 100 800;
+    src: url("../src/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2-variations");
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+
+  body {
+    background: #0a0f1f;
+    color: #f2f5fa;
+    font-family: "Inter", system-ui, sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 76px 66px;
+  }
+
+  /* Same two-gradient wash as .hero-video__overlay */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(120deg, rgba(0, 51, 160, 0.45) 0%, transparent 58%),
+      radial-gradient(circle at 88% 12%, rgba(0, 198, 255, 0.20) 0%, transparent 45%);
+    pointer-events: none;
+  }
+
+  .row { position: relative; display: flex; align-items: center; gap: 20px; }
+
+  .wordmark {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  h1 {
+    position: relative;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 98px;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  h1 .accent { font-style: italic; color: #00c6ff; }
+
+  .foot {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .blurb {
+    font-size: 23px;
+    line-height: 1.4;
+    color: #a9b6c8;
+    max-width: 600px;
+    text-wrap: pretty;
+  }
+  .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #a9b6c8;
+    white-space: nowrap;
+  }
+
+  /* Pixel trail along the bottom edge, echoing the logo */
+  .trail {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+  }
+  .trail > i { height: 10px; flex: 1; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <svg viewBox="0 0 80 80" width="56" height="56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="v" x1="6" y1="66" x2="64" y2="8" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#f2f5fa"/>
+          <stop offset="0.55" stop-color="#9fd7ff"/>
+          <stop offset="1" stop-color="#00c6ff"/>
+        </linearGradient>
+      </defs>
+      <path d="M8 20 L30 66 L60 14" stroke="url(#v)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <rect x="58" y="4"  width="7" height="7" fill="#00C6FF"/>
+      <rect x="66" y="10" width="7" height="7" fill="#0066FF"/>
+      <rect x="67" y="0"  width="6" height="6" fill="#7B2FBE"/>
+      <rect x="74" y="6"  width="6" height="6" fill="#E91E63"/>
+      <rect x="52" y="2"  width="5" height="5" fill="#FFCC00"/>
+      <rect x="73" y="14" width="5" height="5" fill="#6DC24B"/>
+      <rect x="45" y="10" width="5" height="5" fill="#FF7A1A"/>
+    </svg>
+    <span class="wordmark">Vertis Global</span>
+  </div>
+
+  <h1>Build it.<br>Run it. <span class="accent">Staff it.</span></h1>
+
+  <div class="foot">
+    <p class="blurb">Technology projects, managed services, and staffing. One team across the tech lifecycle.</p>
+    <span class="meta">Since 2012 · US · EMEA · APAC</span>
+  </div>
+
+  <div class="trail">
+    <i style="background:#00C6FF"></i>
+    <i style="background:#0066FF"></i>
+    <i style="background:#7B2FBE"></i>
+    <i style="background:#E91E63"></i>
+    <i style="background:#FF7A1A"></i>
+    <i style="background:#FFCC00"></i>
+    <i style="background:#6DC24B"></i>
+  </div>
+</body>
+</html>

@@ -13,7 +13,12 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/public": "/" });
   eleventyConfig.addPassthroughCopy({ "src/fonts": "/assets/fonts" });
   eleventyConfig.addPassthroughCopy({ "src/js": "/assets/js" });
-  eleventyConfig.addPassthroughCopy({ "src/images": "/assets/images" });
+
+  // Vendor JS straight out of node_modules. Keeps Lenis self-hosted instead of
+  // pulling it from a CDN at runtime (see src/js/smooth-scroll.js).
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/lenis/dist/lenis.mjs": "assets/js/vendor/lenis.mjs",
+  });
 
   // Watch Tailwind output so the dev server reloads when CSS changes
   eleventyConfig.addWatchTarget("./_site/assets/css/main.css");
@@ -29,13 +34,8 @@ export default async function (eleventyConfig) {
     });
   });
 
-  // Collections
-  eleventyConfig.addCollection("services", (collectionApi) =>
-    collectionApi
-      .getFilteredByGlob("src/content/services/*.md")
-      .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-  );
-
+  // Collections. Tag-based: content files live next to the index page that
+  // lists them, and opt in with `tags:` in their front matter.
   eleventyConfig.addCollection("work", (collectionApi) =>
     collectionApi
       .getFilteredByTag("work")
@@ -48,7 +48,7 @@ export default async function (eleventyConfig) {
 
   eleventyConfig.addCollection("insights", (collectionApi) =>
     collectionApi
-      .getFilteredByGlob("src/content/insights/*.md")
+      .getFilteredByTag("insights")
       .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
   );
 
@@ -65,7 +65,6 @@ export default async function (eleventyConfig) {
     });
   });
   eleventyConfig.addFilter("limit", (arr, n) => (arr ?? []).slice(0, n));
-  eleventyConfig.addFilter("htmlSafe", (str) => str); // placeholder for future
 
   return {
     dir: {
@@ -78,6 +77,5 @@ export default async function (eleventyConfig) {
     templateFormats: ["njk", "md", "html", "11ty.js"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
-    dataTemplateEngine: "njk",
   };
 }

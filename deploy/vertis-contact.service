@@ -1,0 +1,52 @@
+[Unit]
+Description=Vertis Global contact endpoint
+Documentation=https://github.com/marketing883/vertis-global
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/vertis-contact
+ExecStart=/usr/bin/node server/contact.mjs
+
+# Secrets live here, not in the repo. Create it 0600 root:root with:
+#   PORT=8787
+#   SITE_ORIGIN=https://vertisglobal.com
+#   LEADS_FILE=/var/lib/vertis-contact/leads.jsonl
+#   CONTACT_TO=hello@vertisglobal.com
+#   CONTACT_FROM=site@vertisglobal.com
+#   SMTP_HOST=smtpout.secureserver.net
+#   SMTP_PORT=587
+#   SMTP_USER=site@vertisglobal.com
+#   SMTP_PASS=...
+EnvironmentFile=/etc/vertis/contact.env
+
+Restart=always
+RestartSec=3
+
+# Runs as a transient unprivileged user; /var/lib/vertis-contact is created
+# and owned by it automatically, which is where the lead log should live.
+DynamicUser=yes
+StateDirectory=vertis-contact
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=no
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=vertis-contact
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,89 @@
+# Vertis Global — nginx site config.
+#
+# Copy to /etc/nginx/sites-available/vertisglobal, symlink into sites-enabled,
+# then `nginx -t && systemctl reload nginx`. TLS blocks below assume certbot;
+# run `certbot --nginx -d vertisglobal.com -d www.vertisglobal.com` and it will
+# fill in the certificate paths itself.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name vertisglobal.com www.vertisglobal.com;
+    return 301 https://vertisglobal.com$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name www.vertisglobal.com;
+    # ssl_certificate / ssl_certificate_key filled in by certbot
+    return 301 https://vertisglobal.com$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name vertisglobal.com;
+
+    # ssl_certificate     /etc/letsencrypt/live/vertisglobal.com/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/vertisglobal.com/privkey.pem;
+
+    root /var/www/vertisglobal;
+    index index.html;
+
+    charset utf-8;
+    server_tokens off;
+
+    add_header X-Content-Type-Options    "nosniff"          always;
+    add_header X-Frame-Options           "SAMEORIGIN"       always;
+    add_header Referrer-Policy           "strict-origin-when-cross-origin" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml application/javascript application/json
+               image/svg+xml application/xml application/rss+xml;
+
+    # Fingerprint-free filenames, so cache conservatively but not forever.
+    location /assets/ {
+        expires 7d;
+        add_header Cache-Control "public";
+        access_log off;
+    }
+
+    # Fonts and video never change under the same name.
+    location ~* \.(woff2|mp4|webm)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    location = /robots.txt  { access_log off; }
+    location = /favicon.png { access_log off; expires 30d; }
+
+    # Contact endpoint — the only dynamic path on the site.
+    location /api/ {
+        proxy_pass http://127.0.0.1:8787;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 15s;
+
+        # Defence in depth: the app rate-limits too, but stop floods at the edge.
+        limit_req zone=contact burst=5 nodelay;
+    }
+
+    # Eleventy writes directory-style URLs (/services/data-analytics/index.html).
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html { internal; }
+}
+
+# Put this in the http{} block of /etc/nginx/nginx.conf:
+# limit_req_zone $binary_remote_addr zone=contact:10m rate=10r/m;

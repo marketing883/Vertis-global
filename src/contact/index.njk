@@ -37,6 +37,13 @@ showContactCta: false
           <dt class="meta text-ink-secondary">First call</dt>
           <dd class="mt-1 text-lg">30 minutes, with a practitioner on your topic</dd>
         </div>
+        <div>
+          <dt class="meta text-ink-secondary">Capabilities</dt>
+          <dd class="mt-1 flex flex-col gap-1 text-lg">
+            <a class="link-edit" href="/Vertis-Global-Partner-Capabilities.pdf">Partner capabilities (PDF)</a>
+            <a class="link-edit" href="/Vertis-Global-Staffing-Solutions.pdf">Staffing solutions (PDF)</a>
+          </dd>
+        </div>
       </dl>
     </div>
     <div class="col-span-12 md:col-span-7 md:pl-8">
@@ -73,6 +80,15 @@ showContactCta: false
           <span class="meta text-ink-secondary">A few sentences about the need</span>
           <textarea name="message" rows="4" required class="bg-transparent border-b border-ink-primary py-2 text-base focus:outline-none focus:border-brand-blue resize-y"></textarea>
         </label>
+
+        {# Honeypot. Hidden from people and assistive tech; bots fill it in and
+           the server silently discards the submission. #}
+        <div class="sr-only" aria-hidden="true">
+          <label>
+            Leave this field empty
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+        </div>
         <div class="flex items-center gap-4 pt-4">
           <button type="submit" class="btn btn-primary">
             Send note

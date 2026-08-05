@@ -1,0 +1,107 @@
+---
+layout: base.njk
+---
+{%- set accent = accent or "var(--color-pixel-purple)" -%}
+
+{# Hero. Same proportions as case-study-page.njk so the two long-form
+   templates feel like siblings. #}
+<section class="section pt-20 md:pt-28 pb-12 md:pb-16">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12">
+      <div class="flex flex-wrap items-center gap-3 mb-6 reveal">
+        <span class="meta section-number text-ink-secondary" style="--accent: {{ accent }}">{{ category or "Field note" }}</span>
+        {% if date %}<span class="meta text-ink-tertiary">{{ date | readableDate }}</span>{% endif %}
+        {% if readingTime %}<span class="meta text-ink-tertiary">{{ readingTime }}</span>{% endif %}
+      </div>
+      <h1 class="font-display font-medium text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-balance reveal-mask">
+        <span>{{ title }}</span>
+        {% if tagline %}<span class="block italic" style="color: {{ accent }}">{{ tagline }}</span>{% endif %}
+      </h1>
+      {% if intro %}
+        <p class="mt-8 md:mt-10 text-lg md:text-xl max-w-2xl text-ink-secondary reveal reveal-delay-2 pretty">{{ intro }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{# Body #}
+<section class="section pt-0 border-t border-ink-primary">
+  <div class="wrapper grid-edit">
+    <div class="col-span-12 md:col-span-8 md:col-start-3">
+      <div class="prose prose-editorial reveal mt-16 md:mt-20" style="--accent: {{ accent }}">
+        {{ content | safe }}
+      </div>
+
+      {% if author %}
+        <div class="mt-16 pt-8 border-t border-ink-rule reveal">
+          <span class="meta text-ink-secondary">Written by</span>
+          <p class="font-display font-medium text-xl mt-2">{{ author }}</p>
+          {% if authorRole %}<p class="text-sm text-ink-secondary mt-1">{{ authorRole }}</p>{% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{# More insights #}
+{# Sibling posts, current one excluded. Compare by url: collection items and
+   `page` are different objects, so identity comparison would never match. #}
+{% set others = [] %}
+{% for post in collections.insights %}
+  {% if post.url != page.url %}{% set others = (others.push(post), others) %}{% endif %}
+{% endfor %}
+{% if others.length %}
+<section class="section border-t border-ink-primary">
+  <div class="wrapper">
+    <div class="grid-edit mb-10 md:mb-12">
+      <div class="col-span-12 md:col-span-4">
+        <span class="meta section-number reveal" style="--accent: {{ accent }}">Keep reading</span>
+      </div>
+      <div class="col-span-12 md:col-span-8">
+        <h2 class="font-display font-medium text-4xl md:text-5xl leading-[0.98] tracking-[-0.025em] balance reveal">More field notes.</h2>
+      </div>
+    </div>
+    <ul>
+      {% for post in others | limit(3) %}
+        <li class="reveal reveal-delay-{{ loop.index }}">
+          <a href="{{ post.url }}" class="group flex items-start gap-5 md:gap-10 py-8 border-t border-ink-primary {% if loop.last %}border-b{% endif %} transition-colors duration-300 hover:bg-bg-subtle">
+            <span class="meta pt-2 text-ink-secondary shrink-0 hidden md:inline">{{ post.data.date | readableDate }}</span>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-display font-medium text-2xl md:text-3xl leading-tight tracking-[-0.02em]">{{ post.data.title }}</h3>
+              {% if post.data.description %}<p class="mt-2 text-ink-secondary pretty">{{ post.data.description }}</p>{% endif %}
+            </div>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="mt-3 shrink-0 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 8h12m0 0L9 3m5 5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{# JSON-LD Article schema #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ title }}",
+  "description": "{{ description }}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{ site.name }}",
+    "url": "{{ site.url }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.name }}",
+    "url": "{{ site.url }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}{{ site.logo }}"
+    }
+  }{% if date %},
+  "datePublished": "{{ date | isoDate }}"{% endif %},
+  "url": "{{ site.url }}{{ page.url }}",
+  "articleSection": "Insight"
+}
+</script>

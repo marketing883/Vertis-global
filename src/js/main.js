@@ -6,6 +6,7 @@ import { initSmoothScroll } from "./smooth-scroll.js";
 import { initReveals } from "./reveals.js";
 import { initMenu } from "./menu.js";
 import { initNavScroll } from "./nav-scroll.js";
+import { initContactForm } from "./contact-form.js";
 
 const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -19,3 +20,4 @@ if (motionOk) {
 
 initMenu();
 initNavScroll();
+initContactForm();

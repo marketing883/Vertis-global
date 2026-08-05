@@ -1,0 +1,76 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # A green `npm run build` is not proof the site is intact: Eleventy will
+      # happily emit a page with no stylesheet, and a silent copy-fonts failure
+      # only shows up as unstyled type in production. Assert the artifacts.
+      - name: Verify build output
+        run: |
+          set -euo pipefail
+          for f in _site/index.html _site/404.html _site/assets/css/main.css \
+                   _site/sitemap.xml _site/robots.txt _site/llms.txt \
+                   _site/og-default.png _site/assets/js/vendor/lenis.mjs; do
+            [ -s "$f" ] || { echo "::error::missing or empty: $f"; exit 1; }
+          done
+
+          fonts=$(ls _site/assets/fonts/*.woff2 2>/dev/null | wc -l)
+          [ "$fonts" -eq 4 ] || { echo "::error::expected 4 fonts, found $fonts"; exit 1; }
+
+          pages=$(find _site -name 'index.html' | wc -l)
+          echo "Built $pages pages, $fonts fonts."
+          [ "$pages" -ge 43 ] || { echo "::error::only $pages pages — expected at least 43"; exit 1; }
+
+          # The insights and work collections are tag-driven and have silently
+          # resolved to empty before. Assert the listing pages actually list.
+          grep -q 'href="/insights/[a-z-]\+/"' _site/insights/index.html \
+            || { echo "::error::/insights/ has no posts — insights collection is empty"; exit 1; }
+          grep -q 'href="/work/[a-z-]\+/"' _site/work/index.html \
+            || { echo "::error::/work/ has no case studies — work collection is empty"; exit 1; }
+
+      - name: Verify contact endpoint boots and stores a lead
+        run: |
+          set -euo pipefail
+          LEADS_FILE=./data/ci-leads.jsonl PORT=8787 node server/contact.mjs &
+          pid=$!
+          trap 'kill $pid' EXIT
+          for _ in $(seq 1 20); do
+            curl -fsS localhost:8787/api/health >/dev/null 2>&1 && break
+            sleep 0.25
+          done
+          curl -fsS -X POST localhost:8787/api/contact \
+            -H 'content-type: application/json' \
+            -d '{"name":"CI","email":"ci@example.com","company":"CI","interest":"project","message":"smoke test"}' \
+            | grep -q '"ok":true'
+          grep -q '"company":"CI"' data/ci-leads.jsonl
+
+          # Honeypot must be accepted silently and stored nowhere.
+          curl -fsS -X POST localhost:8787/api/contact \
+            -H 'content-type: application/json' \
+            -d '{"name":"Bot","email":"b@e.com","company":"Spam","interest":"project","message":"x","website":"http://spam"}' \
+            | grep -q '"ok":true'
+          ! grep -q '"company":"Spam"' data/ci-leads.jsonl
+
+          # Missing required fields must be rejected.
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST localhost:8787/api/contact \
+            -H 'content-type: application/json' -d '{"name":"No email"}')
+          [ "$code" = "400" ] || { echo "::error::expected 400, got $code"; exit 1; }

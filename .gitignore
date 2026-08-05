@@ -6,3 +6,13 @@ src/fonts/
 .DS_Store
 *.log
 .cache/
+
+# Contact endpoint: lead log and secrets. Never commit either.
+data/
+deploy/*.env
+
+# Video masters. The derived mp4/webm/poster in src/public/video/ are
+# committed; the multi-megabyte source they came from is not.
+# Regenerate with `npm run encode:hero`.
+*.master.mp4
+*.master.mov

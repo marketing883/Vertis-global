@@ -1,0 +1,46 @@
+---
+layout: base.njk
+title: Note received
+description: Thanks for reaching out to Vertis Global. We reply within one business day.
+permalink: /contact/thanks/
+eleventyExcludeFromCollections: true
+showContactCta: false
+robots: noindex,follow
+---
+
+{# Landing page for a form submit without JavaScript: server answers 303 here.
+   With JS the visitor never sees this — contact-form.js swaps in an inline
+   confirmation instead. #}
+<section class="section pt-24 md:pt-32 pb-24">
+  <div class="wrapper grid-edit items-start">
+    <div class="col-span-12">
+      <span class="meta section-number reveal" style="--accent: var(--color-pixel-green)">Received</span>
+      <h1 class="mt-6 font-display font-medium text-hero leading-[0.98] tracking-[-0.035em] balance reveal">
+        Thanks.<br>
+        <span class="italic text-ink-secondary">We have your note.</span>
+      </h1>
+      <p class="mt-8 text-lg md:text-xl max-w-xl text-ink-secondary reveal reveal-delay-1 pretty">
+        Someone on the practice closest to your topic will reply within one business day, usually with a first read on scope, team, and timeline. If it is urgent, mail us at
+        <a class="link-edit" href="mailto:{{ site.email }}">{{ site.email }}</a> and mention that you used the form.
+      </p>
+
+      <ul class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-px bg-ink-primary border border-ink-primary max-w-3xl reveal reveal-delay-2">
+        {% for item in [
+          { url: "/work/",     label: "Read the work",  color: "var(--color-pixel-purple)" },
+          { url: "/approach/", label: "How we engage",  color: "var(--color-pixel-cyan)" },
+          { url: "/insights/", label: "Field notes",    color: "var(--color-pixel-yellow)" }
+        ] %}
+          <li>
+            <a href="{{ item.url }}" class="bg-bg-base group block p-6 md:p-8 hover:bg-bg-subtle transition-colors duration-300 flex items-center justify-between gap-4">
+              <span class="flex items-center gap-3">
+                <span style="display:inline-block;width:.5rem;height:.5rem;background: {{ item.color }}"></span>
+                <span class="font-display font-medium text-xl leading-none">{{ item.label }}</span>
+              </span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M2 7h10m0 0L8 3m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
