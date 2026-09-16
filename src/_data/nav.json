@@ -25,6 +25,7 @@
       { "label": "Quality Engineering", "url": "/services/quality-engineering/" },
       { "label": "Salesforce", "url": "/services/salesforce/" },
       { "label": "SAP / S4HANA", "url": "/services/sap-s4hana/" },
+      { "label": "Oracle Cloud ERP", "url": "/services/oracle-cloud-erp/" },
       { "label": "RPA", "url": "/services/rpa/" },
       { "label": "Business Transformation", "url": "/services/business-transformation/" }
     ],
@@ -54,3 +55,4 @@
     ]
   }
 }
+
