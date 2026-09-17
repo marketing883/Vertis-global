@@ -21,6 +21,7 @@
       { "label": "Data & Analytics", "url": "/services/data-analytics/" },
       { "label": "AI & Automation", "url": "/services/ai-automation/" },
       { "label": "Cloud Modernization", "url": "/services/cloud-modernization/" },
+      { "label": "Azure Cloud Services", "url": "/services/azure-cloud-services/" },
       { "label": "Product Engineering", "url": "/services/product-engineering/" },
       { "label": "Quality Engineering", "url": "/services/quality-engineering/" },
       { "label": "Salesforce", "url": "/services/salesforce/" },
