@@ -30,7 +30,7 @@ jobs:
       - name: Install deploy key
         run: |
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          printf '%s\n' "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.STAGING_SSH_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           echo '160.153.176.140 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKP+ACcAt98CeaqsXqm2UC+nniqpMCpRZnlfJ0Cbrjq0' > ~/.ssh/known_hosts
       - name: Deploy
