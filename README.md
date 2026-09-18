@@ -28,27 +28,30 @@ RESEND_API_KEY=   # from resend.com
 INQUIRY_TO=       # inbox that receives leads (defaults to info@vertisglobal.com)
 ```
 
-## Staging deployment
+## Source and deployment
 
-**https://staging.vertisglobal.com** runs on the VPS at 160.153.176.140 (AlmaLinux 9, shared with several other sites). Ship the working tree with:
+The code lives at **https://github.com/marketing883/Vertis-global** on the `staging` branch. The `main` branch is the old Eleventy static site and shares no history with this one; when this site goes to production, that is the branch to fast-forward or replace. Everything is in git, including the photography and the hero clips (the largest file is about 11 MB), so a clone is a complete working copy. Only env files stay out.
+
+**https://staging.vertisglobal.com** runs on the VPS at 160.153.176.140 (AlmaLinux 9, shared with several other sites). The server is a git checkout of `origin/staging`, so a deploy is: push, then tell the server to pull and build.
 
 ```bash
+git push origin staging
 npm run deploy:staging
 ```
 
-That packs the tree (no node_modules, .next, .git, env files or the dev-only hero clip options), uploads it, and on the server runs `npm ci`, `npm run build` and a zero-downtime `pm2 reload`. The build runs on the server, never locally, so native artefacts match its Node. It needs a `vertis-staging` host in `~/.ssh/config` pointing at root@160.153.176.140 with an authorised key.
+`scripts/deploy-staging.sh` fetches and hard resets the server checkout to `origin/staging`, runs `npm ci` and `npm run build` there (so native artefacts match its Node), then a zero-downtime `pm2 reload`. Nothing is uploaded from your machine: what is on GitHub is what gets built, and the script says so if your local HEAD is ahead of or behind the branch. It needs a `vertis-staging` host in `~/.ssh/config` pointing at root@160.153.176.140 with an authorised key.
 
 How it is laid out on the box, in case something needs a hand:
 
 | What | Where |
 | --- | --- |
-| App | `/var/www/vertisglobal.com/staging/app`, owned by the `vertis` user |
-| Process | pm2 as `vertis`, name `vertis-staging`, `ecosystem.config.cjs` in the app dir, Next on 127.0.0.1:3010 (3001 to 3006 belong to other sites) |
+| Checkout | `/var/www/vertisglobal.com/staging/app`, owned by the `vertis` user, tracking `origin/staging` |
+| Process | pm2 as `vertis`, name `vertis-staging`, defined in `ecosystem.config.cjs` (versioned), Next on 127.0.0.1:3010 (3001 to 3006 belong to other sites) |
 | Boot | `pm2-vertis.service` (systemd, enabled) resurrects the saved pm2 list |
 | nginx | `/etc/nginx/conf.d/staging.vertisglobal.com.conf`, proxies to 3010; the previous static-site config is beside it as `.bak.<date>` |
 | TLS | Let's Encrypt via certbot, auto renews; it had lapsed in July and was renewed on 18 Sep 2026 |
 | Logs | `/home/vertis/.pm2/logs/vertis-staging-*.log`, `/var/log/nginx/staging_vertis_*.log` |
-| Env | `.env.local` in the app dir is NOT shipped by the deploy script; put `RESEND_API_KEY` and inbox overrides there by hand, then `pm2 reload vertis-staging --update-env` |
+| Env | `.env.local` in the checkout is gitignored and never deployed; put `RESEND_API_KEY` and inbox overrides there by hand (see `.env.example`), then `pm2 reload vertis-staging --update-env` |
 
 The old static export in `staging/public_html` is still on disk but nothing serves it. Production (`vertisglobal.com`) is untouched: it is still the static site in `public_html`, on its own nginx config.
 
