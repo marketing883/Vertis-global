@@ -1,0 +1,39 @@
+# Every push to `main` deploys to https://vertisglobal.com
+#
+# `main` only moves when someone promotes: `npm run promote` fast-forwards
+# main to staging and pushes. Same mechanism as staging (see
+# deploy-staging.yml), same key, but the dispatcher is told
+# `deploy-production`, which builds origin/main into the production
+# checkout and reloads the vertis-production process.
+#
+# The `production` environment is the approval gate. Add required
+# reviewers to it under Settings → Environments → production and every
+# run pauses here until one of them approves in the Actions tab.
+
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://vertisglobal.com
+    steps:
+      - name: Install deploy key
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.STAGING_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo '160.153.176.140 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKP+ACcAt98CeaqsXqm2UC+nniqpMCpRZnlfJ0Cbrjq0' > ~/.ssh/known_hosts
+      - name: Deploy
+        run: ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 vertis@160.153.176.140 deploy-production

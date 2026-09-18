@@ -30,30 +30,39 @@ INQUIRY_TO=       # inbox that receives leads (defaults to info@vertisglobal.com
 
 ## Source and deployment
 
-The code lives at **https://github.com/marketing883/Vertis-global** on the `staging` branch. The `main` branch is the old Eleventy static site and shares no history with this one; when this site goes to production, that is the branch to fast-forward or replace. Everything is in git, including the photography and the hero clips (the largest file is about 11 MB), so a clone is a complete working copy. Only env files stay out.
+The code lives at **https://github.com/marketing883/Vertis-global**. Two branches matter:
 
-**https://staging.vertisglobal.com** runs on the VPS at 160.153.176.140 (AlmaLinux 9, shared with several other sites). The server is a git checkout of `origin/staging`, so a deploy is: push, then tell the server to pull and build.
+| Branch | Deploys to | How it moves |
+| --- | --- | --- |
+| `staging` | https://staging.vertisglobal.com | every push; this is where work lands |
+| `main` | https://vertisglobal.com | only by promotion, `npm run promote` |
+
+Everything is in git, including the photography and the hero clips (the largest file is about 11 MB), so a clone is a complete working copy. Only env files stay out. Until the first promotion, `main` still holds the old Eleventy site with unrelated history; `npm run promote --first-time` parks that history on a branch called `eleventy-site` before replacing it.
+
+**How a deploy works.** Both sites run on the same VPS (160.153.176.140, AlmaLinux 9, shared with other tenants), each as a git checkout owned by the `vertis` user with its own pm2 process. A push to a branch triggers the matching workflow in `.github/workflows/`, which opens one SSH session as `vertis` using a key that `authorized_keys` locks, by forced command, to `scripts/deploy-dispatch.sh`. That script accepts exactly two words, `deploy-staging` and `deploy-production`, and hands off to `scripts/server-deploy.sh <env>`, which fetches the branch, hard resets, runs `npm ci` and `npm run build` on the server, reloads pm2 with zero downtime, and fails the run unless the site answers 200. The key has no shell and no root; the host key is pinned in the workflow. One repository secret is needed: `STAGING_SSH_KEY`.
+
+**Promotion and approval.** `npm run promote` fast-forwards `main` to `staging` and pushes; it refuses to rewrite history. The push runs `deploy-production.yml`, whose job sits in the GitHub environment named `production`. Give that environment a required reviewer (Settings → Environments → production) and every production deploy waits in the Actions tab for a human to approve it. That is the approval gate: staging is automatic, production is a click.
 
 ```bash
-git push origin staging
-npm run deploy:staging
+git push origin staging     # deploys staging
+npm run promote             # deploys production, after approval
 ```
 
-`scripts/deploy-staging.sh` fetches and hard resets the server checkout to `origin/staging`, runs `npm ci` and `npm run build` there (so native artefacts match its Node), then a zero-downtime `pm2 reload`. Nothing is uploaded from your machine: what is on GitHub is what gets built, and the script says so if your local HEAD is ahead of or behind the branch. It needs a `vertis-staging` host in `~/.ssh/config` pointing at root@160.153.176.140 with an authorised key.
+Fallbacks, over your own root SSH access (`vertis-staging` in `~/.ssh/config`): `npm run deploy:staging` runs the same server script by hand, and `workflow_dispatch` on either workflow re-runs a deploy without a new commit.
 
-How it is laid out on the box, in case something needs a hand:
+**Layout on the box:**
 
 | What | Where |
 | --- | --- |
-| Checkout | `/var/www/vertisglobal.com/staging/app`, owned by the `vertis` user, tracking `origin/staging` |
-| Process | pm2 as `vertis`, name `vertis-staging`, defined in `ecosystem.config.cjs` (versioned), Next on 127.0.0.1:3010 (3001 to 3006 belong to other sites) |
+| Checkouts | `/var/www/vertisglobal.com/staging/app` (tracks `staging`) and `production/app` (tracks `main`, created on first production deploy) |
+| Processes | pm2 as `vertis`: `vertis-staging` on 127.0.0.1:3010, `vertis-production` on 3011, both in the versioned `ecosystem.config.cjs` (3001 to 3006 belong to other sites) |
 | Boot | `pm2-vertis.service` (systemd, enabled) resurrects the saved pm2 list |
-| nginx | `/etc/nginx/conf.d/staging.vertisglobal.com.conf`, proxies to 3010; the previous static-site config is beside it as `.bak.<date>` |
-| TLS | Let's Encrypt via certbot, auto renews; it had lapsed in July and was renewed on 18 Sep 2026 |
-| Logs | `/home/vertis/.pm2/logs/vertis-staging-*.log`, `/var/log/nginx/staging_vertis_*.log` |
-| Env | `.env.local` in the checkout is gitignored and never deployed; put `RESEND_API_KEY` and inbox overrides there by hand (see `.env.example`), then `pm2 reload vertis-staging --update-env` |
+| nginx | `/etc/nginx/conf.d/staging.vertisglobal.com.conf` proxies to 3010. The production equivalent is written and waiting as `vertisglobal.com.conf.nextjs-pending`; nginx ignores it until renamed |
+| TLS | Let's Encrypt, both domains, auto renews |
+| Logs | `/home/vertis/.pm2/logs/vertis-<env>-*.log`, `/var/log/nginx/<site>_*.log` |
+| Env | `.env.local` in each checkout is gitignored and never deployed; put `RESEND_API_KEY` and inbox overrides there by hand (see `.env.example`), then `pm2 reload <process> --update-env` |
 
-The old static export in `staging/public_html` is still on disk but nothing serves it. Production (`vertisglobal.com`) is untouched: it is still the static site in `public_html`, on its own nginx config.
+**Going live on vertisglobal.com, first time only.** Production is currently the old static site in `public_html` on the existing nginx config, and nothing above changes that until this is done, in this order: (1) `npm run promote --first-time`, approve the run, and confirm `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3011/` on the server returns 200; (2) on the server, `cp vertisglobal.com.conf vertisglobal.com.conf.static-site-final && mv vertisglobal.com.conf.nextjs-pending vertisglobal.com.conf && nginx -t && systemctl reload nginx` in `/etc/nginx/conf.d`. Rolling back is the reverse rename and a reload; the static site is never deleted.
 
 ## Positioning
 
