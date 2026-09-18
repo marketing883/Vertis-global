@@ -8,6 +8,7 @@
 # Secret: STAGING_SSH_KEY (Settings → Secrets and variables → Actions),
 # the private half of the CI key. The host key is pinned below.
 
+
 name: Deploy staging
 
 on:
@@ -28,10 +29,19 @@ jobs:
       url: https://staging.vertisglobal.com
     steps:
       - name: Install deploy key
+        # Rebuilds the key from the secret however it was pasted: CRLF, lost
+        # line breaks or stray spaces all produce the same file. The printed
+        # fingerprint is public information; the server accepts
+        # SHA256:A2AAkIUvSI/YF21tb0ALHx7OQFpyYYb2N20iUm0hNz0.
+        env:
+          KEY: ${{ secrets.STAGING_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          printf '%s\n' "${{ secrets.STAGING_SSH_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
+          body=$(printf '%s' "$KEY" | tr -d '\r' | sed -e 's/-----BEGIN OPENSSH PRIVATE KEY-----//' -e 's/-----END OPENSSH PRIVATE KEY-----//' | tr -d ' \n\t')
+          { echo '-----BEGIN OPENSSH PRIVATE KEY-----'; printf '%s' "$body" | fold -w 70; echo; echo '-----END OPENSSH PRIVATE KEY-----'; } > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          echo "key fingerprint: $(ssh-keygen -y -f ~/.ssh/deploy_key | ssh-keygen -lf - 2>&1)"
           echo '160.153.176.140 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKP+ACcAt98CeaqsXqm2UC+nniqpMCpRZnlfJ0Cbrjq0' > ~/.ssh/known_hosts
+
       - name: Deploy
         run: ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 vertis@160.153.176.140 deploy-staging
