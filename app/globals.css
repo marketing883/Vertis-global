@@ -1,0 +1,363 @@
+@import "tailwindcss";
+
+/* ============================================================
+   VERTIS GLOBAL — DESIGN TOKENS  ·  v3 "Brand"
+
+   The official palette, and nothing else:
+     #27196D  deep purple      the visual foundation
+     #F26522  orange           the primary accent, used with intent
+     #FAA918  amber            the secondary warm accent
+     #F5791F #F6871D #F8931B #F99E19  supporting tones for hover
+                               states, gradients and small details
+
+   Plus white, a warm off-white and a neutral ramp for contrast
+   and breathing room. No other hues enter the interface.
+
+   Contrast, computed:
+     white on purple 14.5:1 · purple on paper 13.3:1
+     orange on purple 4.6:1 (AA) · purple on orange 4.6:1 (AA)
+     white on orange 3.2:1  → orange buttons carry PURPLE text
+     amber on purple 7.4:1 · amber on white 1.9:1 (decorative only)
+   ============================================================ */
+
+:root {
+  /* ── BRAND ────────────────────────────────────────────── */
+  --vg-purple: #27196d;
+  --vg-orange: #f26522;
+  --vg-orange-2: #f5791f; /* hover */
+  --vg-orange-3: #f6871d;
+  --vg-orange-4: #f8931b;
+  --vg-orange-5: #f99e19;
+  --vg-amber: #faa918;
+
+  /* One brand gradient, derived only from the palette. Subtle use. */
+  --vg-gradient: linear-gradient(90deg, #f26522 0%, #f8931b 55%, #faa918 100%);
+
+  /* ── GROUNDS ──────────────────────────────────────────── */
+  /* `ink` remains the name of the dark ground throughout the
+     codebase; it now resolves to the brand purple. */
+  --vg-ink: var(--vg-purple);
+  --vg-ink-2: color-mix(in srgb, var(--vg-purple) 88%, white); /* raised */
+  --vg-ink-line: color-mix(in srgb, var(--vg-purple) 78%, white); /* hairline on purple */
+
+  --vg-paper: #f6f4f1; /* warm off-white, the primary light ground */
+  --vg-paper-2: #efece7;
+  --vg-white: #ffffff;
+
+  /* ── ACCENT ROLES ─────────────────────────────────────── */
+  --vg-accent: var(--vg-orange);
+  --vg-accent-hover: var(--vg-orange-2);
+  --vg-accent-dark: var(--vg-amber); /* accent on purple */
+  --vg-accent-tint: #fdeee4; /* orange at ~10% on white */
+
+  /* ── NEUTRAL RAMP (cool, purple-biased) ───────────────── */
+  --vg-n-200: #e3e0e9;
+  --vg-n-300: #cbc7d6;
+  --vg-n-400: #9b97ab;
+  --vg-n-500: #6a6781; /* muted text — 4.9:1 on paper */
+  --vg-n-600: #47445a;
+  --vg-n-700: #322f43;
+
+  /* ── TEXT ROLES ───────────────────────────────────────── */
+  --vg-text: var(--vg-purple);
+  --vg-text-body: var(--vg-n-600);
+  --vg-text-muted: var(--vg-n-500);
+  --vg-on-ink: #f3f1fa;
+  --vg-on-ink-muted: #b9b3d8; /* 7.3:1 on purple */
+
+  --vg-border: var(--vg-n-200);
+  --vg-focus: var(--vg-orange);
+
+  /* ── MOTION ───────────────────────────────────────────── */
+  --vg-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --vg-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --vg-container: 1320px;
+}
+
+@theme inline {
+  --color-purple: var(--vg-purple);
+  --color-orange: var(--vg-orange);
+  --color-orange-2: var(--vg-orange-2);
+  --color-orange-3: var(--vg-orange-3);
+  --color-orange-4: var(--vg-orange-4);
+  --color-orange-5: var(--vg-orange-5);
+  --color-amber: var(--vg-amber);
+
+  --color-ink: var(--vg-ink);
+  --color-ink-2: var(--vg-ink-2);
+  --color-ink-line: var(--vg-ink-line);
+  --color-paper: var(--vg-paper);
+  --color-paper-2: var(--vg-paper-2);
+
+  --color-accent: var(--vg-accent);
+  --color-accent-hover: var(--vg-accent-hover);
+  --color-accent-dark: var(--vg-accent-dark);
+  --color-accent-tint: var(--vg-accent-tint);
+
+  --color-n-200: var(--vg-n-200);
+  --color-n-300: var(--vg-n-300);
+  --color-n-400: var(--vg-n-400);
+  --color-n-500: var(--vg-n-500);
+  --color-n-600: var(--vg-n-600);
+  --color-n-700: var(--vg-n-700);
+
+  --color-on-ink: var(--vg-on-ink);
+  --color-on-ink-muted: var(--vg-on-ink-muted);
+
+  --font-display: var(--font-funnel-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  --breakpoint-xs: 480px;
+}
+
+/* ============================================================
+   BASE — must live in @layer base. Tailwind v4 puts utilities
+   in a cascade layer, and unlayered CSS always beats layered
+   CSS, so an unlayered `h1 { color }` defeats `text-white`.
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--vg-paper);
+    color: var(--vg-text-body);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--vg-text);
+    margin: 0;
+    text-wrap: balance;
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  h2 {
+    font-size: clamp(2.125rem, 4.4vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+  h3 {
+    font-size: clamp(1.375rem, 2vw, 1.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: 1.125rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--vg-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-ink :focus-visible,
+  .on-ink:focus-visible {
+    outline-color: var(--vg-amber);
+  }
+
+  [id] {
+    scroll-margin-top: 96px;
+  }
+
+  ::selection {
+    background: var(--vg-orange);
+    color: var(--vg-purple);
+  }
+}
+
+/* ── Utilities ──────────────────────────────────────────── */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editorial eyebrow: the only uppercase style on the site. A short
+   orange rule precedes it, which is how orange threads through
+   every section without ever filling one. */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vg-text-muted);
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--vg-orange);
+}
+.on-ink .eyebrow {
+  color: var(--vg-on-ink-muted);
+}
+.on-ink .eyebrow::before {
+  background: var(--vg-amber);
+}
+
+/* ── Photo scrims ─────────────────────────────────────────
+   The photograph is the point, so the purple stays at the edges.
+
+   From lg up, four thin layers: a well under the copy on the left
+   that is gone by two thirds across, a short close on brand along
+   the bottom, a light band at the top so the overlaying header
+   reads, and a whisper on the right edge so the frame still closes.
+   Faces, which sit centre and right, are clear.
+
+   Below lg the copy spans the full width and has to sit on the
+   picture, so the well runs bottom up instead. It is still much
+   lighter at the top than it used to be, which is where the people
+   are.
+
+   `-light` is for bright, low contrast photographs that fight the
+   headline; the well is a little deeper and reaches a little
+   further, nothing else changes. */
+.scrim-photo,
+.scrim-photo-light {
+  background:
+    linear-gradient(to top, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.78) 42%, rgba(39, 25, 109, 0.42) 72%, rgba(39, 25, 109, 0.18) 100%),
+    linear-gradient(to bottom, rgba(39, 25, 109, 0.42) 0%, rgba(39, 25, 109, 0) 22%);
+}
+@media (min-width: 1024px) {
+  .scrim-photo {
+    background:
+      linear-gradient(to right, rgba(39, 25, 109, 0.90) 0%, rgba(39, 25, 109, 0.80) 26%, rgba(39, 25, 109, 0.50) 46%, rgba(39, 25, 109, 0.12) 60%, rgba(39, 25, 109, 0) 68%),
+      linear-gradient(to top, #27196d 0%, rgba(39, 25, 109, 0.42) 9%, rgba(39, 25, 109, 0) 24%),
+      linear-gradient(to bottom, rgba(39, 25, 109, 0.40) 0%, rgba(39, 25, 109, 0) 18%),
+      linear-gradient(to left, rgba(39, 25, 109, 0.22) 0%, rgba(39, 25, 109, 0) 12%);
+  }
+  .scrim-photo-light {
+    background:
+      linear-gradient(to right, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.86) 30%, rgba(39, 25, 109, 0.56) 50%, rgba(39, 25, 109, 0.14) 64%, rgba(39, 25, 109, 0) 72%),
+      linear-gradient(to top, #27196d 0%, rgba(39, 25, 109, 0.42) 9%, rgba(39, 25, 109, 0) 24%),
+      linear-gradient(to bottom, rgba(39, 25, 109, 0.40) 0%, rgba(39, 25, 109, 0) 18%),
+      linear-gradient(to left, rgba(39, 25, 109, 0.22) 0%, rgba(39, 25, 109, 0) 12%);
+  }
+}
+
+/* Text over the bottom of a picture (Pathways, the Insights tiles).
+   Strong only where the words are; the upper two thirds stay clear
+   apart from a light band at the top so an eyebrow up there reads.
+   Declared as a utility, not a plain class, so Photo can apply it
+   through the `after:` variant. */
+@utility scrim-caption {
+  background:
+    linear-gradient(to top, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.62) 30%, rgba(39, 25, 109, 0.1) 56%, rgba(39, 25, 109, 0) 70%),
+    linear-gradient(to bottom, rgba(39, 25, 109, 0.3) 0%, rgba(39, 25, 109, 0) 20%);
+}
+
+/* Link that underlines from the left on hover, in orange. */
+.link-underline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--vg-text);
+}
+.on-ink .link-underline {
+  color: var(--vg-on-ink);
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--vg-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms var(--vg-ease-out);
+}
+.on-ink .link-underline::after {
+  background: var(--vg-amber);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+.link-underline svg {
+  transition: transform 320ms var(--vg-ease-out), color 200ms;
+}
+.link-underline:hover svg {
+  transform: translateX(4px);
+  color: var(--vg-orange);
+}
+.on-ink .link-underline:hover svg {
+  color: var(--vg-amber);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.reveal {
+  animation: reveal 700ms var(--vg-ease-out) both;
+}
+
+@keyframes drawerIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

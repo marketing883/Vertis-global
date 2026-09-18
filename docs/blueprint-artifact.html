@@ -1,0 +1,2125 @@
+﻿<title>Vertis Global Website Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+:root{
+  --ink:#091426; --ink-raised:#0F1E34; --ink-line:#1B2C48;
+  --blue:#1B4DE4; --blue-hi:#4A7BF0; --blue-subtle:#EAF0FE;
+  --signal:#1EB8F0; --signal-deep:#08698C;
+  --magenta:#E0357D; --magenta-deep:#B81C5E;
+  --violet:#7B4FD6; --teal:#16C0C0;
+  --grad:linear-gradient(135deg,#1B4DE4 0%,#1EB8F0 100%);
+  --mist:#F3F6FB;
+
+  --bg:#FBFCFE;
+  --surface:#FFFFFF;
+  --surface-alt:#F1F5FA;
+  --line:#DFE5EF;
+  --line-soft:#EAEFF6;
+  --tx:#131A26;
+  --tx-body:#475366;
+  --tx-mute:#667287;
+  --accent:var(--blue);
+  --accent-tx:var(--blue);
+  --rail-active:var(--blue);
+  --chip-bg:var(--blue-subtle);
+  --chip-tx:#0B3AAF;
+  --mark:#0F7A4F;
+  --mark-bg:#E7F4ED;
+  --warn:#9A6300;
+  --warn-bg:#FBF1DF;
+  --shadow:0 1px 2px rgba(10,20,36,.04);
+  --shadow-md:0 10px 30px rgba(10,20,36,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#060D18;
+    --surface:#0D1626;
+    --surface-alt:#121E31;
+    --line:#223148;
+    --line-soft:#19253A;
+    --tx:#E6EBF4;
+    --tx-body:#A6B3C8;
+    --tx-mute:#7A879C;
+    --accent:var(--signal);
+    --accent-tx:#7FA3FA;
+    --rail-active:var(--signal);
+    --chip-bg:#15243D;
+    --chip-tx:#7FA3FA;
+    --mark:#3FD9A0;
+    --mark-bg:#0C2A20;
+    --warn:#E0B25C;
+    --warn-bg:#2A2113;
+    --blue-subtle:#142445;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+    --shadow-md:0 10px 30px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#060D18;
+  --surface:#0D1626;
+  --surface-alt:#121E31;
+  --line:#223148;
+  --line-soft:#19253A;
+  --tx:#E6EBF4;
+  --tx-body:#A6B3C8;
+  --tx-mute:#7A879C;
+  --accent:var(--signal);
+  --accent-tx:#7FA3FA;
+  --rail-active:var(--signal);
+  --chip-bg:#15243D;
+  --chip-tx:#7FA3FA;
+  --mark:#3FD9A0;
+  --mark-bg:#0C2A20;
+  --warn:#E0B25C;
+  --warn-bg:#2A2113;
+  --blue-subtle:#142445;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:0 10px 30px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--tx-body);
+  font-family:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Funnel Display','Inter',sans-serif;color:var(--tx);text-wrap:balance;margin:0}
+a{color:var(--accent-tx);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+/* ── MASTHEAD ─────────────────────────────── */
+.mast{
+  background:var(--ink); color:#E8ECF3; position:relative; overflow:hidden;
+  border-bottom:1px solid var(--ink-line);
+}
+.mast::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(900px 420px at 84% -12%, rgba(30,184,240,.20), transparent 62%),
+    radial-gradient(700px 380px at 96% 10%, rgba(27,77,228,.28), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 84px);
+}
+/* pixel-scatter motif, echoing the logo mark */
+.mast::before{
+  content:""; position:absolute; top:44px; right:72px; width:7px; height:7px;
+  pointer-events:none; z-index:1; background:var(--signal);
+  box-shadow:
+     22px  -14px 0 0 var(--magenta),
+     46px    8px 0 0 var(--violet),
+    -30px   26px 0 0 var(--teal),
+     14px   40px 0 0 var(--blue-hi),
+     62px  -22px 0 0 var(--signal),
+    -54px   -6px 0 0 var(--magenta),
+     38px   68px 0 0 var(--violet),
+     84px   30px 0 0 var(--signal),
+    -12px   62px 0 0 var(--blue-hi),
+     70px   -2px 0 0 var(--teal);
+}
+@media (max-width:640px){ .mast::before{display:none} }
+.mast-in{max-width:1400px;margin:0 auto;padding:64px 40px 56px;position:relative;z-index:1}
+.eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--signal); font-family:'JetBrains Mono',monospace;
+}
+.mast h1{
+  color:#fff; font-size:clamp(2.3rem,4.6vw,4rem); font-weight:800;
+  line-height:1.03; letter-spacing:-.03em; margin:18px 0 0; max-width:20ch;
+}
+.mast .sub{
+  color:#A9B7CE; font-size:clamp(1rem,1.35vw,1.2rem); max-width:62ch;
+  margin:20px 0 0; line-height:1.6;
+}
+.mast-meta{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;
+}
+.tag{
+  font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.05em;
+  padding:6px 11px; border:1px solid var(--ink-line); border-radius:999px;
+  color:#93A3BE; background:rgba(255,255,255,.03);
+}
+.tag.hot{border-color:rgba(214,245,92,.4);color:var(--signal)}
+
+/* ── SHELL ────────────────────────────────── */
+.shell{max-width:1400px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:236px 1fr;gap:64px;align-items:start}
+.rail{
+  position:sticky; top:0; max-height:100vh; overflow-y:auto;
+  padding:40px 0 60px; font-size:13px;
+  scrollbar-width:thin;
+}
+.rail-h{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--tx-mute);
+  padding:20px 0 8px; border-top:1px solid var(--line-soft); margin-top:14px;
+}
+.rail-h:first-child{border-top:0;margin-top:0;padding-top:0}
+.rail a{
+  display:flex; gap:9px; padding:5px 10px 5px 0; color:var(--tx-mute);
+  border-left:2px solid transparent; padding-left:11px; margin-left:-11px;
+  line-height:1.35; transition:color .15s,border-color .15s;
+}
+.rail a:hover{color:var(--tx);text-decoration:none}
+.rail a.on{color:var(--tx);border-left-color:var(--rail-active);font-weight:600}
+.rail a i{
+  font-style:normal;font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--tx-mute);min-width:16px;padding-top:2px;
+}
+.rail a.on i{color:var(--rail-active)}
+
+main{padding:56px 0 120px;min-width:0;max-width:820px}
+
+/* ── SECTIONS ─────────────────────────────── */
+section{scroll-margin-top:24px;padding-bottom:56px}
+.sec-num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:.12em;color:var(--tx-mute);display:block;margin-bottom:10px;
+}
+h2{font-size:clamp(1.6rem,2.4vw,2.1rem);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:1.12rem;font-weight:600;letter-spacing:-.005em;margin:34px 0 12px;line-height:1.3}
+h4{font-size:.94rem;font-weight:600;margin:24px 0 8px}
+p{margin:14px 0;max-width:68ch}
+.lede{font-size:1.06rem;color:var(--tx-body);max-width:66ch}
+.rule{height:1px;background:var(--line);border:0;margin:0 0 30px}
+
+ul,ol{margin:14px 0;padding-left:20px;max-width:68ch}
+li{margin:7px 0}
+li::marker{color:var(--tx-mute)}
+strong{color:var(--tx);font-weight:600}
+code{
+  font-family:'JetBrains Mono',monospace;font-size:.84em;
+  background:var(--surface-alt);padding:2px 5px;border-radius:4px;color:var(--tx);
+  border:1px solid var(--line-soft);
+}
+
+/* ── TABLES ───────────────────────────────── */
+.tw{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th{
+  text-align:left;font-family:'Inter',sans-serif;font-size:10.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--tx-mute);
+  padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap;
+  background:var(--surface-alt);
+}
+td{padding:12px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--tx);font-weight:500}
+.num{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* ── CALLOUTS ─────────────────────────────── */
+.decide{
+  background:var(--surface); border:1px solid var(--line);
+  border-left:3px solid var(--signal); border-radius:0 10px 10px 0;
+  padding:18px 22px; margin:24px 0; box-shadow:var(--shadow);
+}
+.decide .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--signal-deep);font-weight:700;display:block;margin-bottom:7px;
+}
+:root[data-theme="dark"] .decide .lbl{color:var(--signal)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .decide .lbl{color:var(--signal)}}
+.decide p{margin:0;max-width:none;font-size:14.5px}
+
+.flag{
+  background:var(--warn-bg);border:1px solid transparent;border-radius:10px;
+  padding:16px 20px;margin:22px 0;font-size:14.5px;color:var(--tx-body);
+}
+.flag b{color:var(--warn)}
+.flag p{margin:0;max-width:none}
+
+/* ── STAT STRIP ───────────────────────────── */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:26px 0;
+}
+.stat{background:var(--surface);padding:20px 18px}
+.stat b{
+  display:block;font-family:'Funnel Display',sans-serif;font-size:1.85rem;font-weight:700;
+  color:var(--tx);letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;
+}
+.stat span{display:block;font-size:11.5px;color:var(--tx-mute);margin-top:7px;line-height:1.35}
+
+/* ── CHIPS ────────────────────────────────── */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.chip{
+  font-size:12px;font-weight:500;padding:5px 11px;border-radius:999px;
+  background:var(--chip-bg);color:var(--chip-tx);
+}
+.chip.no{background:var(--surface-alt);color:var(--tx-mute);text-decoration:line-through}
+
+/* ── TREE / WIREFRAME ─────────────────────── */
+pre{
+  font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;
+  background:var(--ink);color:#C3D0E6;padding:20px 22px;border-radius:10px;
+  overflow-x:auto;margin:20px 0;border:1px solid var(--ink-line);
+}
+pre .c{color:var(--signal)}
+pre .m{color:#7C89A3}
+
+/* ── SWATCHES ─────────────────────────────── */
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin:20px 0}
+.sw div{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.sw i{display:block;height:52px}
+.sw b{display:block;font-size:12px;font-weight:600;color:var(--tx);padding:9px 11px 1px}
+.sw span{display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--tx-mute);padding:0 11px 10px}
+
+/* ── PHASES ───────────────────────────────── */
+.ph{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.ph:last-child{border-bottom:0}
+.ph b{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent-tx);
+  min-width:74px;padding-top:3px;font-weight:700;
+}
+.ph div{flex:1;min-width:0}
+.ph strong{display:block;color:var(--tx);font-size:14.5px;margin-bottom:3px}
+.ph p{margin:0;font-size:13.5px;color:var(--tx-mute);max-width:none}
+.ph.key strong::after{
+  content:"LAUNCH";font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;
+  background:var(--signal);color:#052538;padding:2px 6px;border-radius:3px;margin-left:9px;vertical-align:2px;
+}
+
+/* ── CHECKLIST ────────────────────────────── */
+.check{list-style:none;padding:0;max-width:none}
+.check li{
+  display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft);
+  font-size:14.5px;margin:0;
+}
+.check li::before{
+  content:"";width:15px;height:15px;border:1.5px solid var(--line);border-radius:3px;
+  flex-shrink:0;margin-top:4px;background:var(--surface);
+}
+
+/* ── FOOTER ───────────────────────────────── */
+footer{
+  border-top:1px solid var(--line);margin-top:40px;padding:36px 0 0;
+  font-size:13px;color:var(--tx-mute);
+}
+
+/* ── MOBILE ───────────────────────────────── */
+.jump{display:none}
+@media (max-width:1080px){
+  .shell{grid-template-columns:1fr;gap:0;padding:0 28px}
+  .rail{display:none}
+  main{padding:32px 0 90px;max-width:none}
+  .mast-in{padding:44px 28px 40px}
+  .jump{
+    display:block;position:sticky;top:0;z-index:20;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:24px;
+  }
+  .jump select{
+    width:100%;font-family:'Inter',sans-serif;font-size:14px;padding:11px 13px;
+    border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--tx);
+  }
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .shell{padding:0 20px}
+  .mast-in{padding:36px 20px 32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+html{scroll-behavior:smooth}
+</style>
+
+<header class="mast">
+  <div class="mast-in">
+    <span class="eyebrow">Website Strategy &amp; Architecture · v1.0 · For Approval</span>
+    <h1>Vertis Global Website Blueprint</h1>
+    <p class="sub">A pre-build specification for an enterprise technology staffing platform — positioning, information architecture, job platform UX, full-stack architecture and a 16-week delivery roadmap. No code written. Approve before Phase&nbsp;1.</p>
+    <div class="mast-meta">
+      <span class="tag">27 Aug 2026</span>
+      <span class="tag">34 sections</span>
+      <span class="tag">~48 pages at MVP</span>
+      <span class="tag hot">16 weeks to launch</span>
+      <span class="tag hot">Marketing live week 8</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <nav class="rail" aria-label="Sections">
+    <div class="rail-h">Strategy</div>
+    <a href="#s1"><i>01</i>Executive Summary</a>
+    <a href="#s2"><i>02</i>Website Goals</a>
+    <a href="#s3"><i>03</i>Target Audiences</a>
+    <a href="#s4"><i>04</i>Brand Positioning</a>
+    <div class="rail-h">Structure</div>
+    <a href="#s5"><i>05</i>Sitemap</a>
+    <a href="#s6"><i>06</i>Navigation</a>
+    <a href="#s7"><i>07</i>Homepage</a>
+    <a href="#s8"><i>08</i>Page-by-Page</a>
+    <div class="rail-h">Experience</div>
+    <a href="#s9"><i>09</i>Job Search UX</a>
+    <a href="#s10"><i>10</i>Application UX</a>
+    <a href="#s11"><i>11</i>Employer UX</a>
+    <a href="#s12"><i>12</i>Solutions</a>
+    <a href="#s13"><i>13</i>Industries</a>
+    <a href="#s14"><i>14</i>Content</a>
+    <div class="rail-h">Platform</div>
+    <a href="#s15"><i>15</i>Backend</a>
+    <a href="#s16"><i>16</i>Database</a>
+    <a href="#s17"><i>17</i>API</a>
+    <a href="#s18"><i>18</i>Admin Dashboard</a>
+    <a href="#s19"><i>19</i>AI Opportunities</a>
+    <div class="rail-h">Growth</div>
+    <a href="#s20"><i>20</i>SEO</a>
+    <a href="#s21"><i>21</i>Conversion</a>
+    <div class="rail-h">Design</div>
+    <a href="#s22"><i>22</i>Design System</a>
+    <a href="#s23"><i>23</i>Responsive</a>
+    <a href="#s24"><i>24</i>Accessibility</a>
+    <div class="rail-h">Engineering</div>
+    <a href="#s25"><i>25</i>Performance</a>
+    <a href="#s26"><i>26</i>Security</a>
+    <a href="#s27"><i>27</i>Analytics</a>
+    <a href="#s28"><i>28</i>Integrations</a>
+    <a href="#s29"><i>29</i>Components</a>
+    <a href="#s30"><i>30</i>Project Structure</a>
+    <div class="rail-h">Delivery</div>
+    <a href="#s31"><i>31</i>MVP Scope</a>
+    <a href="#s32"><i>32</i>Roadmap</a>
+    <a href="#s33"><i>33</i>Benchmark</a>
+    <a href="#s34"><i>34</i>Recommendation</a>
+    <a href="#approve"><i>✓</i>Approval Checklist</a>
+  </nav>
+
+  <main>
+
+  <div class="jump">
+    <label for="jsel" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Jump to section</label>
+    <select id="jsel">
+      <option value="">Jump to section…</option>
+      <option value="#s1">01 · Executive Summary</option>
+      <option value="#s2">02 · Website Goals</option>
+      <option value="#s3">03 · Target Audiences</option>
+      <option value="#s4">04 · Brand Positioning</option>
+      <option value="#s5">05 · Sitemap</option>
+      <option value="#s6">06 · Navigation</option>
+      <option value="#s7">07 · Homepage</option>
+      <option value="#s8">08 · Page-by-Page</option>
+      <option value="#s9">09 · Job Search UX</option>
+      <option value="#s10">10 · Application UX</option>
+      <option value="#s11">11 · Employer UX</option>
+      <option value="#s12">12 · Solutions</option>
+      <option value="#s13">13 · Industries</option>
+      <option value="#s14">14 · Content</option>
+      <option value="#s15">15 · Backend</option>
+      <option value="#s16">16 · Database</option>
+      <option value="#s17">17 · API</option>
+      <option value="#s18">18 · Admin Dashboard</option>
+      <option value="#s19">19 · AI Opportunities</option>
+      <option value="#s20">20 · SEO</option>
+      <option value="#s21">21 · Conversion</option>
+      <option value="#s22">22 · Design System</option>
+      <option value="#s23">23 · Responsive</option>
+      <option value="#s24">24 · Accessibility</option>
+      <option value="#s25">25 · Performance</option>
+      <option value="#s26">26 · Security</option>
+      <option value="#s27">27 · Analytics</option>
+      <option value="#s28">28 · Integrations</option>
+      <option value="#s29">29 · Components</option>
+      <option value="#s30">30 · Project Structure</option>
+      <option value="#s31">31 · MVP Scope</option>
+      <option value="#s32">32 · Roadmap</option>
+      <option value="#s33">33 · Benchmark</option>
+      <option value="#s34">34 · Recommendation</option>
+      <option value="#approve">✓ Approval Checklist</option>
+    </select>
+  </div>
+
+  <!-- ═══ 01 ═══ -->
+  <section id="s1">
+    <span class="sec-num">SECTION 01</span>
+    <h2>Executive Summary</h2>
+    <hr class="rule">
+    <p class="lede">A conversion-focused, SEO-first, full-stack technology staffing platform serving three audiences on one property: enterprise hiring managers, technology consultants, and executive decision-makers evaluating a multi-year workforce partner.</p>
+
+    <div class="decide">
+      <span class="lbl">The strategic call</span>
+      <p>Vertis is <strong>not</strong> Kelly Services and should not try to be. Kelly, Adecco and Randstad win on scale and breadth. TEKsystems and Insight Global win on US IT staffing density. Robert Half wins on finance and salary-guide SEO. <strong>Vertis wins on a gap none of them own cleanly: a single vetted bench available onshore, offshore, or blended — with transparent tiered rate cards and a two-week path to productive.</strong> That is the spine of the entire website.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>200+</b><span>Technology consultants</span></div>
+      <div class="stat"><b>20+</b><span>Years of delivery</span></div>
+      <div class="stat"><b>80+</b><span>Fortune 500 clients</span></div>
+      <div class="stat"><b>48hrs</b><span>Profile turnaround</span></div>
+    </div>
+
+    <h3>The twelve decisions made for you</h3>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Decision</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Employer-led hero with an embedded candidate lane</td><td>Employer leads are worth 100–1000× a candidate session. Split screens force a choice before credibility is established</td></tr>
+        <tr><td class="num">2</td><td>Two front doors, one domain</td><td>No <code>careers.</code> subdomain — it fragments SEO authority</td></tr>
+        <tr><td class="num">3</td><td>Five industries at launch, not nine</td><td>Public Sector deferred until contract vehicles exist</td></tr>
+        <tr><td class="num">4</td><td>Capability pages beat generic "IT Staffing" pages</td><td>A page naming Snowflake and dbt outranks and outconverts a category page</td></tr>
+        <tr><td class="num">5</td><td>Postgres full-text search, not Elasticsearch</td><td>Hundreds of jobs, not millions. Sufficient to ~25k roles</td></tr>
+        <tr><td class="num">6</td><td>Payload CMS 3 embedded in Next.js, one database</td><td>One admin, one auth, one deploy, no CMS bill</td></tr>
+        <tr><td class="num">7</td><td>Three-step application with resume-parse prefill</td><td>Removes ~12 fields of typing on the mobile-dominant candidate path</td></tr>
+        <tr><td class="num">8</td><td>AI limited to four MVP features, none decisioning</td><td>EU AI Act treats recruitment AI as high-risk; NYC LL144 mandates bias audits</td></tr>
+        <tr><td class="num">9</td><td>One lead pipeline, five entry points</td><td>Not five disconnected forms nobody maintains</td></tr>
+        <tr><td class="num">10</td><td><code>JobPosting</code> schema on every job, day one</td><td>Highest-ROI SEO action available to a staffing site</td></tr>
+        <tr><td class="num">11</td><td>Programmatic SEO with hard index thresholds</td><td>Prevents the thin-content bloat that has hurt every major job board</td></tr>
+        <tr><td class="num">12</td><td>Ink-dominant design, Vertis Blue as the action colour, every value sampled from the logo</td><td>Blue-dominant reads generic; ink-dominant reads premium. The logo's gradient and pixel scatter become tightly-licensed assets, not decoration</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Twelve-month targets</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Qualified employer leads / month</td><td class="num">40–60</td></tr>
+        <tr><td>Organic sessions / month</td><td class="num">18,000–25,000</td></tr>
+        <tr><td>Candidate applications / month</td><td class="num">900–1,400</td></tr>
+        <tr><td>Application completion rate</td><td class="num">65%+ <span style="color:var(--tx-mute)">(industry ~35%)</span></td></tr>
+        <tr><td>Jobs indexed in Google Jobs</td><td class="num">95%+ of live roles</td></tr>
+        <tr><td>Core Web Vitals</td><td class="num">All "Good" at p75</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="flag">
+      <p><b>Scope divergence flagged.</b> Your brief listed healthcare, government, engineering and professional staffing. The capability deck supports <strong>technology staffing across those industries</strong> — a different and stronger claim. A 200-consultant technology firm positioned as a generalist loses to Kelly and Randstad on every generalist term and wins nothing. This blueprint positions Vertis where it can actually win.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 02 ═══ -->
+  <section id="s2">
+    <span class="sec-num">SECTION 02</span>
+    <h2>Website Goals</h2>
+    <hr class="rule">
+    <p>Goals are ranked. When two conflict during build, the higher-ranked one wins — this ranking is the project's tiebreaker rule.</p>
+
+    <h3>Primary</h3>
+    <div class="tw"><table>
+      <thead><tr><th>ID</th><th>Goal</th><th>Success definition</th></tr></thead>
+      <tbody>
+        <tr><td class="num">G1</td><td>Generate qualified enterprise leads</td><td>A named person, named company, stated requirement, routed to the right account manager within 15 minutes</td></tr>
+        <tr><td class="num">G2</td><td>Build a candidate pipeline at low cost</td><td>900–1,400 vetted-intake candidates monthly, reducing sourcing cost per placement</td></tr>
+        <tr><td class="num">G3</td><td>Establish credibility as a partner, not a vendor</td><td>A buyer can complete a vendor-evaluation checklist from the website alone</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Secondary</h3>
+    <ul>
+      <li><strong>G4 — Own the long tail</strong> of technology staffing search. The compounding asset.</li>
+      <li><strong>G5 — Reduce recruiter admin load</strong> via structured applications and parsed resumes.</li>
+      <li><strong>G6 — Be the reference asset mid-deal</strong> — linkable, quotable pages for vetting, delivery and commercial terms.</li>
+    </ul>
+
+    <h3>Explicit non-goals</h3>
+    <p>Stating these prevents the scope creep that kills staffing website projects.</p>
+    <div class="chips">
+      <span class="chip no">Third-party job board</span>
+      <span class="chip no">ATS replacement</span>
+      <span class="chip no">Candidate community</span>
+      <span class="chip no">Timesheets / VMS / payroll</span>
+      <span class="chip no">Generalist staffing</span>
+      <span class="chip no">Multi-tenant</span>
+    </div>
+  </section>
+
+  <!-- ═══ 03 ═══ -->
+  <section id="s3">
+    <span class="sec-num">SECTION 03</span>
+    <h2>Target Audiences</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>Audience</th><th>Traffic</th><th>Revenue influence</th><th>Site priority</th></tr></thead>
+      <tbody>
+        <tr><td>Candidates / consultants</td><td class="num">70–80%</td><td>Indirect (supply)</td><td>High volume, low friction</td></tr>
+        <tr><td>Hiring managers / tech leads</td><td class="num">10–15%</td><td><strong>Direct, high</strong></td><td>Highest conversion priority</td></tr>
+        <tr><td>TA / procurement</td><td class="num">3–5%</td><td><strong>Direct, high</strong></td><td>Evidence and compliance depth</td></tr>
+        <tr><td>C-level / VP</td><td class="num">2–3%</td><td><strong>Highest value</strong></td><td>Credibility and scale signals</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">The trap</span>
+      <p>Optimising for the 75% (candidates) because the analytics dashboard is dominated by them. <strong>Design for the 15% who pay, without degrading the 75% who supply.</strong></p>
+    </div>
+
+    <h3>Customer personas</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Persona</th><th>Trigger</th><th>What converts them</th></tr></thead>
+      <tbody>
+        <tr><td><strong>P1 Dana</strong><br>Director of Engineering, FS</td><td>Three reqs open 60+ days; program slips without two data engineers this quarter</td><td>Named platforms not categories · 48–72hr commitment · "2–3 profiles, not 20" · a 90-second form</td></tr>
+        <tr><td><strong>P2 Marcus</strong><br>VP Talent Acquisition, Mfg</td><td>Consolidating a vendor panel from 8 to 4</td><td>Named four-stage vetting page · compliance documentation · downloadable capability PDF · metric-backed case studies</td></tr>
+        <tr><td><strong>P3 Priya</strong><br>CIO, Retail</td><td>25 people across SAP, Azure and QA for 18 months, under board cost pressure</td><td>Hybrid delivery page · "same vetting standard, both geographies" · Team Deployment model</td></tr>
+        <tr><td><strong>P4 Ben</strong><br>Procurement</td><td>Owns the paper; kills deals over missing compliance</td><td>Compliance &amp; Governance page · published engagement and commercial model</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Candidate personas</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Persona</th><th>Kills the application</th><th>Design implication</th></tr></thead>
+      <tbody>
+        <tr><td><strong>C1 Arun</strong><br>Senior Data Engineer, India</td><td>Mandatory registration, retyping a resume, no salary range</td><td>Apply without an account · resume-parse prefill · rate on every posting</td></tr>
+        <tr><td><strong>C2 Sarah</strong><br>Cloud Architect, US, passive</td><td>Vague posting, no company context, no named recruiter</td><td>Recruiter card with photo on every job · save + alert path</td></tr>
+        <tr><td><strong>C3 Miguel</strong><br>SAP consultant, between engagements</td><td>No path when nothing matches today</td><td>Submit Resume as a first-class path, not a footer link</td></tr>
+        <tr><td><strong>C4 Lena</strong><br>QA Engineer, EU</td><td>Unclear data retention, unclear region eligibility</td><td>Consent with retention period stated inline · region eligibility on postings</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ 04 ═══ -->
+  <section id="s4">
+    <span class="sec-num">SECTION 04</span>
+    <h2>Brand Positioning</h2>
+    <hr class="rule">
+
+    <div class="decide">
+      <span class="lbl">Recommended positioning</span>
+      <p>Vertis Global is the enterprise technology staffing partner that delivers <strong>the same vetted talent standard onshore, offshore, or blended</strong> — so clients choose their cost structure without compromising their quality bar.</p>
+    </div>
+
+    <p>Defensible for three reasons: it is <strong>true and evidenced</strong> (200+ consultants, US and India, one four-stage process); it is a <strong>genuine gap</strong> (TEKsystems and Insight Global are US-onshore; Randstad and Adecco sell country-by-country); and it maps to a <strong>real buying decision</strong> — every enterprise program has a cost/proximity trade-off, and Vertis sells the trade-off itself.</p>
+
+    <h3>Primary value proposition</h3>
+    <p style="font-family:'Funnel Display',sans-serif;font-size:1.5rem;font-weight:700;color:var(--tx);letter-spacing:-.02em;line-height:1.25;margin:18px 0">Vetted technology consultants, delivered in 48 hours — onshore, offshore, or hybrid.</p>
+    <p>Carries <em>what</em>, <em>how fast</em> and <em>how flexible</em>. No adjective that cannot be proven.</p>
+
+    <h3>Taglines, ranked</h3>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Line</th><th>Assessment</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1 ★</td><td><strong>"Onshore. Offshore. One standard."</strong></td><td><strong>Recommended.</strong> Three words, one differentiator, pre-empts the offshore-quality objection in the same breath</td></tr>
+        <tr><td class="num">2</td><td>"The bench behind enterprise delivery."</td><td>Positions Vertis as infrastructure, not intermediary. Best as the About H1</td></tr>
+        <tr><td class="num">3</td><td>"Vetted in 48 hours. Productive in two weeks."</td><td>The operational promise. Homepage subhead</td></tr>
+        <tr><td class="num">4</td><td>"Two to three profiles. Not twenty resumes."</td><td>Attacks the category's worst behaviour. Vetting page H1</td></tr>
+        <tr><td class="num">5</td><td>"We staff the programs that cannot slip."</td><td>High-stakes framing. Case studies hub</td></tr>
+      </tbody>
+    </table></div>
+
+    <p><strong>Rejected</strong>, so the standard is explicit:</p>
+    <div class="chips">
+      <span class="chip no">Connecting talent with opportunity</span>
+      <span class="chip no">Your trusted staffing partner</span>
+      <span class="chip no">Empowering businesses through people</span>
+      <span class="chip no">Where talent meets opportunity</span>
+      <span class="chip no">Unlocking human potential</span>
+    </div>
+
+    <h3>Differentiators — claims, not adjectives</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Generic version we reject</th><th>The Vertis version</th></tr></thead>
+      <tbody>
+        <tr><td>"Global reach"</td><td>Same four-stage vetting in the US and India. You pick the cost structure</td></tr>
+        <tr><td>"Quality candidates"</td><td>Two to three vetted profiles per requirement. We do not shotgun resumes</td></tr>
+        <tr><td>"Fast turnaround"</td><td>Profiles in 48–72 hours. Productive in 10 business days</td></tr>
+        <tr><td>"Experienced team"</td><td>Five practice areas. 60+ role types. 45+ named platforms</td></tr>
+        <tr><td>"We stand behind our people"</td><td>Underperformance means a no-cost replacement</td></tr>
+        <tr><td>"Competitive rates"</td><td>Tiered rate cards, onshore and offshore. SOW or T&amp;M. One account manager</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Tone of voice</h3>
+    <ol>
+      <li><strong>Numbers before adjectives.</strong> "48-hour profile turnaround," not "rapid turnaround."</li>
+      <li><strong>Second person for the audience in question.</strong> Never mix employer and candidate address on one page.</li>
+      <li><strong>Short sentences.</strong> Average 14–18 words. None over 30.</li>
+      <li><strong>No hedging.</strong> "We deliver," not "we aim to deliver."</li>
+      <li><strong>Name the thing.</strong> "Snowflake, Databricks, dbt" — not "modern data platforms."</li>
+    </ol>
+    <p><strong>Banned phrases</strong> (enforced as a CMS publish warning): unlock your potential · empowering businesses · bridging the gap · world-class · best-in-class · cutting-edge · seamlessly · holistic solutions · people are our greatest asset.</p>
+
+    <h3>The first ten seconds</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Time</th><th>Employer feels</th><th>Mechanism</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0–2s</td><td>"Serious, established firm"</td><td>Ink hero, restrained type, no stock handshake, no carousel</td></tr>
+        <tr><td class="num">2–4s</td><td>"Technology staffing specifically"</td><td>H1 names it; capability chips visible</td></tr>
+        <tr><td class="num">4–7s</td><td>"Fast, and at scale"</td><td>Trust bar in tabular numerals</td></tr>
+        <tr><td class="num">7–10s</td><td>"There's a low-friction next step"</td><td>One dominant CTA plus a quieter secondary</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ 05 ═══ -->
+  <section id="s5">
+    <span class="sec-num">SECTION 05</span>
+    <h2>Sitemap</h2>
+    <hr class="rule">
+
+    <h3>Design principles</h3>
+    <ol>
+      <li><strong>Two front doors, one house.</strong> Distinct paths, one domain.</li>
+      <li><strong>Capability over category.</strong> Specific pages rank and convert; generic ones do neither.</li>
+      <li><strong>Engagement model ≠ hiring type ≠ practice area.</strong> Conflating these three axes is the most common staffing-IA failure.</li>
+      <li><strong>No page without a job.</strong> Every URL has a purpose, audience, CTA and conversion goal — or it does not ship.</li>
+    </ol>
+
+<pre><span class="c">/</span>                                    Home
+├── <span class="c">/hire-talent/</span>                    EMPLOYER HUB ★
+│   ├── request-talent/             ★ conversion
+│   ├── vetting-process/            objection handling
+│   ├── engagement-model/           commercial model
+│   └── compliance/                 procurement gate
+├── <span class="c">/solutions/</span>
+│   ├── staff-augmentation/         <span class="m">MVP</span>
+│   ├── team-deployment/            <span class="m">MVP</span>
+│   ├── project-based-staffing/     <span class="m">MVP</span>
+│   ├── delivery-models/            <span class="m">MVP · ★ differentiator</span>
+│   └── contract / c2h / direct-hire  <span class="m">Phase 2</span>
+├── <span class="c">/capabilities/</span>                   ★ PRIMARY SEO
+│   ├── data-analytics-staffing/
+│   ├── cloud-infrastructure-staffing/
+│   ├── erp-enterprise-applications-staffing/
+│   ├── ai-automation-staffing/
+│   └── application-development-qa-staffing/
+├── <span class="c">/industries/</span>                     5 pages
+├── <span class="c">/jobs/</span>                           ★ CANDIDATE CORE
+│   ├── [slug]-[id]/                ★ Google Jobs entry
+│   ├── skill/[skill]/              programmatic
+│   ├── category/[category]/        programmatic
+│   ├── location/[country]/[city]/  programmatic
+│   └── type/[employment-type]/
+├── <span class="c">/candidates/</span>                     hub + submit-resume + alerts + faq
+├── <span class="c">/about/</span>                          + leadership, how-we-work, careers
+├── <span class="c">/locations/</span>                      US · India · [gated regions]
+├── <span class="c">/insights/</span>                       articles · salary guides · reports
+├── <span class="c">/case-studies/</span>
+├── <span class="c">/contact/</span>                        intent router
+├── <span class="m">/account/</span>                        Phase 3, noindex
+└── <span class="m">/legal/</span>                          6 pages
+</pre>
+
+    <div class="tw"><table>
+      <thead><tr><th>Class</th><th>Count</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Core</td><td class="num">10</td><td>Carry the brand and the primary journeys</td></tr>
+        <tr><td>Conversion</td><td class="num">6</td><td>Single job: capture a qualified record</td></tr>
+        <tr><td>SEO landing</td><td class="num">15 + programmatic</td><td>Acquire non-brand organic traffic</td></tr>
+        <tr><td>Supporting</td><td class="num">8+</td><td>Remove objections mid-funnel</td></tr>
+        <tr><td>Utility</td><td class="num">10+</td><td>Function, not acquisition. <code>noindex</code></td></tr>
+        <tr><td>Legal</td><td class="num">6</td><td>Compliance and trust</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>MVP: ~48 editorial pages</strong> plus programmatic job pages.</p>
+  </section>
+
+  <!-- ═══ 06 ═══ -->
+  <section id="s6">
+    <span class="sec-num">SECTION 06</span>
+    <h2>Navigation Architecture</h2>
+    <hr class="rule">
+
+    <p>A staffing site serves two audiences with opposite goals. The failure modes are well documented: <strong>burying jobs</strong> kills the largest traffic source; <strong>leading with jobs</strong> makes the site read as a job board; a <strong>50/50 split</strong> forces a choice before credibility exists.</p>
+
+    <div class="decide">
+      <span class="lbl">Solution</span>
+      <p><strong>Asymmetric prominence with unambiguous separation.</strong> Employer content occupies the navigation's centre of gravity. The candidate path is one visually distinct, always-visible destination — impossible to miss, never competing for the same visual weight.</p>
+    </div>
+
+<pre>┌──────────────────────────────────────────────────────────────────────────┐
+│ <span class="c">VERTIS GLOBAL</span>   Hire Talent · Solutions · Capabilities · Industries ·  │
+│                 Insights · About                                         │
+│                              [ Find Jobs · 214 live ]  [<span class="c">Request Talent</span>] │
+└──────────────────────────────────────────────────────────────────────────┘
+  <span class="m">LEFT</span>                   <span class="m">CENTRE</span>                              <span class="m">RIGHT</span>
+</pre>
+
+    <div class="tw"><table>
+      <thead><tr><th>Item</th><th>Menu</th><th>Why this position</th></tr></thead>
+      <tbody>
+        <tr><td>Hire Talent</td><td>Mega</td><td>First after logo = highest-value audience. Names the commercial action</td></tr>
+        <tr><td>Solutions</td><td>Mega</td><td><em>How</em> we engage — engagement and delivery models</td></tr>
+        <tr><td>Capabilities</td><td>Mega</td><td><em>What</em> we staff. The SEO engine. Deliberately separate from Solutions</td></tr>
+        <tr><td>Industries</td><td>Dropdown</td><td><em>Who</em> we staff for. Simple list</td></tr>
+        <tr><td>Insights</td><td>Dropdown</td><td>Informational, not transactional — positioned late</td></tr>
+        <tr><td>About</td><td>Link</td><td>Visited during evaluation, not discovery</td></tr>
+      </tbody>
+    </table></div>
+
+    <p><strong>Six is the ceiling.</strong> Seven or more degrades scan time and forces a font-size reduction that undermines the premium register.</p>
+
+    <h3>The right-side CTA cluster</h3>
+    <ul>
+      <li><strong>Find Jobs sits left of Request Talent</strong> so the higher-value employer CTA holds the terminal position, while the candidate path still gets a persistent button — not a text link lost among nav items.</li>
+      <li><strong>The live job count does real work:</strong> vitality for candidates, scale for employers, and a click magnet. Cached, revalidated every 5 minutes.</li>
+      <li><strong>Outlined vs filled</strong> makes the two paths instantly separable without explanation.</li>
+    </ul>
+
+    <h3>Sticky behaviour</h3>
+    <div class="tw"><table>
+      <thead><tr><th>State</th><th>Trigger</th><th>Appearance</th></tr></thead>
+      <tbody>
+        <tr><td>Rest</td><td><code>scrollY &lt; 24px</code></td><td>88px, transparent over dark hero, no shadow</td></tr>
+        <tr><td>Condensed</td><td><code>≥ 24px</code>, scrolling down</td><td>64px, solid, <code>backdrop-blur(12px)</code>, hairline border</td></tr>
+        <tr><td>Hidden</td><td>Down past 480px</td><td>Translates <code>-100%</code>; returns instantly on any upward scroll</td></tr>
+      </tbody>
+    </table></div>
+    <p>Never hides on <code>/jobs/</code> routes. Disabled under <code>prefers-reduced-motion</code>. Always <code>position: sticky</code>, never <code>fixed</code>.</p>
+
+    <h3>Mobile</h3>
+    <p>Header is <code>[Logo] … [Search icon] [☰]</code> — the search icon opens job search directly, one tap from anywhere to the candidate's primary task. The drawer places <strong>both CTAs at the very top, above the accordion navigation</strong>, because on mobile the top of the drawer is the highest-value real estate. Accordions, not drill-down slides — users lose orientation in multi-level slides.</p>
+  </section>
+
+  <!-- ═══ 07 ═══ -->
+  <section id="s7">
+    <span class="sec-num">SECTION 07</span>
+    <h2>Homepage Architecture</h2>
+    <hr class="rule">
+
+    <h3>The hero decision</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Option</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Candidate-led (big job search)</td><td><strong>Rejected.</strong> Reads as a job board. Destroys enterprise-partner perception — Kelly and Adecco suffer from exactly this</td></tr>
+        <tr><td>50/50 split screen</td><td><strong>Rejected.</strong> Forces a choice before credibility exists; halves the space so neither side gets a real message. Looks like a solution to the designer, an obstacle to the user</td></tr>
+        <tr><td>Employer-led with embedded candidate lane</td><td><strong>★ Recommended.</strong> One clear message for the highest-value audience; the candidate path present, obvious and frictionless</td></tr>
+      </tbody>
+    </table></div>
+
+    <p>The H1 and primary CTA speak to the employer. Beneath the CTA row sits a single-line job search field with a live role count — unmistakably a job search, occupying about a third of the hero's vertical weight and none of its typographic weight. Insurance: the nav's <code>Find Jobs · 214 live</code> is persistent, and mobile's search icon is one tap.</p>
+
+    <h3>Twelve sections, top to bottom</h3>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Section</th><th>Ground</th><th>Job</th></tr></thead>
+      <tbody>
+        <tr><td class="num">01</td><td>Hero</td><td>Ink</td><td>Promise + differentiator in 5 seconds; route both audiences</td></tr>
+        <tr><td class="num">02</td><td>Trust Bar</td><td>Mist</td><td>Turn the claim into evidence before any further scroll</td></tr>
+        <tr><td class="num">03</td><td>Capabilities</td><td>White</td><td>"Do they staff <em>my</em> technology?" + strongest internal linking</td></tr>
+        <tr><td class="num">04</td><td>Delivery Models</td><td>Ink</td><td>The differentiator. Why a buyer picks Vertis over TEKsystems</td></tr>
+        <tr><td class="num">05</td><td>Why Vertis</td><td>Mist</td><td>Four verifiable operational commitments</td></tr>
+        <tr><td class="num">06</td><td>Candidate Lane</td><td>White</td><td>Three paths: search · submit resume · create alert</td></tr>
+        <tr><td class="num">07</td><td>Industries</td><td>Mist</td><td>Domain context; link equity</td></tr>
+        <tr><td class="num">08</td><td>Case Study</td><td>Ink</td><td>One deep proof — not a carousel</td></tr>
+        <tr><td class="num">09</td><td>Testimonials</td><td>White</td><td>Two client, one candidate</td></tr>
+        <tr><td class="num">10</td><td>Insights</td><td>Mist</td><td>Salary guide · article · workforce report</td></tr>
+        <tr><td class="num">11</td><td>Employer CTA Band</td><td>Ink</td><td>Final conversion for the scrolled-to-bottom evaluator</td></tr>
+        <tr><td class="num">12</td><td>Footer</td><td>Ink</td><td>Six columns mirroring the IA</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Hero copy</h3>
+    <p><strong>Eyebrow</strong> — Technology Staffing · Onshore · Offshore · Hybrid<br>
+    <strong>H1</strong> — Vetted technology consultants, delivered in 48 hours.<br>
+    <strong>Sub</strong> — 200+ consultants across data, cloud, ERP, AI and application engineering. Two decades inside Fortune 500 programs. Onshore, offshore, or blended — you choose the model.<br>
+    <strong>CTAs</strong> — [Request Talent] · [Explore Delivery Models] · search field · skill chips</p>
+
+    <div class="decide">
+      <span class="lbl">Deliberate mobile inversion</span>
+      <p>The <strong>search field moves above the CTA row on mobile</strong>. Mobile traffic skews strongly candidate (arriving from Google Jobs and LinkedIn on phones). Serving the majority intent first on mobile while serving the higher-value intent first on desktop is a genuine optimisation, not an inconsistency. Implemented with CSS <code>order</code>, so DOM order stays logical for screen readers.</p>
+    </div>
+
+    <h3>Section 05 — "What we commit to"</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Claim</th><th>Mechanism</th></tr></thead>
+      <tbody>
+        <tr><td>Two to three profiles. Not twenty.</td><td>Only consultants clearing all four vetting stages are submitted. Volume is not a strategy</td></tr>
+        <tr><td>Profiles in 48–72 hours.</td><td>Pre-vetted pools mean we are shortlisting, not starting a search</td></tr>
+        <tr><td>Productive in two weeks.</td><td>Profile approval to contributing team member in 10 business days</td></tr>
+        <tr><td>Replaced at no cost.</td><td>The commercial risk of a bad fit is ours, not yours</td></tr>
+      </tbody>
+    </table></div>
+    <p>Rendered as a 2×2 grid with large monospace numerals and hairline dividers — no icons. The numerals carry the structure, which keeps the section from reading as another icon grid.</p>
+
+    <h3>Anti-goals for the first ten seconds</h3>
+    <div class="chips">
+      <span class="chip no">Autoplay video with sound</span>
+      <span class="chip no">Modal</span>
+      <span class="chip no">Cookie wall over the hero</span>
+      <span class="chip no">Carousel</span>
+      <span class="chip no">"We are a leading provider of…"</span>
+      <span class="chip no">Two competing primary CTAs</span>
+    </div>
+  </section>
+
+  <!-- ═══ 08 ═══ -->
+  <section id="s8">
+    <span class="sec-num">SECTION 08</span>
+    <h2>Page-by-Page Architecture</h2>
+    <hr class="rule">
+    <p>Full text wireframes for twelve page types are in the source document. Two of the most consequential:</p>
+
+    <h3>Job detail — desktop</h3>
+<pre>┌─ MAIN (8 cols) ──────────────────────┬─ RAIL (4 cols, <span class="c">sticky</span>) ──────┐
+│ H1: Senior Data Engineer             │ <span class="c">APPLY CARD ★</span>                 │
+│ 📍 Charlotte, NC (Hybrid)            │ Rate: $75–95/hr W2               │
+│ 💼 Contract · 12 months              │ Contract · 12 months             │
+│ 💰 $75–95/hr   🕐 Posted 3 days ago  │ <span class="c">[Apply Now]</span>  [♡ Save]        │
+│ Job ID: VG-2026-4471                 │ "Apply in under 3 min.           │
+│                                      │  No account required."           │
+│ ABOUT THE ROLE                       │                                  │
+│ WHAT YOU'LL DO                       │ <span class="c">RECRUITER CARD</span>                │
+│ WHAT WE'RE LOOKING FOR               │ Photo · Name · Specialism        │
+│ SKILLS · BENEFITS · ABOUT VERTIS     │ [Message recruiter]              │
+│                                      │                                  │
+│                                      │ AT A GLANCE · TRUST              │
+└──────────────────────────────────────┴──────────────────────────────────┘
+SIMILAR ROLES  →  3 JobCards       CANDIDATE CTA BAND  →  alert / resume
+</pre>
+    <p><strong>Mobile</strong> promotes the recruiter card <em>above</em> the body copy — on a small screen the "is this a real role from a real person?" question must be answered before the candidate commits to scrolling. A sticky bottom bar showing the rate and Apply appears after 400px.</p>
+
+    <h3>Apply flow</h3>
+<pre>PROGRESS: <span class="c">●</span>━━━━○━━━━○   Step 1 of 3 · About 3 minutes
+
+<span class="c">STEP 1 — YOUR RESUME</span>      "Start with your resume.
+                            We'll read it and fill in the rest."
+    ⬆ Drag your resume here · or browse · PDF/DOC/DOCX · 10MB
+    [Apply with LinkedIn]  ·  [Enter details manually]
+    → "Reading your resume…" (2–4s) → "✓ We found your details."
+
+<span class="c">STEP 2 — CONFIRM YOUR DETAILS</span>   "Does this look right?"
+    8 prefilled fields · 5 required · all editable
+
+<span class="c">STEP 3 — A FEW ROLE QUESTIONS</span>
+    Work authorization * · Sponsorship * · Availability *
+    Expected rate (optional) · Notes (optional)
+    ☐ * Consent — retained 24 months, withdraw anytime
+
+<span class="c">SUCCESS</span>  Reference VG-APP-88213 · what happens next ·
+         recruiter card · 3 similar roles · alert offer
+</pre>
+  </section>
+
+  <!-- ═══ 09 ═══ -->
+  <section id="s9">
+    <span class="sec-num">SECTION 09</span>
+    <h2>Job Search UX</h2>
+    <hr class="rule">
+
+    <div class="decide">
+      <span class="lbl">URL is the state</span>
+      <p>Every filter, sort and page writes to the query string. Searches become shareable, back-button-correct, server-renderable and analytics-legible. <strong>Filter state must never live only in React state</strong> — that breaks sharing, SEO and the back button, and it is the most common failure in job-board builds.</p>
+    </div>
+
+    <h3>Ten filters</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Filter</th><th>Control</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td>Keyword</td><td>Text + autocomplete</td><td>Weighted 3:2:1 across title, skills, description</td></tr>
+        <tr><td>Location</td><td>Hierarchical combobox</td><td>Second-most-used filter in every job-search study</td></tr>
+        <tr><td>Work arrangement</td><td>Segmented</td><td>Post-2020 the highest-signal filter. Must be top-3 in the rail</td></tr>
+        <tr><td>Employment type</td><td>Checkboxes</td><td>Contractors and permanent seekers are different people</td></tr>
+        <tr><td>Capability</td><td>Checkboxes (5)</td><td>Aligns browse with the site's IA</td></tr>
+        <tr><td>Skills</td><td>Searchable multi-select</td><td>Technology candidates search by stack, not job title</td></tr>
+        <tr><td>Experience</td><td>Checkboxes</td><td>Reduces mismatched applications — a recruiter-time cost</td></tr>
+        <tr><td>Rate / Salary</td><td>Dual slider + toggle</td><td>"Include roles without a stated rate" <strong>on by default</strong>, or a large share of inventory silently disappears</td></tr>
+        <tr><td>Date posted</td><td>Radio</td><td>Freshness matters to active seekers</td></tr>
+        <tr><td>Delivery model</td><td>Checkboxes</td><td>Vertis-specific — an India-based candidate filters straight to offshore roles</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Pagination, not infinite scroll</h3>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Pagination</th><th>Infinite scroll</th></tr></thead>
+      <tbody>
+        <tr><td>SEO</td><td>Crawlable, indexable</td><td>Invisible to crawlers without extra work</td></tr>
+        <tr><td>Footer access</td><td>Reachable</td><td>Effectively unreachable</td></tr>
+        <tr><td>Back button</td><td>Correct</td><td>Notoriously loses position</td></tr>
+        <tr><td>Sense of progress</td><td>"Page 3 of 11"</td><td>None — measurably increases fatigue</td></tr>
+      </tbody>
+    </table></div>
+    <p>Job search is <strong>a task with a completion state</strong>, not a feed. 20 per page. A "Load more" button is acceptable on mobile, provided the paginated URLs still exist and are crawlable.</p>
+
+    <h3>The job card</h3>
+    <ul>
+      <li><strong>Rate is always shown</strong> — a range, or the explicit string "Rate on application." A blank rate reads as concealment and depresses click-through.</li>
+      <li><strong>Skill chips sit above the excerpt</strong> — for a technology candidate they are the highest-value scan element.</li>
+      <li><strong>Job ID visible</strong> — an authenticity signal, and it lets candidates reference a role in email.</li>
+      <li><strong><code>[URGENT]</code> capped at 10% of live roles</strong> so the badge retains meaning.</li>
+    </ul>
+
+    <div class="flag">
+      <p><b>Expired jobs return 410 Gone,</b> not 404 — with a page explaining the role closed plus three similar live roles. This protects the Google Jobs relationship and captures the traffic.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 10 ═══ -->
+  <section id="s10">
+    <span class="sec-num">SECTION 10</span>
+    <h2>Job Application UX</h2>
+    <hr class="rule">
+
+    <p>Industry-average completion is roughly <strong>35–40%</strong>, worse on mobile. Every abandoned application is a sourcing cost paid twice. Target: <strong>65%+</strong>, achieved by removing typing rather than shortening the form arbitrarily.</p>
+
+    <div class="decide">
+      <span class="lbl">Three decisions</span>
+      <p><strong>Multi-step, not single-page</strong> — 22 fields on one screen produces immediate mobile abandonment. <strong>Resume-first, not form-first</strong> — parsing turns step 2 into <em>confirmation</em> rather than <em>data entry</em>. <strong>No account required</strong> — forced registration before applying is the single largest drop-off cause in candidate funnels.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Step</th><th>Fields</th><th>Required</th></tr></thead>
+      <tbody>
+        <tr><td>1 — Resume</td><td>File, or LinkedIn, or manual</td><td class="num">1 action</td></tr>
+        <tr><td>2 — Confirm details</td><td>8 fields, all prefilled</td><td class="num">5</td></tr>
+        <tr><td>3 — Role questions</td><td>Work auth, sponsorship, availability, rate, notes, consent</td><td class="num">4</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Cut at MVP</h3>
+    <p>Every field must justify itself against "does a recruiter act on this in the first 48 hours?"</p>
+    <div class="chips">
+      <span class="chip no">Address / postcode</span>
+      <span class="chip no">Referral source</span>
+      <span class="chip no">Education history</span>
+      <span class="chip no">Employment history</span>
+      <span class="chip no">Cover letter</span>
+      <span class="chip no">Salary history</span>
+      <span class="chip no">Date of birth</span>
+      <span class="chip no">Gender / ethnicity</span>
+    </div>
+    <p><strong>Salary history is never collected</strong> — illegal to request in many US states. Voluntary EEO collection, where required, is a separate post-submission step with a clear legal notice, never mixed into the application.</p>
+
+    <h3>Parsing must never block</h3>
+    <p>Parsing fails on scanned PDFs, unusual layouts and some non-Latin scripts. On failure the flow shows "We couldn't read that automatically — please fill in a few details" and presents step 2 empty but pre-focused. <strong>The resume is stored regardless of parse success.</strong> A parse failure must never cost an application. Low-confidence fields are prefilled but marked with a subtle accent underline and a "Check this" hint.</p>
+
+    <h3>Twelve drop-off reducers</h3>
+    <ol>
+      <li>No account gate</li>
+      <li>Resume-parse prefill (~12 fields removed)</li>
+      <li>LinkedIn as an alternative entry</li>
+      <li>Three steps with an honest time estimate</li>
+      <li>Auto-save per step</li>
+      <li>One abandoned-application recovery email at +24h</li>
+      <li>Native mobile file picker, 56px target</li>
+      <li>Invisible bot protection — no visible CAPTCHA</li>
+      <li>Persistent role context in the header</li>
+      <li>Honest exit handling, no dark patterns</li>
+      <li>Single, clear consent with the retention period inline</li>
+      <li>Correct keyboard and <code>autocomplete</code> on every field</li>
+    </ol>
+
+    <div class="decide">
+      <span class="lbl">Highest-trust element on the site</span>
+      <p>The recruiter card on the success screen — name, photo, direct email. It converts an anonymous submission into a relationship and measurably reduces "did that go anywhere?" support email. <strong>Every candidate also receives a closing email</strong> when a decision is made; non-response is the most-cited candidate complaint in the industry and the cheapest reputational fix available.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 11 ═══ -->
+  <section id="s11">
+    <span class="sec-num">SECTION 11</span>
+    <h2>Employer UX</h2>
+    <hr class="rule">
+
+    <div class="decide">
+      <span class="lbl">Critical insight</span>
+      <p>Enterprise buyers do not convert on the first visit. Typical evaluation involves <strong>3–6 sessions across 2–5 weeks, often by different people in the same organisation.</strong> The site must serve two modes: <strong>fast mode</strong> (urgent req — three pages, under four minutes) and <strong>slow mode</strong> (vendor evaluation — every objection needs a linkable, quotable page that gets forwarded internally and cited in scorecards). Designing for only one loses the other.</p>
+    </div>
+
+    <h3>Request Talent — field logic</h3>
+    <p><strong>Two steps, requirement before contact details.</strong> Counter-intuitive and deliberate: it front-loads the part the buyer finds useful and back-loads the part that feels like a cost. A step-1 abandon still yields demand analytics, and once step 2 begins, sunk cost works in favour of completion.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Field</th><th>Req.</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Role title</td><td>✅</td><td>Autocomplete normalises input for routing</td></tr>
+        <tr><td>Capability area</td><td>✅</td><td>Routes to the right delivery team. Highest-value routing field</td></tr>
+        <tr><td>Key skills</td><td>✅</td><td>Determines whether the bench already has matches — drives the 48hr promise</td></tr>
+        <tr><td>Number of positions</td><td>✅</td><td>A <em>range</em>, not a number — buyers often don't know exactly. Routes 25+ to leadership</td></tr>
+        <tr><td>Delivery model</td><td>✅</td><td>Includes <strong>"Not sure — advise me"</strong>, converting uncertainty into a consultative call instead of an abandoned form</td></tr>
+        <tr><td>Timeline</td><td>✅</td><td>"Planning" routes to nurture, not to an account manager — this alone protects sales capacity</td></tr>
+        <tr><td>Phone</td><td>⬜</td><td>Optional — mandatory phone measurably reduces B2B completion, and email suffices for first contact</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>12 required fields</strong> — more than a typical B2B form, and correct here. A staffing requirement genuinely needs this to be actionable, and each field visibly serves the buyer's own outcome. The trust rail says so explicitly.</p>
+
+    <h3>Lead scoring and routing</h3>
+<pre>SUBMISSION → bot check → enrichment → <span class="c">SCORING</span>
+    positions 11+          <span class="c">+30</span>       free email domain   <span class="m">−20</span>
+    timeline immediate     <span class="c">+25</span>
+    enterprise domain      <span class="c">+20</span>
+    seniority Dir/VP/C     <span class="c">+15</span>
+    target industry        <span class="c">+10</span>
+                                   ↓
+    score ≥60  → Enterprise AM · Slack alert · <span class="c">1hr SLA</span>
+    score 30–59 → Regional AM   · email       · 4hr SLA
+    score &lt;30   → Nurture sequence
+    timeline = "Planning" → nurture regardless of score
+</pre>
+  </section>
+
+  <!-- ═══ 12 ═══ -->
+  <section id="s12">
+    <span class="sec-num">SECTION 12</span>
+    <h2>Solutions Architecture</h2>
+    <hr class="rule">
+
+    <p>Most staffing sites conflate three orthogonal things into one "Services" menu, confusing buyers and creating keyword cannibalisation. Vertis separates them:</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Axis</th><th>Question it answers</th><th>Pages</th></tr></thead>
+      <tbody>
+        <tr><td>Engagement model</td><td>How do we work together?</td><td>Staff Augmentation · Team Deployment · Project-Based</td></tr>
+        <tr><td>Hiring type</td><td>What is the commercial arrangement?</td><td>Contract · C2H · Direct Hire</td></tr>
+        <tr><td>Capability</td><td>What technology do we staff?</td><td>Data · Cloud · ERP · AI · AppDev &amp; QA</td></tr>
+        <tr><td>Delivery model</td><td>Where does the work happen?</td><td>Onshore · Offshore · Hybrid <em>(one page)</em></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">The most important scope decision in the document</span>
+      <p>Nine solution pages would produce nine thin, mutually cannibalising pages. <strong>Four strong pages at MVP</strong>, each with genuine depth, will outrank and outconvert them.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Page</th><th>Ship</th><th>Justification</th></tr></thead>
+      <tbody>
+        <tr><td>Staff Augmentation</td><td><strong>MVP</strong></td><td>The deck's "most common" model; highest search volume of the three</td></tr>
+        <tr><td>Team Deployment</td><td><strong>MVP</strong></td><td>Differentiates from single-contractor vendors; targets the CIO persona</td></tr>
+        <tr><td>Project-Based Staffing</td><td><strong>MVP</strong></td><td>Higher-margin outcome-based work</td></tr>
+        <tr><td>Delivery Models</td><td><strong>MVP ★</strong></td><td>The single biggest differentiator on the site</td></tr>
+        <tr><td>Contract / C2H / Direct Hire</td><td>Phase 2</td><td>High volume but generic; hub sections at MVP, promoted on ranking data</td></tr>
+        <tr><td>Executive Search</td><td><strong>Not building</strong></td><td>A different business with a different fee model and delivery motion. Claiming it dilutes positioning and invites requirements Vertis cannot fill well</td></tr>
+        <tr><td>Managed Services</td><td><strong>Not at MVP</strong></td><td>Project-Based covers the adjacent need. A true MSP/RPO is a service-line decision, not a web page</td></tr>
+        <tr><td>Professional Staffing</td><td><strong>Not building</strong></td><td>Outside the technology positioning. Would compete with Robert Half on their home turf and win nothing</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The flagship: Delivery Models</h3>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Onshore (US)</th><th>Offshore (India)</th><th>Hybrid</th></tr></thead>
+      <tbody>
+        <tr><td>Best for</td><td>Leadership, client-facing, clearance-eligible</td><td>Scale ramps, sustained support, cost optimisation</td><td>Large programs needing both</td></tr>
+        <tr><td>Timezone</td><td>Same-timezone</td><td>Round-the-clock with overlap</td><td>Onshore leads, offshore execution</td></tr>
+        <tr><td>Clearance</td><td>Eligible roles available</td><td>N/A</td><td>Onshore layer only</td></tr>
+        <tr><td>Cost</td><td>Standard tier</td><td>Significant advantage</td><td>Blended</td></tr>
+      </tbody>
+    </table></div>
+    <p>Then a dedicated section on <strong>why the quality claim is credible</strong> — identical four-stage process, same assessments, same background verification, same replacement guarantee. This section must do real work; it answers the category's most entrenched objection.</p>
+
+    <p><strong>An honest caveat on the Project-Based page:</strong> "if scope is likely to change, Team Deployment is usually the better fit." Saying this builds more trust than it costs in leads, and prevents the failed engagements that come from mis-sold fixed scope.</p>
+  </section>
+
+  <!-- ═══ 13 ═══ -->
+  <section id="s13">
+    <span class="sec-num">SECTION 13</span>
+    <h2>Industry Architecture</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>Industry</th><th>Ship</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td>Financial Services &amp; Insurance</td><td><strong>MVP</strong></td><td>Largest enterprise technology-staffing spend; regulated, which favours vetted vendors</td></tr>
+        <tr><td>Healthcare &amp; Life Sciences</td><td><strong>MVP</strong></td><td>High compliance barrier favours specialists. Page must distinguish this from clinical staffing</td></tr>
+        <tr><td>Manufacturing &amp; Industrial</td><td><strong>MVP</strong></td><td>Strong SAP demand matching the ERP capability; IT/OT convergence is a live hiring driver</td></tr>
+        <tr><td>Retail &amp; Consumer</td><td><strong>MVP</strong></td><td>Cost-sensitive — suits the hybrid delivery pitch</td></tr>
+        <tr><td>Energy &amp; Utilities</td><td><strong>MVP</strong></td><td>Underserved by generalists — a genuine opportunity</td></tr>
+        <tr><td>Technology &amp; Software</td><td>Phase 2</td><td>They hire directly; lower conversion per session</td></tr>
+        <tr><td>Public Sector</td><td>Phase 3</td><td>Requires contract vehicles and FAR compliance. Clearance-eligible roles ≠ a public-sector practice. <strong>Do not publish until real capability exists</strong></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">What makes an industry page rank rather than read as filler</span>
+      <p><strong>Every industry page needs a section no other page could contain.</strong> The Regulatory &amp; Operating Context block is that section: SOX and PCI-DSS for financial services; HIPAA, GxP and CSV for life sciences; IT/OT convergence and ISA-95 for manufacturing; NERC CIP for energy. Only a firm with real sector experience can write it. Minimum 900 unique words per page, with sector-weighted role lists — not copy-pasted ones.</p>
+    </div>
+
+    <p><strong>Worked example — Financial Services.</strong> Delivery nuance that converts and that generalist competitors cannot write: <em>onshore is typically required for production data access; hybrid works well where offshore handles non-production and platform engineering.</em></p>
+  </section>
+
+  <!-- ═══ 14 ═══ -->
+  <section id="s14">
+    <span class="sec-num">SECTION 14</span>
+    <h2>Content Architecture</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>Type</th><th>Job</th><th>Funnel</th><th>Cadence</th><th>Gated</th></tr></thead>
+      <tbody>
+        <tr><td>Salary &amp; Rate Guides ★</td><td>Rank for rate queries; capture leads from both sides</td><td>TOFU→MOFU</td><td>2–4/yr</td><td>Partly</td></tr>
+        <tr><td>Workforce Reports ★</td><td>Earn links and citations</td><td>TOFU</td><td>2/yr</td><td>Yes</td></tr>
+        <tr><td>Hiring Guides</td><td>Hiring-manager intent; link to solutions</td><td>MOFU</td><td>1/mo</td><td>No</td></tr>
+        <tr><td>Articles</td><td>Volume, freshness, long tail</td><td>TOFU</td><td>2–4/mo</td><td>No</td></tr>
+        <tr><td>Case Studies</td><td>Proof at evaluation stage</td><td>BOFU</td><td>1/qtr</td><td>No</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Why salary guides are the highest-priority content asset</h3>
+    <ol>
+      <li><strong>Search volume with commercial intent.</strong> <code>data engineer contract rate</code> is searched by hiring managers building a budget <em>and</em> candidates evaluating an offer — Vertis's exact two audiences, at the moment each is most valuable.</li>
+      <li><strong>Natural link acquisition.</strong> Rate data gets cited by journalists, analysts and internal corporate documents. These editorial links lift authority for every commercial page.</li>
+      <li><strong>Dual-sided lead capture.</strong> Both downloaders are qualified, and both enter nurture.</li>
+      <li><strong>Annual refresh compounds.</strong> The 2027 edition inherits the 2026 edition's authority through a maintained URL.</li>
+      <li><strong>Vertis has proprietary data.</strong> A firm placing consultants across five capabilities and two geographies has real rate data — a defensible advantage over competitors aggregating public sources.</li>
+    </ol>
+
+    <h3>Editorial governance</h3>
+    <ul>
+      <li>Every page has a named owner and review date. Capability and industry pages quarterly; salary guides annually.</li>
+      <li>The banned-phrase list is enforced in the CMS as a publish warning.</li>
+      <li>No page publishes without: title ≤60 chars, meta description 140–160, an H1 distinct from the title, two internal links, alt text on every image.</li>
+      <li><strong>Every statistic carries a source or a <code>[CONFIRM]</code> flag that blocks publication until cleared.</strong></li>
+      <li>Content without a defined internal-link target does not get commissioned.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 15 ═══ -->
+  <section id="s15">
+    <span class="sec-num">SECTION 15</span>
+    <h2>Backend Architecture</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>Layer</th><th>Choice</th><th>Why this, not the alternative</th></tr></thead>
+      <tbody>
+        <tr><td>Framework</td><td>Next.js 16 App Router</td><td>One framework for SSG, dynamic jobs, APIs and admin. Server Components cut client JS, protecting Core Web Vitals</td></tr>
+        <tr><td>Language</td><td>TypeScript strict</td><td>Non-negotiable at this scale</td></tr>
+        <tr><td>Styling</td><td>Tailwind v4 + CSS custom properties</td><td>Matches your existing system; v4's <code>@theme</code> maps onto the token architecture</td></tr>
+        <tr><td>UI primitives</td><td>Radix (headless)</td><td>Dialog, combobox, tabs accessibility is genuinely hard. Styled entirely by us</td></tr>
+        <tr><td>Database</td><td>PostgreSQL 16 (Neon)</td><td>FTS, JSONB and pgvector in one engine. Branch-per-preview-deploy</td></tr>
+        <tr><td>ORM</td><td>Drizzle</td><td>SQL-transparent, near-zero runtime. Prisma's engine adds cold-start latency on serverless</td></tr>
+        <tr><td>CMS</td><td><strong>Payload CMS 3, embedded</strong></td><td>See below — the significant architectural decision</td></tr>
+        <tr><td>Search</td><td>Postgres FTS + pg_trgm</td><td>Hundreds of jobs, not millions</td></tr>
+        <tr><td>Storage</td><td>Cloudflare R2</td><td>S3-compatible, no egress fees</td></tr>
+        <tr><td>Email</td><td>Resend + React Email</td><td>Templates versioned in the repo</td></tr>
+        <tr><td>Hosting</td><td>Vercel</td><td>Continuity with your ACI deployment</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">CMS decision</span>
+      <p><strong>Payload CMS 3 runs inside the Next.js app, on the same PostgreSQL.</strong> Same repo, same deploy, same auth. It defines both editorial collections (posts, case studies) <em>and</em> domain collections (jobs, applications, candidates, leads) in one type-safe schema. We extend its admin with custom React views for the workflows a generic CMS handles badly — the application kanban, the lead queue, bench search. Off-the-shelf for CRUD, custom for workflow.</p>
+    </div>
+
+    <p><strong>Rejected:</strong> headless SaaS CMS (two systems, two auths, network hop on every fetch, and painful cross-system references between a case study and the live jobs it should list) · WordPress (separate stack, security burden, cannot own the recruiting data model) · fully custom admin (months of work delivering no competitive advantage).</p>
+
+    <div class="decide">
+      <span class="lbl">The escape hatch</span>
+      <p>If Vertis later adopts Bullhorn, Ceipal or JobDiva, the <code>jobs</code> and <code>applications</code> collections become synchronised projections of the ATS, and the website becomes a presentation and capture layer. <strong>The <code>services/</code> layer is the seam that makes this swap possible without touching the front end</strong> — which is precisely why it exists as a distinct tier.</p>
+    </div>
+
+    <h3>Why Postgres FTS, not Elasticsearch</h3>
+    <p>Vertis has hundreds of live roles. Postgres FTS with a GIN index answers a filtered, ranked query over that volume in single-digit milliseconds. A separate search service means a second datastore, a sync pipeline, sync-failure modes and a monthly bill — to solve a problem that does not exist at this scale. <strong>Migration trigger stated in advance:</strong> move to Typesense or Elasticsearch above ~25,000 live jobs, or when p95 search latency exceeds 200ms. Not before.</p>
+
+    <h3>Rendering strategy</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Route</th><th>Strategy</th><th>Revalidation</th></tr></thead>
+      <tbody>
+        <tr><td>Marketing pages</td><td>SSG + ISR</td><td>1 hour + on-publish</td></tr>
+        <tr><td>Job search</td><td>SSR, edge-cached unfiltered</td><td>60s</td></tr>
+        <tr><td>Job detail</td><td>ISR</td><td>5 min + <strong>on-demand purge on status change</strong></td></tr>
+        <tr><td>Apply flow</td><td>Client, dynamic</td><td>—</td></tr>
+        <tr><td>Account / Admin</td><td>SSR, auth-gated, noindex</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Roles</h3>
+    <p><code>candidate</code> · <code>recruiter</code> · <code>account_manager</code> · <code>content_editor</code> · <code>admin</code>. <strong>Content editors are structurally excluded from candidate PII</strong> — a content role should never have a reason to open a resume. <strong>Every resume access is logged</strong> with actor, timestamp and candidate ID: a GDPR accountability requirement and a genuine internal-misuse control.</p>
+  </section>
+
+  <!-- ═══ 16 ═══ -->
+  <section id="s16">
+    <span class="sec-num">SECTION 16</span>
+    <h2>Database Architecture</h2>
+    <hr class="rule">
+
+<pre>                    ┌──────────────┐
+                    │    <span class="c">users</span>     │  auth root; role discriminator
+                    └──────┬───────┘
+           ┌───────────────┼────────────────┐
+     ┌─────▼──────┐ ┌──────▼──────┐ ┌───────▼─────┐
+     │ <span class="c">candidates</span> │ │ recruiters  │ │   admins    │
+     └─────┬──────┘ └──────┬──────┘ └─────────────┘
+           │        ┌──────┴───────────┐
+           │  ┌─────▼──────┐    ┌──────▼──────┐
+           │  │    <span class="c">jobs</span>    │◄───┤   clients   │
+           │  └─────┬──────┘    └──────┬──────┘
+           │        │           ┌──────▼──────┐
+           │        │           │    <span class="c">leads</span>    │
+  ┌────────┴────────┴───────────┴─────────────┴──────┐
+  │  <span class="c">applications</span> · saved_jobs · job_alerts · resumes  │
+  └──────────────────────┬───────────────────────────┘
+                         │
+        candidate_skills ─┴─ <span class="c">skills</span> ─┬─ job_skills
+                                    │
+  TAXONOMY  capabilities · industries · locations · job_categories
+  CONTENT   posts · case_studies · testimonials · media
+  SYSTEM    <span class="c">activity_log</span> (every PII access) · email_log · form_submissions
+</pre>
+
+    <p><strong>~24 tables.</strong> Selected design decisions worth flagging:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Decision</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td><code>candidates.user_id</code> is nullable</td><td>A candidate exists without an account — apply-without-registration is a schema-level commitment, not just a UI choice</td></tr>
+        <tr><td><code>resumes</code> are versioned, never overwritten</td><td><code>is_current</code> flags the active version; prior versions retained for the retention window</td></tr>
+        <tr><td>Unique <code>(job_id, candidate_id)</code> on applications</td><td>Prevents duplicates; surfaced to the candidate as "You applied on [date]"</td></tr>
+        <tr><td>Unique index on <code>lower(email)</code></td><td>A returning candidate is matched, not duplicated</td></tr>
+        <tr><td><code>clients.logo_consent</code> / <code>name_consent</code> booleans</td><td>A logo cannot render unless consent is true — makes the legal requirement <strong>structural, not procedural</strong></td></tr>
+        <tr><td><code>candidates.retention_expires_at</code></td><td>Drives the automated GDPR/DPDP deletion sweep</td></tr>
+        <tr><td><code>locations.is_indexed</code></td><td>Enforces the programmatic SEO index threshold at the data layer</td></tr>
+        <tr><td>Partial indexes on <code>status='published'</code></td><td>The overwhelming majority of queries touch only live jobs — dramatically smaller and faster than full indexes</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ 17 ═══ -->
+  <section id="s17">
+    <span class="sec-num">SECTION 17</span>
+    <h2>API Architecture</h2>
+    <hr class="rule">
+
+    <p>Base <code>/api/v1/</code> — <strong>versioned from day one</strong>, because retrofitting versioning is painful. Responses are <code>{ data, meta }</code> or <code>{ error: { code, message, details } }</code>. Never a leaked stack trace or SQL.</p>
+
+    <div class="decide">
+      <span class="lbl">Server Actions vs REST</span>
+      <p>First-party forms use Next.js Server Actions — less client JS, automatic CSRF protection, progressive enhancement. The REST endpoints exist for the admin SPA, future ATS/CRM integrations, webhooks and cron. <strong>Both call the same service layer, so business logic is never duplicated.</strong></p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th><th>Auth</th><th>Rate limit</th></tr></thead>
+      <tbody>
+        <tr><td class="num">GET</td><td><code>/jobs</code></td><td>Search &amp; filter</td><td>Public</td><td class="num">60/min</td></tr>
+        <tr><td class="num">GET</td><td><code>/jobs/:slug</code></td><td>Detail + recruiter + similar</td><td>Public</td><td class="num">120/min</td></tr>
+        <tr><td class="num">GET</td><td><code>/jobs/facets</code></td><td>Filter counts for current query</td><td>Public</td><td class="num">60/min</td></tr>
+        <tr><td class="num">GET</td><td><code>/jobs/count</code></td><td>Live count for the nav badge</td><td>Cached 5min</td><td class="num">300/min</td></tr>
+        <tr><td class="num">POST</td><td><code>/applications</code></td><td>Submit application</td><td>Turnstile</td><td class="num">5/hr/IP</td></tr>
+        <tr><td class="num">POST</td><td><code>/resumes/parse</code></td><td>Parse and return structured data</td><td>Turnstile</td><td class="num">10/hr/IP</td></tr>
+        <tr><td class="num">POST</td><td><code>/leads</code></td><td>Employer / contact / partnership</td><td>Turnstile</td><td class="num">5/hr/IP</td></tr>
+        <tr><td class="num">POST</td><td><code>/job-alerts</code></td><td>Create alert (double opt-in)</td><td>Turnstile</td><td class="num">5/hr/IP</td></tr>
+        <tr><td class="num">GET</td><td><code>/admin/candidates/:id/resume</code></td><td><strong>Signed URL — writes to activity_log</strong></td><td>recruiter+</td><td>—</td></tr>
+        <tr><td class="num">PATCH</td><td><code>/admin/applications/:id/status</code></td><td>Advance stage, trigger candidate email</td><td>recruiter+</td><td>—</td></tr>
+        <tr><td class="num">POST</td><td><code>/me/export</code> · <code>DELETE /me</code></td><td>GDPR export and erasure</td><td>candidate</td><td>—</td></tr>
+        <tr><td class="num">GET</td><td><code>/feed/jobs.xml</code></td><td>Syndication to Indeed / LinkedIn</td><td>Public</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Status codes used correctly</strong>, including <code>409</code> for a duplicate application and <code>410</code> for a closed job.</p>
+  </section>
+
+  <!-- ═══ 18 ═══ -->
+  <section id="s18">
+    <span class="sec-num">SECTION 18</span>
+    <h2>Admin Dashboard</h2>
+    <hr class="rule">
+
+<pre>┌──────────────┬───────────────────────────────────────────┐
+│ ▸ Dashboard  │  <span class="m">RECRUITING</span>                               │
+│              │   Jobs 47 · Applications ·23 new·         │
+│  <span class="c">⌘K search</span>   │   Candidates · Job Alerts                 │
+│              │  <span class="m">BUSINESS</span>                                 │
+│              │   <span class="c">Leads 8 ●</span> · Clients · Recruiters        │
+│              │  <span class="m">CONTENT</span>                                  │
+│              │   Insights · Case Studies · Testimonials  │
+│              │  <span class="m">SETTINGS</span>                                 │
+│              │   Taxonomy · Users · <span class="c">Audit Log</span>             │
+└──────────────┴───────────────────────────────────────────┘
+</pre>
+
+    <div class="tw"><table>
+      <thead><tr><th>Screen</th><th>The detail that makes it useful</th></tr></thead>
+      <tbody>
+        <tr><td>Dashboard</td><td>"Applications awaiting review &gt; 48hrs" — the most operationally useful number on the page</td></tr>
+        <tr><td>Job editor</td><td>Two-column, form left / live preview right. <strong>Autosave every 20s.</strong> Publish validation blocks with a clear checklist</td></tr>
+        <tr><td>Applications</td><td>Kanban by status. Detail opens in a <strong>side panel, not a page navigation</strong>, so pipeline context is preserved. Inline resume viewer — access logged</td></tr>
+        <tr><td>Candidates</td><td>Bench search — the interface recruiters use most. Filter by skills, capability, experience, work authorization, availability</td></tr>
+        <tr><td>Leads</td><td>Priority queue sorted by score. <strong>SLA indicators turn amber then red</strong> — the single feature most likely to improve lead conversion. "Create job from this lead" prefills the job editor</td></tr>
+        <tr><td>Analytics</td><td><strong>Zero-result search terms</strong> — a direct input to what content and roles to add</td></tr>
+        <tr><td>Audit log</td><td>Prominently surfaces resume-access and export events</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Admin design principles</h3>
+    <ul>
+      <li><strong>Density over decoration.</strong> 14px base, compact rows, more data per screen than the marketing site.</li>
+      <li><strong>Keyboard-first.</strong> <code>⌘K</code>, <code>j</code>/<code>k</code>, <code>e</code>, <code>Esc</code>. Recruiters live here all day — build the command palette early, not as polish.</li>
+      <li><strong>Never a destructive action without an undo window</strong> or a typed confirmation.</li>
+      <li><strong>Mobile is read-and-triage only.</strong> A recruiter on a phone reviews an application and changes a status; they do not write a job description.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 19 ═══ -->
+  <section id="s19">
+    <span class="sec-num">SECTION 19</span>
+    <h2>AI Opportunities</h2>
+    <hr class="rule">
+
+    <div class="flag">
+      <p><b>Two regulatory facts shape this section and are not optional.</b> The <strong>EU AI Act</strong> classifies AI used in employment — including CV filtering and candidate evaluation — as <strong>high-risk</strong>, carrying obligations for risk management, transparency, human oversight and logging. You selected the EU as a target market, so this applies. <strong>NYC Local Law 144</strong> requires an annual independent bias audit and candidate notification for any tool that substantially assists a hiring decision.</p>
+    </div>
+
+    <div class="decide">
+      <span class="lbl">Governing principle</span>
+      <p><strong>No AI feature at MVP makes, or substantially assists, a decision about a candidate.</strong> AI parses, summarises, drafts and retrieves. Humans decide.</p>
+    </div>
+
+    <h3>MVP — four features</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>Benefit</th><th>Why it's low-risk</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Resume parsing → prefill</strong></td><td>Removes ~12 fields of typing. Highest-impact conversion feature in the funnel</td><td>Transcribes what the candidate wrote and shows it back for confirmation. Makes no judgement</td></tr>
+        <tr><td><strong>Skills extraction</strong></td><td>Makes the bench genuinely searchable; normalises "AWS"/"Amazon Web Services"</td><td>Same call, no extra cost. Unmatched skills go to a review queue, not silently discarded</td></tr>
+        <tr><td><strong>JD drafting assistant</strong></td><td>Job-posting time from ~25 min to ~5, so more roles get properly written up</td><td>Internal-facing. Always a draft — never auto-publishes</td></tr>
+        <tr><td><strong>Semantic similar-roles</strong></td><td>Better recommendations than keyword matching; increases applications per session</td><td>Recommends roles <em>to</em> candidates. Does not evaluate candidates</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Phase 2 — with governance</h3>
+    <p>Advisory match scoring (recruiter-facing, never auto-rejects, every score explainable as concrete factors — "7 of 9 required skills matched") · resume summarisation · natural-language job search (resolved filters shown as editable chips so the user sees the interpretation) · alert relevance ranking.</p>
+
+    <h3>Rejected</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>Why not</th></tr></thead>
+      <tbody>
+        <tr><td>AI screening / auto-rejection</td><td>Squarely high-risk under the EU AI Act and an AEDT under LL144. Legal and reputational exposure far exceeds the efficiency gain</td></tr>
+        <tr><td>AI interview scoring</td><td>Same exposure, plus a poor evidence base for validity</td></tr>
+        <tr><td>Chatbot as primary contact</td><td>Vertis's differentiator is that a candidate talks to a recruiter who knows the role. A chatbot actively contradicts the positioning</td></tr>
+        <tr><td>"AI-powered" as a marketing claim</td><td>Buyers care about outcomes. Claiming AI invites scrutiny and offers no commercial benefit</td></tr>
+      </tbody>
+    </table></div>
+
+    <p><strong>Governance before any AI ships:</strong> public AI use statement · every call logged for auditability · a human-review path for every output touching a candidate · a feature-flag kill switch · pinned model versions tested against a regression set · per-feature cost ceilings.</p>
+  </section>
+
+  <!-- ═══ 20 ═══ -->
+  <section id="s20">
+    <span class="sec-num">SECTION 20</span>
+    <h2>SEO Architecture</h2>
+    <hr class="rule">
+
+    <div class="decide">
+      <span class="lbl">The compounding asset</span>
+      <p><strong>The job index.</strong> Every live role is a <code>JobPosting</code>-marked page eligible for Google Jobs. At 200–400 live roles refreshed continuously, this produces sustained organic volume no amount of marketing-page optimisation can match — and it lifts domain authority for the commercial pages.</p>
+    </div>
+
+    <h3>Three rules that decide whether Google Jobs works</h3>
+    <ol>
+      <li><strong><code>validThrough</code> on every posting</strong>, always in the future. Expired postings are dropped, and repeated violations damage the whole domain's standing.</li>
+      <li><strong>Closed roles return 410 or leave the sitemap immediately</strong> — on-demand revalidation, not a 6-hour wait.</li>
+      <li><strong><code>baseSalary</code> wherever disclosed</strong> materially improves ranking and click-through. This is a commercial argument for publishing rates on more postings.</li>
+    </ol>
+
+    <h3>Programmatic SEO — with hard index gating</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Family</th><th>Pattern</th><th>Index rule</th></tr></thead>
+      <tbody>
+        <tr><td>Skill</td><td><code>/jobs/skill/[skill]/</code></td><td>≥3 live roles</td></tr>
+        <tr><td>Category</td><td><code>/jobs/category/[category]/</code></td><td>≥3 live roles</td></tr>
+        <tr><td>Location</td><td><code>/jobs/location/[country]/[city]/</code></td><td>≥5 live roles</td></tr>
+        <tr><td>Skill × Location</td><td><code>/jobs/[skill]-jobs-in-[city]/</code></td><td><strong>≥3 roles AND ≥200 unique words</strong></td></tr>
+        <tr><td>Location marketing</td><td><code>/locations/[country]/[city]/</code></td><td>Manual — requires written local content</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="flag">
+      <p><b>The index gate is the most important rule in this section.</b> Below threshold a page still renders for users but carries <code>noindex, follow</code> and canonicals to its parent. Without this gate a job board generates thousands of near-empty pages, Google classifies the site as thin-content, and rankings collapse across the whole domain. <strong>Every major job board has learned this expensively.</strong></p>
+    </div>
+
+    <h3>Cannibalisation control</h3>
+    <p><strong>One page owns each primary term.</strong> Capability pages own skill terms; solution pages own engagement-model terms; the delivery-models page owns geography terms. This is why the three-axis IA matters commercially, not just conceptually.</p>
+
+    <h3>Schema</h3>
+    <div class="chips">
+      <span class="chip">Organization</span>
+      <span class="chip">WebSite + SearchAction</span>
+      <span class="chip">JobPosting ★</span>
+      <span class="chip">BreadcrumbList</span>
+      <span class="chip">Article</span>
+      <span class="chip">FAQPage</span>
+      <span class="chip">Service</span>
+      <span class="chip">LocalBusiness</span>
+      <span class="chip">Person</span>
+      <span class="chip">ItemList</span>
+    </div>
+    <p><code>LocalBusiness</code> on location pages <strong>with a real office only</strong> — never fabricate an office to win a local pack. Automated Rich Results testing runs in CI; the build fails on schema errors.</p>
+
+    <p><strong>Link acquisition is exclusively via the data assets.</strong> Salary guides and workforce reports earn citations. No paid schemes, no guest-post networks — the risk is not worth it for a firm whose brand is its product.</p>
+  </section>
+
+  <!-- ═══ 21 ═══ -->
+  <section id="s21">
+    <span class="sec-num">SECTION 21</span>
+    <h2>Conversion Strategy</h2>
+    <hr class="rule">
+
+    <h3>Candidate funnel</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Stage</th><th>Target</th><th>Friction</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Search → detail</td><td class="num">60%</td><td>Too many/few results; unclear filters</td><td>Live counts, removable chips, named empty-state fixes</td></tr>
+        <tr><td>Detail → apply</td><td class="num">25%</td><td>Unclear rate, no company context, long JD</td><td>Rate always stated, client descriptor, sticky CTA, recruiter card</td></tr>
+        <tr><td>Apply → complete</td><td class="num"><strong>65%</strong></td><td>Typing, account gates, mobile upload</td><td>Resume prefill, no account, 3 steps, native picker</td></tr>
+        <tr><td>Confirm → second action</td><td class="num">20%</td><td>Dead end</td><td>Similar roles, alert offer, recruiter contact</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Highest leverage, in order:</strong> resume-parse prefill → sticky Apply → rates disclosed → no account gate → recruiter card.</p>
+
+    <h3>Employer funnel</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Stage</th><th>Target</th><th>Friction</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Entry → understand</td><td class="num">35%</td><td>"Can they do <em>my</em> stack?"</td><td>Full role and platform lists; live counts as proof of activity</td></tr>
+        <tr><td>Objection → form</td><td class="num">45%</td><td>Offshore quality doubt; commercial opacity</td><td>Vetting page; "one standard" section; published engagement model</td></tr>
+        <tr><td>Form → submit</td><td class="num"><strong>55%</strong></td><td>12 fields; unsure of delivery model</td><td>Requirement-first ordering; "Not sure — advise me"; trust rail</td></tr>
+        <tr><td>Post-submit</td><td>—</td><td>Slow response destroys the 48hr promise</td><td>SLA timers, Slack alerts, scored routing</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Site-wide mechanics</h3>
+    <ul>
+      <li><strong>One primary CTA per page.</strong> Secondary CTAs are visually subordinate — never two equal-weight buttons.</li>
+      <li><strong>Three CTA touchpoints:</strong> hero, mid-page, end band. Never more.</li>
+      <li><strong>Exit-intent:</strong> desktop only, once per session, employer pages only. Never on candidate pages or during the apply flow.</li>
+      <li><strong>Social proof within one viewport of every primary CTA.</strong></li>
+    </ul>
+
+    <div class="decide">
+      <span class="lbl">No dark patterns</span>
+      <p>No fake urgency, no fabricated "3 people viewing", no pre-checked consent, no hidden opt-outs. <strong>In a trust business these cost more than they earn.</strong></p>
+    </div>
+  </section>
+
+  <!-- ═══ 22 ═══ -->
+  <section id="s22">
+    <span class="sec-num">SECTION 22</span>
+    <h2>Design System</h2>
+    <hr class="rule">
+
+    <p class="lede">Every brand value is sampled from the Vertis Global mark. The type system carries continuity from your ACI Infotech and ARQ AI builds — recognisably the same hand, now wearing Vertis's own colours.</p>
+
+    <div class="decide">
+      <span class="lbl">Revised on receipt of the logo</span>
+      <p>My first pass proposed a chartreuse "Signal" accent and a warm bone neutral — both inherited from ACI and ARQ. <strong>Neither appears in the Vertis mark, so both are dropped.</strong> Cyan takes the accent's structural role, and the neutral ramp turns cool to sit with a blue/cyan/magenta identity.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Element</th><th>ACI Infotech</th><th>ARQ AI</th><th>Vertis Global</th><th>Rationale</th></tr></thead>
+      <tbody>
+        <tr><td>Dominant colour</td><td>Blue <code>#0052CC</code></td><td>Dark <code>#161616</code></td><td><strong>Ink <code>#091426</code></strong></td><td>The wordmark navy, deepened for use as a full-bleed surface. Ink-dominant reads premium; blue becomes the action colour, not the wallpaper</td></tr>
+        <tr><td>Primary action</td><td>Blue <code>#0052CC</code></td><td>—</td><td><strong>Vertis Blue <code>#1B4DE4</code></strong></td><td>The V's lower body. More vivid than ACI's corporate blue — the logo's own blue, not a generic one</td></tr>
+        <tr><td>Accent</td><td>Lime <code>#C4FF61</code></td><td>Chartreuse <code>#d0f438</code></td><td><strong>Cyan <code>#1EB8F0</code></strong></td><td>The V's upper terminal. Takes the lime's exact structural role — brilliant on ink, unusable as text on white</td></tr>
+        <tr><td>Secondary accent</td><td>—</td><td>—</td><td><strong>Magenta <code>#E0357D</code></strong></td><td>From the pixel scatter. Severely restricted — see below</td></tr>
+        <tr><td>Neutral</td><td>Cold <code>#FAFAFA</code></td><td>Warm <code>#FAF7F6</code></td><td><strong>Mist <code>#F3F6FB</code></strong></td><td>A warm neutral fights a cool identity. The ramp is now blue-biased throughout</td></tr>
+        <tr><td>Headings</td><td>Funnel Display</td><td>Template default</td><td><strong>Funnel Display</strong></td><td>Direct continuity — your typographic signature, unchanged</td></tr>
+        <tr><td>Body</td><td>Funnel Sans</td><td>Light 300</td><td><strong>Inter Variable</strong></td><td>Deliberate change: a job platform has dense UI, tables and forms. Inter's tabular numerals and UI metrics are materially better</td></tr>
+        <tr><td>Container</td><td>1200px</td><td>Full-bleed</td><td><strong>1280px</strong></td><td>Wider for the job-search two-column layout</td></tr>
+        <tr><td>Radius</td><td>12px cards</td><td>Varied</td><td><strong>10px / 8px</strong></td><td>Tighter reads more precise</td></tr>
+        <tr><td>Section rhythm</td><td>80/96px</td><td>Large</td><td><strong>112/144px</strong></td><td>More generous whitespace — the primary premium signal</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Palette, sampled from the mark</h3>
+    <div class="sw">
+      <div><i style="background:#091426"></i><b>Ink</b><span>#091426</span></div>
+      <div><i style="background:#0F1E34"></i><b>Ink raised</b><span>#0F1E34</span></div>
+      <div><i style="background:#1B4DE4"></i><b>Vertis Blue</b><span>#1B4DE4</span></div>
+      <div><i style="background:#1EB8F0"></i><b>Cyan</b><span>#1EB8F0</span></div>
+      <div><i style="background:#E0357D"></i><b>Magenta</b><span>#E0357D</span></div>
+      <div><i style="background:#7B4FD6"></i><b>Violet</b><span>#7B4FD6</span></div>
+      <div><i style="background:#16C0C0"></i><b>Teal</b><span>#16C0C0</span></div>
+      <div><i style="background:linear-gradient(135deg,#1B4DE4,#1EB8F0)"></i><b>Brand gradient</b><span>#1B4DE4 → #1EB8F0</span></div>
+      <div><i style="background:#F3F6FB"></i><b>Mist</b><span>#F3F6FB</span></div>
+      <div><i style="background:#667287"></i><b>Neutral 500</b><span>#667287</span></div>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Colour</th><th>Use</th><th>Never</th></tr></thead>
+      <tbody>
+        <tr><td>Ink</td><td>Hero, delivery models, case study, CTA band, footer, headings</td><td>More than 4 dark bands per page</td></tr>
+        <tr><td>Blue</td><td>Primary buttons, links, active states, focus rings</td><td>Large background fills — it becomes generic corporate blue</td></tr>
+        <tr><td>Cyan</td><td>Metric figures on ink, active underlines, <code>[NEW]</code> badges, live-count indicators, card top-edge</td><td>Body text on white (2.3:1 — fails). More than ~2% of any viewport</td></tr>
+        <tr><td>Cyan-deep <code>#08698C</code></td><td>Cyan as actual text on light grounds</td><td>On ink, where plain cyan already works</td></tr>
+        <tr><td><strong>Magenta</strong></td><td><strong>One</strong> signature moment per page maximum — a highlighted data point, an active process step, a chart series</td><td><strong>Buttons · links · any status or feedback context · anywhere near error red</strong></td></tr>
+        <tr><td>Violet / Teal</td><td>Data visualisation series only</td><td>Anywhere in the interface</td></tr>
+        <tr><td>Mist</td><td>Alternating section backgrounds</td><td>Adjacent to white without a border — too subtle to read as intentional</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Contrast, computed</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Pair</th><th>Ratio</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>Ink on white</td><td class="num">18.5:1</td><td>AAA</td></tr>
+        <tr><td>Body <code>n-600</code> on white</td><td class="num">7.8:1</td><td>AAA</td></tr>
+        <tr><td>Muted <code>n-500</code> on white</td><td class="num">4.6:1</td><td>AA</td></tr>
+        <tr><td>Blue on white / white on blue</td><td class="num">6.6:1</td><td>AA</td></tr>
+        <tr><td><strong>Cyan on ink</strong></td><td class="num">8.1:1</td><td>AAA</td></tr>
+        <tr><td>Cyan on white</td><td class="num">2.3:1</td><td><strong>Decorative only</strong></td></tr>
+        <tr><td><code>cyan-deep</code> on white</td><td class="num">5.9:1</td><td>AA</td></tr>
+        <tr><td>Magenta on white</td><td class="num">4.25:1</td><td>Large text only</td></tr>
+        <tr><td><code>magenta-deep</code> on white</td><td class="num">6.2:1</td><td>AA</td></tr>
+        <tr><td>Magenta on ink</td><td class="num">4.3:1</td><td>AA</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Two lint rules enforce this:</strong> cyan may not be a text colour on any light ground, and magenta may not appear in any component whose name contains <code>status</code>, <code>alert</code>, <code>error</code>, <code>toast</code> or <code>badge-state</code>.</p>
+
+    <div class="flag">
+      <p><b>Why magenta is restricted so hard.</b> It sits close enough to error red in hue that decorative use near feedback UI creates real ambiguity — a magenta "featured" badge beside a red validation message reads as two error states. Error red <code>#D93030</code> is deliberately pushed away from the brand magenta, and every error is paired with an icon and text so hue is never the only signal.</p>
+    </div>
+
+    <h3>The gradient and the scatter</h3>
+    <div class="decide">
+      <span class="lbl">One gradient exists</span>
+      <p><code>#1B4DE4 → #1EB8F0</code>, taken from the V. Permitted in <strong>exactly four places</strong>: the logo, one hero accent element, the capability-card hover edge, and data-viz emphasis. <strong>Never</strong> on button fills, card backgrounds, text, or any area larger than a hairline.</p>
+    </div>
+    <p>The <strong>pixel-scatter motif</strong> is a genuine brand asset — it appears in the masthead of this document. Licensed for the hero background graphic, the 404 and empty states, and section-transition marks. <strong>Never as decoration on cards or repeated per section</strong> — it becomes wallpaper and stops meaning anything.</p>
+
+    <h3>Type scale</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Tracking</th></tr></thead>
+      <tbody>
+        <tr><td>Display (hero H1)</td><td>Funnel Display</td><td class="num">clamp(2.5rem, 4.2vw, 3.75rem)</td><td class="num">700</td><td class="num">−.025em</td></tr>
+        <tr><td>H2</td><td>Funnel Display</td><td class="num">clamp(1.75rem, 2.6vw, 2.5rem)</td><td class="num">700</td><td class="num">−.018em</td></tr>
+        <tr><td>H3</td><td>Funnel Display</td><td class="num">clamp(1.375rem, 1.8vw, 1.75rem)</td><td class="num">600</td><td class="num">−.01em</td></tr>
+        <tr><td>Body</td><td>Inter</td><td class="num">1rem / 1.65</td><td class="num">400</td><td class="num">0</td></tr>
+        <tr><td>Eyebrow</td><td>Inter</td><td class="num">0.75rem uppercase</td><td class="num">600</td><td class="num">.08em</td></tr>
+        <tr><td>Metric figure</td><td>Funnel Display</td><td class="num">clamp(2.25rem, 3.5vw, 3.25rem)</td><td class="num">700</td><td>tabular-nums</td></tr>
+        <tr><td>Data / IDs</td><td>JetBrains Mono</td><td class="num">0.8125rem</td><td class="num">500</td><td class="num">0</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Measure caps at 68ch</strong> for body, 34ch for display headings. <strong>Only two heading weights in use</strong> — 700 and 600. Weight variety is not hierarchy.</p>
+
+    <h3>Elevation</h3>
+    <div class="decide">
+      <span class="lbl">Borders first, shadows sparingly</span>
+      <p>Cards at rest use a hairline border and <strong>no shadow</strong>. Shadow appears on hover and on genuinely floating surfaces — dropdowns, modals, sticky bars, the mobile filter sheet. <strong>Heavy resting shadows are the clearest template tell in corporate web design.</strong></p>
+    </div>
+
+    <h3>Motion</h3>
+    <p><strong>Permitted:</strong> opacity fades · 4–8px scroll rise · 1–2px hover lift · colour transitions · accordion height · a 900ms metric count-up (once per session) · a 4px arrow translate.</p>
+    <div class="chips">
+      <span class="chip no">Parallax</span>
+      <span class="chip no">Scroll-jacking</span>
+      <span class="chip no">Page transitions</span>
+      <span class="chip no">Staggered letters</span>
+      <span class="chip no">Auto-advancing carousels</span>
+      <span class="chip no">Elastic easing</span>
+      <span class="chip no">Animated gradients</span>
+      <span class="chip no">Anything moving while reading</span>
+    </div>
+
+    <h3>Imagery</h3>
+    <p><strong>Never:</strong> handshakes · smiling teams pointing at a laptop · isolated headsets on white · anything from the first page of a stock search for "staffing." Data visualisation in insights and reports is the <strong>only</strong> place the full scatter palette is licensed as a categorical series.</p>
+    <div class="decide">
+      <span class="lbl">If authentic photography isn't ready</span>
+      <p>Ship the abstract/typographic treatment rather than stock. <strong>A well-set type-and-space layout looks premium; visible stock photography does not</strong> — and it undermines the entire credibility argument.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 23 ═══ -->
+  <section id="s23">
+    <span class="sec-num">SECTION 23</span>
+    <h2>Responsive Strategy</h2>
+    <hr class="rule">
+
+    <p>Mobile-first. Base styles target 375px; every breakpoint is a <code>min-width</code> enhancement. <strong>The nav breakpoint is 1024px</strong> — six items plus two CTAs cannot fit below this without shrinking type past the premium threshold.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Component</th><th>Mobile</th><th>Tablet</th><th>Desktop</th></tr></thead>
+      <tbody>
+        <tr><td>Header</td><td>56px, search icon + drawer with CTAs pinned top</td><td>64px, same drawer</td><td>88px → 64px condensed, mega menus</td></tr>
+        <tr><td>Hero</td><td>Search <strong>above</strong> CTAs, stacked buttons, no graphic</td><td>Centred, graphic below at 60%</td><td>7/5 split, floating stat card</td></tr>
+        <tr><td>Job search</td><td>Filter bottom sheet with live count + sticky apply</td><td>Same; results 2-up</td><td>Sticky 3/9 filter rail, instant apply</td></tr>
+        <tr><td>Job detail</td><td>Recruiter card <strong>above</strong> body; sticky bottom bar with rate + Apply</td><td>Rail content becomes a card above body</td><td>8/4 with sticky rail</td></tr>
+        <tr><td>Tables</td><td><strong>Stacked label/value cards</strong> — never a horizontally scrolling data table</td><td>Scroll with sticky first column</td><td>Full table</td></tr>
+        <tr><td>Footer</td><td>Accordions; newsletter expanded</td><td>2 columns</td><td>6 columns</td></tr>
+        <tr><td>Section padding</td><td class="num">56px</td><td class="num">80px</td><td class="num">112 / 144px</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Mobile rules</h3>
+    <ul>
+      <li><strong>Thumb zone.</strong> Primary actions in the lower two-thirds; sticky bottom bars put the key action where the thumb rests.</li>
+      <li><strong>Inputs at 16px minimum</strong> to prevent iOS zoom-on-focus.</li>
+      <li><strong>Horizontal scrollers use scroll-snap with a trailing fade,</strong> sized so the next item peeks — the strongest available affordance.</li>
+      <li><strong>The page body never scrolls horizontally.</strong> Wide content scrolls inside its own container.</li>
+      <li><strong>Real devices, not emulation:</strong> iPhone SE (375px, the practical floor), iPhone 15, a mid-range Android, iPad.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 24 ═══ -->
+  <section id="s24">
+    <span class="sec-num">SECTION 24</span>
+    <h2>Accessibility</h2>
+    <hr class="rule">
+
+    <p><strong>Target: WCAG 2.2 Level AA.</strong> Both an ethical baseline and a commercial requirement — enterprise procurement and public-sector RFPs routinely request a VPAT.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Requirement</th><th>Implementation</th></tr></thead>
+      <tbody>
+        <tr><td>Colour independence</td><td>No information by colour alone. Errors carry an icon and text; job status uses a label, not just a badge colour</td></tr>
+        <tr><td>Focus visible</td><td>2px blue outline, 2px offset, everywhere — cyan on dark surfaces (8.1:1 on ink). <strong>The default outline is never removed without a replacement</strong></td></tr>
+        <tr><td>Focus not obscured (2.2)</td><td><code>scroll-margin-top</code> equal to the sticky header height on all focusable elements</td></tr>
+        <tr><td>Target size (2.2)</td><td>24×24px minimum; 44×44px for primary touch targets</td></tr>
+        <tr><td>Mega menus</td><td>Hover <em>and</em> Enter/Space. Arrow-key navigation. <code>Esc</code> closes and returns focus. <code>aria-expanded</code> maintained</td></tr>
+        <tr><td>Filters</td><td>Native checkbox/radio in <code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code>. Count changes announced via <code>aria-live="polite"</code></td></tr>
+        <tr><td>Labels</td><td>Persistent visible <code>&lt;label&gt;</code> on every input. <strong>No floating labels</strong> — they fail at small sizes, complicate autofill and hurt screen-reader clarity</td></tr>
+        <tr><td>Error suggestion</td><td>"Enter a phone number including country code, e.g. +1 704 555 0142" — not "Invalid input"</td></tr>
+        <tr><td>Redundant entry (2.2)</td><td>Data entered in step 1 is never re-requested in step 3</td></tr>
+        <tr><td>Semantics</td><td>Buttons are <code>&lt;button&gt;</code>, links are <code>&lt;a&gt;</code> — <strong>never a div with a click handler</strong></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="flag">
+      <p><b>Automated tools catch roughly a third of real issues.</b> The manual keyboard walkthrough of every critical path before each release, and quarterly screen-reader testing (NVDA/Firefox, VoiceOver/Safari, VoiceOver/iOS), are where the rest are found. They are not optional.</p>
+    </div>
+    <p><strong>CI gates:</strong> <code>eslint-plugin-jsx-a11y</code> blocking · <code>axe-core</code> via Playwright failing the build on violations · Lighthouse accessibility ≥95. <strong>Deliverable:</strong> a published Accessibility Statement with the conformance target, known limitations and a five-business-day response commitment.</p>
+  </section>
+
+  <!-- ═══ 25 ═══ -->
+  <section id="s25">
+    <span class="sec-num">SECTION 25</span>
+    <h2>Performance</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>Metric</th><th>Target</th><th>Hard limit</th></tr></thead>
+      <tbody>
+        <tr><td>LCP</td><td class="num">&lt; 1.8s</td><td class="num">&lt; 2.5s (p75, mobile 4G)</td></tr>
+        <tr><td>INP</td><td class="num">&lt; 130ms</td><td class="num">&lt; 200ms</td></tr>
+        <tr><td>CLS</td><td class="num">&lt; 0.05</td><td class="num">&lt; 0.1</td></tr>
+        <tr><td>Lighthouse (mobile)</td><td class="num">≥ 92</td><td class="num">≥ 90</td></tr>
+        <tr><td>Initial JS — marketing</td><td class="num">&lt; 100KB gz</td><td class="num">&lt; 150KB</td></tr>
+        <tr><td>Initial JS — job search</td><td class="num">&lt; 140KB gz</td><td class="num">&lt; 180KB</td></tr>
+        <tr><td>Font payload</td><td class="num">&lt; 90KB</td><td class="num">&lt; 120KB</td></tr>
+      </tbody>
+    </table></div>
+    <p>Enforced by a bundle-size budget that <strong>fails the build on regression</strong>, plus Lighthouse CI on representative URLs.</p>
+
+    <h3>Caching layers</h3>
+<pre>Browser ──► Vercel Edge ──► ISR cache ──► Redis ──► Postgres
+1yr          static +        page HTML     hot        partial
+immutable    ISR pages       per route     aggregates indexes
+</pre>
+
+    <div class="decide">
+      <span class="lbl">On-demand revalidation matters commercially</span>
+      <p>Publishing a job purges the job page, its capability page, its location pages and the sitemap. Closing one does the same and pushes to the Google Indexing API. <strong>A closed role lingering in Google Jobs damages both candidate experience and the domain's standing.</strong></p>
+    </div>
+
+    <h3>Key techniques</h3>
+    <ul>
+      <li><strong>Server Components by default.</strong> <code>'use client'</code> only for filters, forms, save buttons, drawers and menus — the single largest JS reduction available.</li>
+      <li><strong>CLS prevention:</strong> explicit media dimensions · skeletons matching final dimensions exactly · <code>min-height</code> on dynamic regions · <code>size-adjust</code> fallback font metrics.</li>
+      <li><strong>No third-party script blocks render.</strong> Consent-gated scripts load only after consent.</li>
+      <li><strong>Database:</strong> no N+1 (a lint rule flags queries inside loops) · <code>EXPLAIN ANALYZE</code> on every search-path query · p95 database budget of 50ms · denormalised counters refreshed by scheduled job.</li>
+      <li><strong>Payload discipline:</strong> job search returns card-necessary fields only, not full descriptions.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 26 ═══ -->
+  <section id="s26">
+    <span class="sec-num">SECTION 26</span>
+    <h2>Security</h2>
+    <hr class="rule">
+
+    <p class="lede">Candidate resumes are among the most sensitive data a marketing website can hold — name, contact details, employment history, work authorization status. A breach here is both a regulatory event and a business-ending trust event for a staffing firm.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Area</th><th>Control</th></tr></thead>
+      <tbody>
+        <tr><td>Password storage</td><td>Argon2id (19MiB, t=2, p=1) or bcrypt cost 12. Never MD5/SHA</td></tr>
+        <tr><td>Password policy</td><td>12+ chars, checked against HaveIBeenPwned via k-anonymity. <strong>No forced composition or rotation</strong> — both counterproductive per current NIST guidance</td></tr>
+        <tr><td>Password reset</td><td>Single-use, 30-min, hashed tokens. <strong>Identical response whether or not the account exists</strong> — prevents enumeration</td></tr>
+        <tr><td>2FA</td><td>TOTP required for all staff before production launch</td></tr>
+        <tr><td>Authorisation</td><td>Enforced in the service layer, not the UI. <strong>Hiding a button is not authorisation</strong></td></tr>
+        <tr><td>IDOR</td><td>All public identifiers are UUIDs or opaque codes, never sequential. Every fetch-by-ID re-validates ownership</td></tr>
+        <tr><td>Resume access</td><td>Role check → signed 5-min URL → <code>activity_log</code> write. Direct storage URLs never exposed</td></tr>
+        <tr><td>File upload</td><td>MIME verified by <strong>magic bytes, not extension</strong>; 10MB cap; ClamAV scan before availability; stored under a generated UUID</td></tr>
+        <tr><td>SQL injection</td><td>Parameterised queries only. A lint rule forbids string-concatenated SQL</td></tr>
+        <tr><td>XSS</td><td>CMS rich text sanitised server-side against an allowlist. Strict CSP with nonces — no <code>unsafe-inline</code>, no <code>unsafe-eval</code></td></tr>
+        <tr><td>Validation</td><td>Zod at every boundary. Client validation is UX; <strong>server validation is the security boundary and is never skipped</strong></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Data privacy — three regimes</h3>
+    <p>GDPR (EU) · India DPDP Act 2023 · US state laws (CCPA/CPRA).</p>
+    <ul>
+      <li><strong>Candidate Privacy Notice</strong> as a document distinct from the general policy, linked at the point of collection.</li>
+      <li><strong>24-month retention</strong> with an automated sweep and a 30-day advance notice email.</li>
+      <li><strong>Self-service export and erasure</strong> — erasure hard-deletes the record and all resume versions from object storage.</li>
+      <li><strong>Data minimisation is a privacy control, not just UX.</strong> Salary history is never collected — illegal to request in many US jurisdictions.</li>
+      <li><strong>Published sub-processor list</strong> with purpose and location.</li>
+      <li><strong>Resumes are never shared with a client without the candidate's specific permission for that role</strong> — stated on the job page and confirmation screen, because it is a genuine differentiator.</li>
+    </ul>
+
+    <div class="flag">
+      <p><b>An untested backup is not a backup.</b> Encrypted backups with a documented restore procedure, tested quarterly. No production data in lower environments — seeded synthetic data only. A pre-launch penetration test focused on the application flow, resume storage and admin authorisation.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 27 ═══ -->
+  <section id="s27">
+    <span class="sec-num">SECTION 27</span>
+    <h2>Analytics</h2>
+    <hr class="rule">
+
+    <p><strong>Consent Mode v2 is mandatory</strong> given the EU market. Analytics and advertising storage default to <code>denied</code>; cookies are set only after affirmative consent. A legal requirement, not a preference.</p>
+
+    <h3>Naming convention</h3>
+    <p><code>{object}_{action}</code>, snake_case. Standard parameters on every event: <code>page_path</code>, <code>page_type</code>, <code>audience_context</code> (employer · candidate · unknown) — so reporting composes.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>Event</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><code>job_search_no_results</code></td><td><strong>The highest-value diagnostic event on the site</strong> — directly informs content and role-sourcing decisions</td></tr>
+        <tr><td><code>apply_abandoned</code></td><td>Drives the step-level drop-off analysis that improves completion rate</td></tr>
+        <tr><td><code>apply_step_completed</code></td><td><code>step_number</code>, <code>time_on_step</code> — locates the friction precisely</td></tr>
+        <tr><td><code>application_submitted</code> ★</td><td>Includes <code>used_resume_parse</code>, proving the parsing feature's effect</td></tr>
+        <tr><td><code>lead_submitted</code> ★</td><td><code>positions_count</code>, <code>timeline</code>, <code>delivery_model</code> — quality, not just count</td></tr>
+        <tr><td><code>lead_form_abandoned</code></td><td><code>last_field</code> shows exactly which question loses buyers</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">Assign conversion values</span>
+      <p><code>lead_submitted</code> 500 · <code>capability_overview_downloaded</code> 100 · <code>gated_content_downloaded</code> 50 · <code>application_submitted</code> 15 · <code>resume_submitted</code> 10 · <code>job_alert_created</code> 5 · <code>newsletter_subscribed</code> 3. <strong>Without values, GA4 treats a newsletter signup and an enterprise lead identically</strong>, which makes every channel report misleading.</p>
+    </div>
+
+    <ul>
+      <li><strong>Server-side mirroring</strong> of the four primary conversions via the Measurement Protocol, so ad-blockers and ITP do not silently undercount the events the business is measured on.</li>
+      <li><strong>No PII in analytics — ever.</strong> Internal IDs only. Also a GDPR requirement.</li>
+      <li><strong>UTM discipline</strong> captured into <code>leads</code> on submission, so offline sales outcomes attribute back to campaigns.</li>
+    </ul>
+  </section>
+
+  <!-- ═══ 28 ═══ -->
+  <section id="s28">
+    <span class="sec-num">SECTION 28</span>
+    <h2>Integrations</h2>
+    <hr class="rule">
+
+    <div class="tw"><table>
+      <thead><tr><th>MVP</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>Resend</td><td>All transactional email; dedicated sending subdomain</td></tr>
+        <tr><td>Cloudflare R2</td><td>Resume and document storage</td></tr>
+        <tr><td>Cloudflare Turnstile</td><td>Invisible bot protection — no completion cost</td></tr>
+        <tr><td>Anthropic API</td><td>Resume parsing, skills extraction, JD drafting</td></tr>
+        <tr><td>GA4 + GTM</td><td>Analytics with Consent Mode v2</td></tr>
+        <tr><td><strong>Google Indexing API</strong></td><td>Ping on job publish/close — <strong>materially improves Google Jobs freshness</strong></td></tr>
+        <tr><td><strong>Slack</strong></td><td>Lead alerts. <strong>The cheapest possible improvement to lead response time</strong></td></tr>
+        <tr><td>Cal.com</td><td>"Book a 15-minute call", embedded not redirected</td></tr>
+        <tr><td>Upstash Redis · Sentry · Neon</td><td>Rate limiting · monitoring · database</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Phase 2</th><th>Trigger to build</th></tr></thead>
+      <tbody>
+        <tr><td>CRM (HubSpot / Salesforce)</td><td>When lead volume exceeds ~40/month and sales outgrows the admin queue</td></tr>
+        <tr><td>ATS (Bullhorn / Ceipal / JobDiva)</td><td>If Vertis adopts one — the service layer is the designed seam</td></tr>
+        <tr><td>LinkedIn Apply Connect</td><td>High candidate-experience value; needs a partner integration</td></tr>
+        <tr><td>Indeed / Dice feeds</td><td><code>/api/feed/jobs.xml</code> already exists in the design</td></tr>
+      </tbody>
+    </table></div>
+
+    <p><strong>Not integrating:</strong> payment processing (no transaction happens on the site) · video interviewing (surface area and legal exposure for no gain) · live chat (contradicts the positioning) · third-party job scrapers (would make it a job board).</p>
+
+    <div class="decide">
+      <span class="lbl">Integration principle</span>
+      <p><strong>Every integration is behind a feature flag and degrades gracefully.</strong> An email provider outage must never block an application submission — queue and retry. Webhooks are signature-verified and idempotent; duplicate deliveries are expected and must be harmless.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 29 ═══ -->
+  <section id="s29">
+    <span class="sec-num">SECTION 29</span>
+    <h2>Component Architecture</h2>
+    <hr class="rule">
+
+    <p><strong>Principles:</strong> composition over configuration (a component with 15 boolean props is a design-system failure) · server by default · content-agnostic (components accept data, never fetch it) · one responsibility · variants via <code>cva</code>, not conditional class strings.</p>
+
+    <h3>The five highest-reuse components</h3>
+    <p>A flaw in any of these propagates everywhere, so they get disproportionate attention.</p>
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Component</th><th>Why it's critical</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><code>Section</code></td><td>Owns background, vertical rhythm and container width. <strong>One component enforcing the entire spacing system</strong></td></tr>
+        <tr><td class="num">2</td><td><code>Hero</code></td><td>Every page. Five variants: home, page, capability, industry, compact</td></tr>
+        <tr><td class="num">3</td><td><code>CtaBand</code></td><td>Every page ends with one. Three variants: employer, candidate, dual</td></tr>
+        <tr><td class="num">4</td><td><code>CardGrid</code> + <code>renderCard</code></td><td>Prevents six near-identical grid implementations</td></tr>
+        <tr><td class="num">5</td><td><code>FormField</code></td><td>Every input on the site. <strong>The single place where labels, errors, ARIA wiring and focus behaviour are guaranteed correct</strong></td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Inventory by group</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Group</th><th>Components</th></tr></thead>
+      <tbody>
+        <tr><td>Primitives</td><td>30 Radix-backed, styled entirely by us</td></tr>
+        <tr><td>Layout</td><td>Header · MegaMenu · MobileDrawer · Footer · Container · <strong>Section</strong> · Grid · Breadcrumbs · SkipLink</td></tr>
+        <tr><td>Marketing blocks</td><td><strong>Hero</strong> · TrustBar · StatsRow · LogoCloud · <strong>CardGrid</strong> · FeatureSplit · ProcessSteps · ComparisonTable · CaseStudyFeature · TestimonialGrid · InsightGrid · FAQ · <strong>CtaBand</strong> · RichText</td></tr>
+        <tr><td>Job platform</td><td>JobSearchBar · JobFilters · JobFilterChips · JobCard · JobDetailHeader · JobApplyCard · JobStickyBar · RecruiterCard · SimilarJobs · SaveJobButton · JobAlertPrompt · JobEmptyState · JobPostingSchema</td></tr>
+        <tr><td>Forms</td><td><strong>FormField</strong> · FormStep · FormProgress · ResumeUpload · SkillsInput · LocationInput · ConsentCheckbox · ApplicationForm · RequestTalentForm · ContactForm</td></tr>
+        <tr><td>Admin</td><td>AdminShell · DataTable · KanbanBoard · DetailPanel · ResumeViewer · CommandPalette · ActivityFeed</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">What should NOT be a shared component</span>
+      <p><strong>Page-specific compositions.</strong> The homepage's asymmetric capability grid is a composition of <code>Section</code> + <code>CardGrid</code> + <code>CapabilityCard</code> — not a <code>HomeCapabilitiesSection</code>. If it is used once, it lives in the route folder. <strong>More than three variants is the signal to split into separate components.</strong></p>
+    </div>
+  </section>
+
+  <!-- ═══ 30 ═══ -->
+  <section id="s30">
+    <span class="sec-num">SECTION 30</span>
+    <h2>Project Structure</h2>
+    <hr class="rule">
+
+<pre>vertis-global/
+├── app/
+│   ├── <span class="c">(marketing)/</span>          SSG/ISR group
+│   ├── <span class="c">(jobs)/</span>               search · detail · apply
+│   ├── <span class="m">(account)/</span>            Phase 3, noindex
+│   ├── <span class="c">(admin)/</span>              Payload + custom views
+│   └── api/v1/ · webhooks/ · cron/ · feed/
+├── components/  ui · layout · blocks · jobs · forms · admin · seo
+├── lib/         db · auth · validation · email · storage · ai ·
+│                search · analytics · cache · rate-limit · utils
+├── <span class="c">services/</span>     ← BUSINESS LOGIC · the ATS swap seam
+├── payload/     collections · access · hooks · fields
+├── emails/      React Email templates
+├── config/      <span class="c">navigation.ts</span> · site.ts · seo.ts · analytics.ts
+├── types/ · hooks/ · content/ · public/
+├── tests/       e2e (Playwright) · unit · a11y (axe)
+└── scripts/     seed · migrate · reindex
+</pre>
+
+    <div class="tw"><table>
+      <thead><tr><th>Decision</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>Route groups</td><td>Different layouts, rendering strategies and headers without affecting URLs</td></tr>
+        <tr><td><code>services/</code> separate from <code>lib/</code></td><td><code>lib</code> is infrastructure; <code>services</code> is business logic. <strong>This separation makes the ATS swap a contained change</strong></td></tr>
+        <tr><td>Catch-all <code>[[...slug]]</code> routes</td><td>One file handles hub and detail for solutions, capabilities, industries and locations — no new file per page</td></tr>
+        <tr><td><code>config/navigation.ts</code> as data</td><td>Menu changes are edits to an object, not to JSX across components</td></tr>
+        <tr><td>Legal pages as MDX in <code>content/</code></td><td>Version-controlled and reviewable in pull requests — appropriate for documents with legal significance</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ 31 ═══ -->
+  <section id="s31">
+    <span class="sec-num">SECTION 31</span>
+    <h2>MVP Scope</h2>
+    <hr class="rule">
+
+    <h3>Must have — launch blockers</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Area</th><th>Scope</th></tr></thead>
+      <tbody>
+        <tr><td>Marketing</td><td>Home · Hire Talent +4 · Solutions +4 · Capabilities +5 · Industries +5 · About · Contact · Candidates +2 · 6 legal pages</td></tr>
+        <tr><td>Job platform</td><td>Search with all 10 filters · detail with full <code>JobPosting</code> schema · 3-step application with parsing · saved jobs · alerts with double opt-in · programmatic facets with index gating</td></tr>
+        <tr><td>Backend</td><td>Full Postgres schema · Payload CMS · job management · application pipeline · scored lead queue · resume storage with signed URLs and virus scanning · all transactional email · RBAC · audit logging</td></tr>
+        <tr><td>AI</td><td>Resume parsing + skills extraction · JD drafting · semantic similar-jobs</td></tr>
+        <tr><td>Technical</td><td>All schema · sitemaps · GA4 with Consent Mode · security headers · rate limiting · WCAG 2.2 AA · Core Web Vitals met</td></tr>
+        <tr><td>Content</td><td>All copy written · 5 industry pages at 900+ words · 3 case studies · 6 testimonials · 4 articles · recruiter profiles · real addresses</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Should have — weeks 1–8 post-launch</h3>
+    <div class="chips">
+      <span class="chip">Contract / C2H / Direct Hire pages</span>
+      <span class="chip">Compliance page</span>
+      <span class="chip">Leadership</span>
+      <span class="chip">Flagship salary guide</span>
+      <span class="chip">Gated capability overview</span>
+      <span class="chip">Top 5 location pages</span>
+      <span class="chip">Cal.com booking</span>
+      <span class="chip">Slack alerts</span>
+      <span class="chip">Admin analytics</span>
+      <span class="chip">Abandoned-application email</span>
+    </div>
+
+    <h3>Nice to have — months 3–6</h3>
+    <div class="chips">
+      <span class="chip">Candidate accounts</span>
+      <span class="chip">Match scoring (governed)</span>
+      <span class="chip">Resume summarisation</span>
+      <span class="chip">Natural-language search</span>
+      <span class="chip">Job feed syndication</span>
+      <span class="chip">CRM integration</span>
+      <span class="chip">Workforce report</span>
+      <span class="chip">A/B testing</span>
+    </div>
+
+    <h3>Out of scope entirely</h3>
+    <div class="chips">
+      <span class="chip no">Third-party job aggregation</span>
+      <span class="chip no">Video interviewing</span>
+      <span class="chip no">Live chat / chatbot</span>
+      <span class="chip no">Payment processing</span>
+      <span class="chip no">Dark mode</span>
+      <span class="chip no">Native apps</span>
+      <span class="chip no">Multi-tenancy</span>
+      <span class="chip no">AI screening</span>
+      <span class="chip no">Executive search</span>
+    </div>
+  </section>
+
+  <!-- ═══ 32 ═══ -->
+  <section id="s32">
+    <span class="sec-num">SECTION 32</span>
+    <h2>Development Roadmap</h2>
+    <hr class="rule">
+
+    <div class="decide">
+      <span class="lbl">The critical sequencing decision</span>
+      <p><strong>The marketing site launches at week 8, ahead of the job platform.</strong> SEO indexing has a lead time measured in months, so starting it eight weeks earlier is worth substantially more than launching everything at once.</p>
+    </div>
+
+    <div class="ph"><b>Wk 1–2</b><div><strong>Phase 1 · Foundation</strong><p>Next.js + TS + Tailwind v4 · design tokens · Radix primitives · Header with all three sticky states · Footer · Postgres + Drizzle · Payload with auth and roles · CI/CD with a11y and bundle gates</p></div></div>
+    <div class="ph"><b>Wk 2–4</b><div><strong>Phase 2 · Core UI</strong><p>All marketing blocks · form system · card variants · Payload content collections · SEO component layer</p></div></div>
+    <div class="ph"><b>Wk 4–7</b><div><strong>Phase 3 · Marketing pages</strong><p>All ~48 pages assembled · Request Talent with scoring and routing · lead pipeline and notifications. <strong>Depends on final copy by week 4 — the most common schedule risk</strong></p></div></div>
+    <div class="ph key"><b>Wk 8</b><div><strong>Phase 4 · Hardening &amp; marketing launch</strong><p>Schema · sitemaps · GA4 · security headers · a11y audit · performance tuning · pen test on forms · legal review of all claims · DNS go-live. <strong>SEO clock starts</strong></p></div></div>
+    <div class="ph"><b>Wk 8–11</b><div><strong>Phase 5 · Job platform</strong><p>FTS infrastructure · search with all filters and URL state · job detail with sticky rail · <code>JobPosting</code> schema · programmatic facets · job sitemap · Indexing API</p></div></div>
+    <div class="ph"><b>Wk 11–13</b><div><strong>Phase 6 · Application system</strong><p>3-step apply · upload with virus scanning · AI parsing with full failure handling · confirmation and recruiter emails · alerts with digests · Submit Resume</p></div></div>
+    <div class="ph"><b>Wk 12–14</b><div><strong>Phase 7 · Admin dashboard</strong><p>Job editor with live preview · application kanban with logged resume access · bench search · lead queue with SLA indicators · ⌘K palette · audit log</p></div></div>
+    <div class="ph"><b>Wk 13–15</b><div><strong>Phase 8 · SEO &amp; content</strong><p>Schema validation across templates · internal linking audit · programmatic QA and threshold verification · OG image generation · 4 articles · 3 case studies</p></div></div>
+    <div class="ph"><b>Wk 14–16</b><div><strong>Phase 9 · Analytics, testing, QA</strong><p>Event verification in DebugView · server-side mirroring · Playwright E2E on all critical paths · screen-reader testing · load testing · UAT with real recruiters</p></div></div>
+    <div class="ph key"><b>Wk 16 +4</b><div><strong>Phase 10 · Launch &amp; hypercare</strong><p>Job import · DNS cutover · monitoring and alerting · runbook and admin training · 4-week hypercare</p></div></div>
+
+    <h3>Critical path risks</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Copy not ready by week 4</td><td>Copy is the first deliverable after approval; production starts week 1 in parallel</td></tr>
+        <tr><td><code>[CLEAR-LEGAL]</code> items unresolved</td><td>Legal review requested at approval, not at week 7</td></tr>
+        <tr><td>No authentic photography</td><td>Decision by week 3; abstract treatment is the designed fallback</td></tr>
+        <tr><td>Real job data unavailable at Phase 5</td><td>Import format agreed by week 8</td></tr>
+        <tr><td>Scope creep into phase-2 features</td><td><strong>This document is the scope contract.</strong> Changes are logged, estimated and scheduled — not absorbed</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ 33 ═══ -->
+  <section id="s33">
+    <span class="sec-num">SECTION 33</span>
+    <h2>Competitor Benchmark</h2>
+    <hr class="rule">
+
+    <div class="flag">
+      <p><b>Method note.</b> This is a pattern analysis of established UX conventions in this category, not a live audit conducted today. <strong>Commission a formal audit of the current live sites before Phase 3</strong> — competitor sites change. The structural conclusions below are unlikely to shift.</p>
+    </div>
+
+    <div class="tw"><table>
+      <thead><tr><th>Firm</th><th>Does well</th><th>Weakness</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Kelly Services</strong></td><td>Enormous inventory; strong candidate self-service; long-established trust</td><td>Homepage reads as a consumer job portal; the enterprise story is buried; breadth dilutes any specific expertise claim</td></tr>
+        <tr><td><strong>TEKsystems</strong></td><td>Genuinely enterprise-credible; strong services positioning; confident restrained design that signals scale</td><td>Candidate experience secondary; job search less refined than the marketing site; services tilt can obscure the staffing offer</td></tr>
+        <tr><td><strong>Insight Global</strong></td><td>Warm, human, differentiated voice in a cold category; effective people photography</td><td>Almost entirely US-onshore — no global delivery narrative; lighter on methodology and procurement-stage depth</td></tr>
+        <tr><td><strong>Randstad</strong></td><td>Massive reach; strong market data publishing; mature per-country IA</td><td>Fragmented across country sites — global capability reads as a federation, not one offer</td></tr>
+        <tr><td><strong>Robert Half</strong></td><td><strong>The Salary Guide is the category's best content asset</strong> — a masterclass in content-led SEO and lead generation</td><td>Weaker in deep technology staffing; conventional design; thin enterprise workforce-solutions positioning</td></tr>
+        <tr><td><strong>Adecco</strong></td><td>Enormous reach; strong employer-brand content; mature multi-country operation</td><td>Same federation problem; consumer-portal feel; technology depth hard to demonstrate across many verticals</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Common weaknesses — Vertis's openings</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Weakness</th><th>Vertis's response</th></tr></thead>
+      <tbody>
+        <tr><td>Delivery geography as a footnote or a country-site split <em>(near-universal)</em></td><td><strong>The core differentiator.</strong> A dedicated page selling geography as a client choice under one quality standard. No competitor markets this as a single decision</td></tr>
+        <tr><td>Vetting described vaguely <em>(very common)</em></td><td>A named four-stage process on its own page. Concrete where the category is abstract</td></tr>
+        <tr><td>Rates never published <em>(universal)</em></td><td>Publish ranges on as many postings as commercially possible — improves Google Jobs ranking, CTR and application rate, and signals trust in a category that hides pricing</td></tr>
+        <tr><td>Long, account-gated applications <em>(common)</em></td><td>Three steps, no account, parse prefill. 65% target against a ~35% category average</td></tr>
+        <tr><td>Industry pages that are keyword pages with a stock photo <em>(very common)</em></td><td>The Regulatory &amp; Operating Context section only a firm with real sector experience can write</td></tr>
+        <tr><td>No response after application <em>(most-cited candidate complaint)</em></td><td>Every candidate receives a closing email. Response time published. The cheapest reputational advantage available</td></tr>
+        <tr><td>Capability by job family, not named platform <em>(common)</em></td><td>Name Snowflake, S/4HANA, ServiceNow, UiPath explicitly — what a hiring manager actually searches</td></tr>
+        <tr><td>Commercial model opaque until a sales call <em>(universal)</em></td><td>A published Engagement Model page: rate card structure, SOW vs T&amp;M, onboarding timeline, replacement terms</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="decide">
+      <span class="lbl">The differentiation summary</span>
+      <p>Vertis cannot out-scale Kelly, Randstad or Adecco, and should not try. It cannot out-brand TEKsystems on recognition alone. <strong>What it can do is be the most specific, most transparent and most operationally credible firm in the set.</strong> Named platforms instead of categories. A published vetting process instead of a claim. Rate ranges instead of "competitive." A commercial model on the website instead of behind a sales call. <strong>Specificity is the strategy</strong> — every design and content decision in this document serves it.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 34 ═══ -->
+  <section id="s34">
+    <span class="sec-num">SECTION 34</span>
+    <h2>Final Recommended Architecture</h2>
+    <hr class="rule">
+    <p class="lede">Decisions, not options.</p>
+
+    <div class="tw"><table>
+      <thead><tr><th>#</th><th>Area</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Sitemap</td><td>~48 editorial pages at MVP plus programmatic job pages</td></tr>
+        <tr><td class="num">2</td><td>Navigation</td><td>Six centre items, four mega menus, <code>[Find Jobs · N live]</code> + <code>[Request Talent]</code> right. Three sticky states</td></tr>
+        <tr><td class="num">3</td><td>Homepage</td><td>12 sections, employer-led hero with embedded candidate search, alternating white / mist / ink</td></tr>
+        <tr><td class="num">4</td><td>Stack</td><td>Next.js 16 · TypeScript · Tailwind v4 · Radix · PostgreSQL on Neon · Drizzle · Payload CMS 3 · R2 · Redis · Resend · Vercel</td></tr>
+        <tr><td class="num">5</td><td>Backend</td><td>Single app, route groups, Server Components by default, Server Actions for forms, versioned REST for integrations, <strong>distinct <code>services/</code> layer as the ATS seam</strong></td></tr>
+        <tr><td class="num">6</td><td>Database</td><td>PostgreSQL 16, ~24 tables, <strong>Postgres FTS not Elasticsearch</strong>, pgvector for semantics, partial indexes, audit log on every PII access</td></tr>
+        <tr><td class="num">7</td><td>Design</td><td><strong>Ink-dominant, Vertis Blue for action, cyan surgically — all sampled from the logo.</strong> <code>#091426</code> · <code>#1B4DE4</code> · <code>#1EB8F0</code> · <code>#E0357D</code> restricted · <code>#F3F6FB</code>. Funnel Display + Inter + JetBrains Mono. 1280px, 112/144px rhythm, hairline borders, restrained motion. Authentic photography or none</td></tr>
+        <tr><td class="num">8</td><td>MVP</td><td>Full §31 scope. <strong>Marketing live week 8, full platform week 16.</strong> No candidate accounts, CRM, ATS or match scoring at MVP</td></tr>
+        <tr><td class="num">9</td><td>AI</td><td>Four MVP features, all assistive. <strong>Never</strong> screening, auto-rejection, interview scoring, or AI as a marketing claim</td></tr>
+        <tr><td class="num">10</td><td>SEO</td><td><code>JobPosting</code> everywhere · Indexing API on publish and close · 410 on closed roles · capability pages as the commercial engine · <strong>hard index thresholds</strong> · salary guides as the flagship asset</td></tr>
+        <tr><td class="num">11</td><td>Conversion</td><td><strong>65% application completion</strong> · <strong>55% employer form completion.</strong> One primary CTA per page. No dark patterns</td></tr>
+        <tr><td class="num">12</td><td>Roadmap</td><td>10 phases, 16 weeks, marketing launching at week 8 so SEO indexing starts eight weeks early</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ═══ APPROVE ═══ -->
+  <section id="approve">
+    <span class="sec-num">SIGN-OFF</span>
+    <h2>Approval Checklist</h2>
+    <hr class="rule">
+    <p>Confirm before Phase 1 begins.</p>
+
+    <ul class="check">
+      <li><strong>Positioning approved</strong> — "Onshore. Offshore. One standard." as the brand line; enterprise technology staffing (not generalist) as the category</li>
+      <li><strong>Assumptions confirmed or corrected</strong> — particularly that the deck's metrics are cleared for public marketing use, and the EU/APAC delivery reality against the global market target</li>
+      <li><strong>Sitemap approved</strong> — including the decision <em>not</em> to build Executive Search, Managed Services or Professional Staffing pages</li>
+      <li><strong>Five industries confirmed</strong>; Public Sector deferred until contract vehicles exist</li>
+      <li><strong>Design direction approved</strong> — ink-dominant palette, Funnel Display + Inter, the visual language in §22–23</li>
+      <li><strong>Technology stack approved</strong> — particularly Payload CMS embedded, and Postgres FTS over a dedicated search service</li>
+      <li><strong>AI scope approved</strong> — four MVP features, no screening or decisioning</li>
+      <li><strong>MVP scope approved</strong> and phase-2 items accepted as post-launch</li>
+      <li><strong>Legal review requested</strong> — the 80+ Fortune 500 claim, client logo consents, all published metrics</li>
+      <li><strong>Missing facts supplied</strong> — office addresses, leadership bios and photos, certifications, case study metrics, recruiter profiles, candidate support email</li>
+      <li><strong>Photography decision made</strong> — commission authentic photography, or ship the abstract treatment</li>
+      <li><strong>Copy production authorised</strong> to start immediately in parallel with Phase 1 <em>(critical path)</em></li>
+      <li><strong>Job data import format agreed</strong> for Phase 5</li>
+    </ul>
+
+    <footer>
+      <p>Prepared as a pre-build blueprint for Vertis Global. <strong>No code has been written.</strong> On approval, Phase 1 begins with design-token implementation and the component foundation.</p>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11.5px;margin-top:18px">v1.0 · 27 August 2026 · 34 sections · Full source: <code>docs/website-blueprint.md</code></p>
+    </footer>
+  </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) map[id] = a;
+  });
+
+  if ('IntersectionObserver' in window) {
+    var current = null;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          if (current) current.classList.remove('on');
+          current = map[e.target.id];
+          if (current) {
+            current.classList.add('on');
+            var rail = current.closest('.rail');
+            if (rail) {
+              var ct = current.offsetTop, rt = rail.scrollTop, rh = rail.clientHeight;
+              if (ct < rt || ct > rt + rh - 60) rail.scrollTop = ct - rh / 2;
+            }
+          }
+        }
+      });
+    }, { rootMargin: '0px 0px -72% 0px', threshold: 0 });
+    Object.keys(map).forEach(function(id){ io.observe(document.getElementById(id)); });
+  }
+
+  var sel = document.getElementById('jsel');
+  if (sel) {
+    sel.addEventListener('change', function(){
+      if (this.value) { location.hash = this.value; this.selectedIndex = 0; }
+    });
+  }
+})();
+</script>
+
