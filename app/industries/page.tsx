@@ -221,7 +221,7 @@ export default function IndustriesPage() {
               const Icon = c.icon;
               return (
                 <li key={c.title} className="flex flex-col rounded-lg bg-white p-7">
-                  <span className="grid size-11 place-items-center rounded-md bg-paper-2 text-orange">
+                  <span className="grid size-11 place-items-center rounded-md bg-paper-2 text-accent">
                     <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                   </span>
                   <h3 className="mt-6 text-[1.25rem] text-ink">{c.title}</h3>

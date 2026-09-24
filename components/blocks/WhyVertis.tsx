@@ -38,7 +38,7 @@ export function WhyVertis() {
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6 lg:pr-12">
             <h2 className="max-w-[12ch]">Why Vertis Global</h2>
-            <p className="font-display mt-14 text-[clamp(4.5rem,10vw,8rem)] leading-none font-bold tracking-[-0.04em] text-orange lg:mt-20">
+            <p className="font-display mt-14 text-[clamp(4.5rem,10vw,8rem)] leading-none font-bold tracking-[-0.04em] text-accent lg:mt-20">
               {HEADLINE.figure}
               <span className="ml-3 text-[0.4em] tracking-[-0.02em] text-ink">{HEADLINE.unit}</span>
             </p>
@@ -55,7 +55,7 @@ export function WhyVertis() {
                     : "border-t border-n-200 py-10 lg:py-12"
                 }
               >
-                <dt className="font-display text-[clamp(2.75rem,5vw,4.25rem)] leading-none font-bold tracking-[-0.03em] text-orange">
+                <dt className="font-display text-[clamp(2.75rem,5vw,4.25rem)] leading-none font-bold tracking-[-0.03em] text-accent">
                   {p.figure}
                   {p.unit ? (
                     <span className="ml-2 text-[0.45em] tracking-[-0.02em] text-ink">{p.unit}</span>

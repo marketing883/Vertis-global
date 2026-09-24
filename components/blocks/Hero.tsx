@@ -96,7 +96,7 @@ export function Hero() {
             ? undefined
             : {
                 background:
-                  "linear-gradient(to right, #27196D 0%, rgba(39,25,109,0.92) 10%, rgba(39,25,109,0.45) 26%, rgba(39,25,109,0) 46%), linear-gradient(to top, #27196D 0%, rgba(39,25,109,0.4) 24%, rgba(39,25,109,0.06) 55%, rgba(39,25,109,0) 100%)",
+                  "linear-gradient(to right, #2b276b 0%, rgba(43, 39, 107,0.92) 10%, rgba(43, 39, 107,0.45) 26%, rgba(43, 39, 107,0) 46%), linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107,0.4) 24%, rgba(43, 39, 107,0.06) 55%, rgba(43, 39, 107,0) 100%)",
               }
         }
       />
@@ -131,7 +131,7 @@ export function Hero() {
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
-            style={{ background: "linear-gradient(to top, #27196D 0%, rgba(39,25,109,0) 100%)" }}
+            style={{ background: "linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107,0) 100%)" }}
           />
         </div>
       ) : null}

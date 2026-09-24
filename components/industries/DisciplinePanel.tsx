@@ -73,7 +73,7 @@ export function DisciplinePanel({ disciplines }: { disciplines: Discipline[] }) 
                   aria-hidden="true"
                   className={cn(
                     "h-px w-6 shrink-0 transition-colors",
-                    selected ? "bg-orange" : "bg-transparent",
+                    selected ? "bg-accent" : "bg-transparent",
                   )}
                 />
               </button>

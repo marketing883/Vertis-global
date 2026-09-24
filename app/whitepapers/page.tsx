@@ -35,11 +35,11 @@ export default function WhitepapersPage() {
                   href={whitepaperHref(w, SITE.staffingEmail)}
                   className="group grid gap-6 py-10 md:grid-cols-12 md:items-center md:gap-10 lg:py-12"
                 >
-                  <span className="grid size-14 place-items-center rounded-md bg-paper-2 text-orange md:col-span-1">
+                  <span className="grid size-14 place-items-center rounded-md bg-paper-2 text-accent md:col-span-1">
                     <FileText className="size-6" strokeWidth={1.5} aria-hidden="true" />
                   </span>
                   <div className="min-w-0 md:col-span-8">
-                    <p className="tabular text-[0.9375rem] text-n-400">
+                    <p className="tabular text-[0.9375rem] text-n-500">
                       {w.audience}
                       <span aria-hidden="true"> · </span>
                       {w.pages} pages

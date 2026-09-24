@@ -34,7 +34,7 @@ export function ServiceSteps({
               key={s.title}
               className="grid gap-4 border-b border-n-300/60 py-8 md:grid-cols-12 md:gap-8 lg:py-10"
             >
-              <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400 md:col-span-1">
+              <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500 md:col-span-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="md:col-span-11">

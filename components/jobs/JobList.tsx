@@ -121,7 +121,7 @@ export function JobList({ jobs }: { jobs: Job[] }) {
                     <span className="inline-flex rounded-full border border-n-300 px-4 py-1.5 text-[0.875rem] font-medium text-n-600">
                       {jobTypeLabel(job.type)}
                     </span>
-                    <p className="tabular mt-3 text-[0.875rem] text-n-400">
+                    <p className="tabular mt-3 text-[0.875rem] text-n-500">
                       {formatPosted(job.posted)}
                     </p>
                   </div>

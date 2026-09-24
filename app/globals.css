@@ -1,72 +1,126 @@
 @import "tailwindcss";
 
 /* ============================================================
-   VERTIS GLOBAL — DESIGN TOKENS  ·  v3 "Brand"
+   VERTIS GLOBAL — DESIGN TOKENS  ·  v4 "New brand"
 
-   The official palette, and nothing else:
-     #27196D  deep purple      the visual foundation
-     #F26522  orange           the primary accent, used with intent
-     #FAA918  amber            the secondary warm accent
-     #F5791F #F6871D #F8931B #F99E19  supporting tones for hover
-                               states, gradients and small details
+   Taken from the logo itself. The mark is a V in two blades: a
+   warm one running yellow → orange → pink, and a purple one
+   running mauve → violet, beside a deep indigo wordmark.
 
-   Plus white, a warm off-white and a neutral ramp for contrast
-   and breathing room. No other hues enter the interface.
+   PRIMARY
+     #2b276b  indigo   the foundation: every dark ground, all headings
+     #714e99  violet   the interactive accent on light grounds
+     #af7db4  mauve    quiet accent, hairlines and detail on indigo
+     #f49055  orange   filled calls to action
+
+   SUPPORTING — accents and the gradient, never large fields
+     #fdcd61  yellow   the accent on indigo
+     #f8aa51  peach    the hover step on a filled orange control
+     #f06e66  coral    gradient
+     #ee546d  rose     gradient
+     #ec2e70  pink     focus rings, the deep end of the gradient
+
+   Plus white, a warm off-white, and an indigo-biased neutral ramp.
+
+   HOW THE ACCENTS DIVIDE, and why it matters
+     On light grounds the interactive colour is VIOLET, at 5.9:1.
+     Orange is 2.1:1 on paper, so it fills controls but never
+     carries text or an icon that has to be read.
+     On indigo the accent is YELLOW, at 8.8:1.
+     A filled orange control carries INDIGO text at 5.6:1; white
+     on orange is 2.3:1 and is never used.
 
    Contrast, computed:
-     white on purple 14.5:1 · purple on paper 13.3:1
-     orange on purple 4.6:1 (AA) · purple on orange 4.6:1 (AA)
-     white on orange 3.2:1  → orange buttons carry PURPLE text
-     amber on purple 7.4:1 · amber on white 1.9:1 (decorative only)
+     white on indigo 13.1:1 · indigo on paper 11.9:1
+     violet on paper 5.9:1 · white on violet 6.5:1
+     yellow on indigo 8.8:1 · orange on indigo 5.6:1
+     indigo on orange 5.6:1 · indigo on peach 6.8:1
+     n-500 on paper 5.1:1 · on-ink-muted on indigo 6.5:1
+     pink on paper 3.7:1 and on indigo 3.2:1 — focus, ≥3:1 on both
    ============================================================ */
 
 :root {
   /* ── BRAND ────────────────────────────────────────────── */
-  --vg-purple: #27196d;
-  --vg-orange: #f26522;
-  --vg-orange-2: #f5791f; /* hover */
-  --vg-orange-3: #f6871d;
-  --vg-orange-4: #f8931b;
-  --vg-orange-5: #f99e19;
-  --vg-amber: #faa918;
+  --vg-indigo: #2b276b;
+  --vg-violet: #714e99;
+  --vg-mauve: #af7db4;
+  --vg-orange: #f49055;
+  --vg-peach: #f8aa51;
+  --vg-yellow: #fdcd61;
+  --vg-coral: #f06e66;
+  --vg-rose: #ee546d;
+  --vg-pink: #ec2e70;
 
-  /* One brand gradient, derived only from the palette. Subtle use. */
-  --vg-gradient: linear-gradient(90deg, #f26522 0%, #f8931b 55%, #faa918 100%);
+  /* `purple`, `amber` and `orange-2` keep their old names so every
+     existing utility in the codebase keeps working; they now point
+     at the new brand. */
+  --vg-purple: var(--vg-indigo);
+  --vg-amber: var(--vg-yellow);
+  --vg-orange-2: var(--vg-peach);
+
+  /* The logo's warm blade, laid flat. Decorative only. */
+  --vg-gradient: linear-gradient(
+    90deg,
+    #fdcd61 0%,
+    #f8aa51 22%,
+    #f49055 48%,
+    #f06e66 74%,
+    #ec2e70 100%
+  );
 
   /* ── GROUNDS ──────────────────────────────────────────── */
-  /* `ink` remains the name of the dark ground throughout the
-     codebase; it now resolves to the brand purple. */
-  --vg-ink: var(--vg-purple);
-  --vg-ink-2: color-mix(in srgb, var(--vg-purple) 88%, white); /* raised */
-  --vg-ink-line: color-mix(in srgb, var(--vg-purple) 78%, white); /* hairline on purple */
+  /* `ink` is still the name of the dark ground everywhere in the
+     codebase; it now resolves to the brand indigo. Raised surfaces
+     and hairlines lift toward violet and mauve rather than toward
+     grey, which is what keeps the dark sections on-brand instead
+     of merely dark. */
+  --vg-ink: var(--vg-indigo);
+  --vg-ink-2: color-mix(in srgb, var(--vg-indigo) 84%, var(--vg-violet));
+  --vg-ink-line: color-mix(in srgb, var(--vg-indigo) 72%, var(--vg-mauve));
 
   --vg-paper: #f6f4f1; /* warm off-white, the primary light ground */
   --vg-paper-2: #efece7;
   --vg-white: #ffffff;
 
   /* ── ACCENT ROLES ─────────────────────────────────────── */
-  --vg-accent: var(--vg-orange);
-  --vg-accent-hover: var(--vg-orange-2);
-  --vg-accent-dark: var(--vg-amber); /* accent on purple */
-  --vg-accent-tint: #fdeee4; /* orange at ~10% on white */
+  /* The foreground accent on light grounds: links, hovers, active
+     states, meaningful icons, proof numerals. */
+  --vg-accent: var(--vg-violet);
+  --vg-accent-hover: color-mix(in srgb, var(--vg-violet) 82%, black);
+  --vg-accent-tint: #f1ecf6; /* violet at ~10% on white */
+  /* The foreground accent on indigo. */
+  --vg-accent-dark: var(--vg-yellow);
 
-  /* ── NEUTRAL RAMP (cool, purple-biased) ───────────────── */
-  --vg-n-200: #e3e0e9;
-  --vg-n-300: #cbc7d6;
-  --vg-n-400: #9b97ab;
-  --vg-n-500: #6a6781; /* muted text — 4.9:1 on paper */
-  --vg-n-600: #47445a;
-  --vg-n-700: #322f43;
+  /* Filled calls to action: orange ground, indigo label. */
+  --vg-cta: var(--vg-orange);
+  --vg-cta-hover: var(--vg-peach);
+
+  /* ── NEUTRAL RAMP (indigo-biased) ─────────────────────── */
+  --vg-n-200: #e1e0eb;
+  --vg-n-300: #c3c2d6;
+  --vg-n-400: #7d7b92; /* quiet text — 3.7:1 on paper */
+  --vg-n-500: #676482; /* muted text — 5.1:1 on paper */
+  --vg-n-600: #434059;
+  --vg-n-700: #2e2b40;
 
   /* ── TEXT ROLES ───────────────────────────────────────── */
-  --vg-text: var(--vg-purple);
+  --vg-text: var(--vg-indigo);
   --vg-text-body: var(--vg-n-600);
   --vg-text-muted: var(--vg-n-500);
-  --vg-on-ink: #f3f1fa;
-  --vg-on-ink-muted: #b9b3d8; /* 7.3:1 on purple */
+  --vg-on-ink: #f3f1fb;
+  --vg-on-ink-muted: #b8b2dc; /* 6.5:1 on indigo */
+  /* The quiet tier ON indigo. The neutral ramp is mixed for light
+     grounds, so n-400 and n-500 must never be used on ink: they land
+     at 4.3:1 and 2.3:1 there. This is the tone to reach for instead. */
+  --vg-on-ink-quiet: #9d95c6; /* 4.7:1 on indigo */
+
+  /* Form errors. The brand pink darkened until it reads on both
+     light grounds: 5.1:1 on white, 4.6:1 on paper. The undarkened
+     #ec2e70 is 4.0:1 and 3.7:1, which is short for 14px text. */
+  --vg-danger: #cf2863;
 
   --vg-border: var(--vg-n-200);
-  --vg-focus: var(--vg-orange);
+  --vg-focus: var(--vg-pink);
 
   /* ── MOTION ───────────────────────────────────────────── */
   --vg-ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -76,13 +130,20 @@
 }
 
 @theme inline {
-  --color-purple: var(--vg-purple);
+  --color-indigo: var(--vg-indigo);
+  --color-violet: var(--vg-violet);
+  --color-mauve: var(--vg-mauve);
   --color-orange: var(--vg-orange);
-  --color-orange-2: var(--vg-orange-2);
-  --color-orange-3: var(--vg-orange-3);
-  --color-orange-4: var(--vg-orange-4);
-  --color-orange-5: var(--vg-orange-5);
+  --color-peach: var(--vg-peach);
+  --color-yellow: var(--vg-yellow);
+  --color-coral: var(--vg-coral);
+  --color-rose: var(--vg-rose);
+  --color-pink: var(--vg-pink);
+
+  /* Retained names, repointed at the new brand. */
+  --color-purple: var(--vg-purple);
   --color-amber: var(--vg-amber);
+  --color-orange-2: var(--vg-orange-2);
 
   --color-ink: var(--vg-ink);
   --color-ink-2: var(--vg-ink-2);
@@ -94,6 +155,8 @@
   --color-accent-hover: var(--vg-accent-hover);
   --color-accent-dark: var(--vg-accent-dark);
   --color-accent-tint: var(--vg-accent-tint);
+  --color-cta: var(--vg-cta);
+  --color-cta-hover: var(--vg-cta-hover);
 
   --color-n-200: var(--vg-n-200);
   --color-n-300: var(--vg-n-300);
@@ -102,8 +165,11 @@
   --color-n-600: var(--vg-n-600);
   --color-n-700: var(--vg-n-700);
 
+  --color-danger: var(--vg-danger);
+
   --color-on-ink: var(--vg-on-ink);
   --color-on-ink-muted: var(--vg-on-ink-muted);
+  --color-on-ink-quiet: var(--vg-on-ink-quiet);
 
   --font-display: var(--font-funnel-display), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -208,8 +274,9 @@
 }
 
 /* Editorial eyebrow: the only uppercase style on the site. A short
-   orange rule precedes it, which is how orange threads through
-   every section without ever filling one. */
+   rule precedes it carrying the logo gradient, which is how the
+   warm half of the brand threads through every section without
+   ever filling one. */
 .eyebrow {
   display: flex;
   align-items: center;
@@ -226,13 +293,13 @@
   flex: none;
   width: 1.5rem;
   height: 2px;
-  background: var(--vg-orange);
+  background: var(--vg-gradient);
 }
 .on-ink .eyebrow {
   color: var(--vg-on-ink-muted);
 }
 .on-ink .eyebrow::before {
-  background: var(--vg-amber);
+  background: var(--vg-gradient);
 }
 
 /* ── Photo scrims ─────────────────────────────────────────
@@ -255,23 +322,23 @@
 .scrim-photo,
 .scrim-photo-light {
   background:
-    linear-gradient(to top, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.78) 42%, rgba(39, 25, 109, 0.42) 72%, rgba(39, 25, 109, 0.18) 100%),
-    linear-gradient(to bottom, rgba(39, 25, 109, 0.42) 0%, rgba(39, 25, 109, 0) 22%);
+    linear-gradient(to top, rgba(43, 39, 107, 0.94) 0%, rgba(43, 39, 107, 0.78) 42%, rgba(43, 39, 107, 0.42) 72%, rgba(43, 39, 107, 0.18) 100%),
+    linear-gradient(to bottom, rgba(43, 39, 107, 0.42) 0%, rgba(43, 39, 107, 0) 22%);
 }
 @media (min-width: 1024px) {
   .scrim-photo {
     background:
-      linear-gradient(to right, rgba(39, 25, 109, 0.90) 0%, rgba(39, 25, 109, 0.80) 26%, rgba(39, 25, 109, 0.50) 46%, rgba(39, 25, 109, 0.12) 60%, rgba(39, 25, 109, 0) 68%),
-      linear-gradient(to top, #27196d 0%, rgba(39, 25, 109, 0.42) 9%, rgba(39, 25, 109, 0) 24%),
-      linear-gradient(to bottom, rgba(39, 25, 109, 0.40) 0%, rgba(39, 25, 109, 0) 18%),
-      linear-gradient(to left, rgba(39, 25, 109, 0.22) 0%, rgba(39, 25, 109, 0) 12%);
+      linear-gradient(to right, rgba(43, 39, 107, 0.90) 0%, rgba(43, 39, 107, 0.80) 26%, rgba(43, 39, 107, 0.50) 46%, rgba(43, 39, 107, 0.12) 60%, rgba(43, 39, 107, 0) 68%),
+      linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107, 0.42) 9%, rgba(43, 39, 107, 0) 24%),
+      linear-gradient(to bottom, rgba(43, 39, 107, 0.40) 0%, rgba(43, 39, 107, 0) 18%),
+      linear-gradient(to left, rgba(43, 39, 107, 0.22) 0%, rgba(43, 39, 107, 0) 12%);
   }
   .scrim-photo-light {
     background:
-      linear-gradient(to right, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.86) 30%, rgba(39, 25, 109, 0.56) 50%, rgba(39, 25, 109, 0.14) 64%, rgba(39, 25, 109, 0) 72%),
-      linear-gradient(to top, #27196d 0%, rgba(39, 25, 109, 0.42) 9%, rgba(39, 25, 109, 0) 24%),
-      linear-gradient(to bottom, rgba(39, 25, 109, 0.40) 0%, rgba(39, 25, 109, 0) 18%),
-      linear-gradient(to left, rgba(39, 25, 109, 0.22) 0%, rgba(39, 25, 109, 0) 12%);
+      linear-gradient(to right, rgba(43, 39, 107, 0.94) 0%, rgba(43, 39, 107, 0.86) 30%, rgba(43, 39, 107, 0.56) 50%, rgba(43, 39, 107, 0.14) 64%, rgba(43, 39, 107, 0) 72%),
+      linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107, 0.42) 9%, rgba(43, 39, 107, 0) 24%),
+      linear-gradient(to bottom, rgba(43, 39, 107, 0.40) 0%, rgba(43, 39, 107, 0) 18%),
+      linear-gradient(to left, rgba(43, 39, 107, 0.22) 0%, rgba(43, 39, 107, 0) 12%);
   }
 }
 
@@ -282,11 +349,12 @@
    through the `after:` variant. */
 @utility scrim-caption {
   background:
-    linear-gradient(to top, rgba(39, 25, 109, 0.94) 0%, rgba(39, 25, 109, 0.62) 30%, rgba(39, 25, 109, 0.1) 56%, rgba(39, 25, 109, 0) 70%),
-    linear-gradient(to bottom, rgba(39, 25, 109, 0.3) 0%, rgba(39, 25, 109, 0) 20%);
+    linear-gradient(to top, rgba(43, 39, 107, 0.94) 0%, rgba(43, 39, 107, 0.62) 30%, rgba(43, 39, 107, 0.1) 56%, rgba(43, 39, 107, 0) 70%),
+    linear-gradient(to bottom, rgba(43, 39, 107, 0.3) 0%, rgba(43, 39, 107, 0) 20%);
 }
 
-/* Link that underlines from the left on hover, in orange. */
+/* Link that underlines from the left on hover. Violet on light
+   grounds and yellow on indigo, matching the accent split. */
 .link-underline {
   position: relative;
   display: inline-flex;
@@ -305,7 +373,7 @@
   bottom: -2px;
   width: 100%;
   height: 2px;
-  background: var(--vg-orange);
+  background: var(--vg-accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 320ms var(--vg-ease-out);
@@ -322,7 +390,7 @@
 }
 .link-underline:hover svg {
   transform: translateX(4px);
-  color: var(--vg-orange);
+  color: var(--vg-accent);
 }
 .on-ink .link-underline:hover svg {
   color: var(--vg-amber);

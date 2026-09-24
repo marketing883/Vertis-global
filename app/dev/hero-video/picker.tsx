@@ -35,7 +35,7 @@ export function HeroVideoPicker({
               key={o.id}
               className={cn(
                 "flex flex-col overflow-hidden rounded-lg bg-white",
-                isSelected && "outline outline-2 outline-orange",
+                isSelected && "outline outline-2 outline-accent",
               )}
             >
               <div className="relative aspect-video bg-ink">
@@ -51,7 +51,7 @@ export function HeroVideoPicker({
                 />
               </div>
               <div className="flex flex-1 flex-col p-6">
-                <p className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400">
+                <p className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500">
                   {String(i + 1).padStart(2, "0")} · {o.category}
                 </p>
                 <h2 className="mt-2 text-[1.25rem] leading-snug font-semibold text-ink">
@@ -59,7 +59,7 @@ export function HeroVideoPicker({
                 </h2>
                 <p className="mt-2 text-[0.9375rem] text-n-500">{o.note}</p>
                 <div className="mt-6 flex items-center justify-between gap-4">
-                  <span className="text-[0.8125rem] text-n-400">
+                  <span className="text-[0.8125rem] text-n-500">
                     {o.kind === "generated"
                       ? "Generated to brief · final quality"
                       : `Stock preview · ${o.credits} credits to license`}

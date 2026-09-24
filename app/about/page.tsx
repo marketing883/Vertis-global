@@ -144,7 +144,7 @@ export default function AboutPage() {
                 key={value.title}
                 className="grid gap-4 border-b border-n-300/60 py-9 md:grid-cols-12 md:gap-8 lg:py-11"
               >
-                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400 md:col-span-1">
+                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500 md:col-span-1">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-[clamp(1.5rem,2.4vw,2rem)] text-ink md:col-span-5">
@@ -303,7 +303,7 @@ export default function AboutPage() {
                nothing on his side, which keeps him black and white
                rather than tinted. */
             background:
-              "linear-gradient(to right, rgba(39,25,109,0.93) 0%, rgba(39,25,109,0.86) 36%, rgba(39,25,109,0.32) 58%, rgba(39,25,109,0.06) 76%, rgba(39,25,109,0) 100%), linear-gradient(to top, #27196D 0%, rgba(39,25,109,0.18) 16%, rgba(39,25,109,0) 46%)",
+              "linear-gradient(to right, rgba(43, 39, 107,0.93) 0%, rgba(43, 39, 107,0.86) 36%, rgba(43, 39, 107,0.32) 58%, rgba(43, 39, 107,0.06) 76%, rgba(43, 39, 107,0) 100%), linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107,0.18) 16%, rgba(43, 39, 107,0) 46%)",
           }}
         />
         <Container className="relative">

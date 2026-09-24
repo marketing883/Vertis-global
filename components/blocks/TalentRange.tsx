@@ -44,7 +44,7 @@ export function TalentRange() {
                   slot={LEVEL_PHOTO[level.id]}
                   sizes="(max-width: 1024px) 72vw, 20vw"
                 />
-                <p className="mt-6 font-mono text-[0.8125rem] tracking-[0.1em] text-n-500">
+                <p className="mt-6 font-mono text-[0.8125rem] tracking-[0.1em] text-on-ink-quiet">
                   {String(i + 1).padStart(2, "0")}
                 </p>
                 <h3 className="mt-2 text-white">{level.name}</h3>

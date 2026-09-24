@@ -47,8 +47,8 @@ export function ResourceGrid({
                     className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                   />
                 </span>
-                <span className="tabular mt-5 block text-[0.875rem] text-n-400">
-                  <span className="text-accent-dark">{post.category}</span>
+                <span className="tabular mt-5 block text-[0.875rem] text-n-500">
+                  <span className="text-accent">{post.category}</span>
                   <span aria-hidden="true"> · </span>
                   <time dateTime={post.date}>{formatInsightDate(post.date)}</time>
                 </span>

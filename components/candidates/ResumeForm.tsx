@@ -198,11 +198,11 @@ export function ResumeForm() {
                 </button>
               </span>
             ) : (
-              <span className="text-[0.9375rem] text-n-400">PDF or Word, up to 5MB</span>
+              <span className="text-[0.9375rem] text-n-500">PDF or Word, up to 5MB</span>
             )}
           </div>
           {(fileError ?? errors.resume) && (
-            <p role="alert" className="mt-2 text-[0.875rem] text-[#F26522]">
+            <p role="alert" className="mt-2 text-[0.875rem] text-danger">
               {fileError ?? errors.resume}
             </p>
           )}
@@ -217,7 +217,7 @@ export function ResumeForm() {
             rows={3}
             defaultValue={was.message ?? ""}
             placeholder="Shifts you can work, notice period, anything we should know."
-            className="mt-2 w-full rounded-md border border-n-300 bg-paper px-4 py-3 text-base text-ink placeholder:text-n-400 focus-visible:border-accent"
+            className="mt-2 w-full rounded-md border border-n-300 bg-paper px-4 py-3 text-base text-ink placeholder:text-n-500 focus-visible:border-accent"
           />
         </label>
       </div>
@@ -260,13 +260,13 @@ function Field({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-err` : undefined}
         className={cn(
-          "mt-2 h-13 w-full rounded-md border bg-paper px-4 text-base text-ink placeholder:text-n-400 focus-visible:border-accent",
-          error ? "border-[#F26522]" : "border-n-300",
+          "mt-2 h-13 w-full rounded-md border bg-paper px-4 text-base text-ink placeholder:text-n-500 focus-visible:border-accent",
+          error ? "border-danger" : "border-n-300",
         )}
         {...input}
       />
       {error && (
-        <span id={`${id}-err`} role="alert" className="mt-1.5 block text-[0.875rem] text-[#F26522]">
+        <span id={`${id}-err`} role="alert" className="mt-1.5 block text-[0.875rem] text-danger">
           {error}
         </span>
       )}

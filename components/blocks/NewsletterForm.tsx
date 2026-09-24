@@ -42,7 +42,7 @@ export function NewsletterForm({ tone = "ink", className }: { tone?: "ink" | "pa
             "h-12 min-w-0 flex-1 rounded-md border px-4 text-base outline-none focus-visible:border-amber",
             onInk
               ? "border-white/20 bg-white/10 text-white placeholder:text-on-ink-muted"
-              : "border-n-300 bg-white text-ink placeholder:text-n-400 focus-visible:border-accent",
+              : "border-n-300 bg-white text-ink placeholder:text-n-500 focus-visible:border-accent",
           )}
         />
         <button
@@ -63,7 +63,7 @@ export function NewsletterForm({ tone = "ink", className }: { tone?: "ink" | "pa
         </label>
       </div>
       {state.status === "error" && (
-        <p id={`${id}-err`} role="alert" className={cn("mt-2 text-[0.875rem]", onInk ? "text-amber" : "text-[#F26522]")}>
+        <p id={`${id}-err`} role="alert" className={cn("mt-2 text-[0.875rem]", onInk ? "text-amber" : "text-danger")}>
           {state.message}
         </p>
       )}

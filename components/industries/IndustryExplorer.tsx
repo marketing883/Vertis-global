@@ -90,7 +90,7 @@ export function IndustryExplorer() {
               )}
             >
               {f.name}
-              <span className={cn("tabular ml-2", selected ? "text-white/60" : "text-n-400")}>
+              <span className={cn("tabular ml-2", selected ? "text-white/70" : "text-n-500")}>
                 {f.count}
               </span>
             </button>
@@ -130,7 +130,7 @@ export function IndustryExplorer() {
           );
           const cls = cn(
             "group flex w-full flex-col items-start py-7 text-left transition-[padding,border-color] duration-300",
-            lit && "border-l-2 border-orange pl-4",
+            lit && "border-l-2 border-accent pl-4",
           );
 
           return (

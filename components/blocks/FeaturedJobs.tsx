@@ -40,7 +40,7 @@ export function FeaturedJobs() {
                   </h3>
                   <p className="mt-2 text-[1.0625rem] text-n-500">{job.meta}</p>
                 </div>
-                <p className="shrink-0 text-[0.9375rem] text-n-400 md:w-32">{job.posted}</p>
+                <p className="shrink-0 text-[0.9375rem] text-n-500 md:w-32">{job.posted}</p>
                 <ArrowUpRight
                   className="hidden size-6 shrink-0 text-n-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent md:block"
                   strokeWidth={1.5}

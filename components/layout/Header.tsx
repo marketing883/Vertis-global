@@ -302,7 +302,7 @@ function Drawer({ open, onClose }: { open: boolean; onClose: () => void }) {
                           <Link href={link.href} className="block py-3">
                             <span className="block text-[1.0625rem] text-n-600">{link.label}</span>
                             {link.note && (
-                              <span className="mt-0.5 block text-[0.9375rem] text-n-400">
+                              <span className="mt-0.5 block text-[0.9375rem] text-n-500">
                                 {link.note}
                               </span>
                             )}

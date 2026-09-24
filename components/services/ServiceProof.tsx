@@ -12,7 +12,7 @@ export function ServiceProof({ points, heading }: { points: Proof[]; heading: st
         <dl className="grid gap-x-12 border-t border-n-200 md:grid-cols-3">
           {points.map((p) => (
             <div key={p.caption} className="border-b border-n-200 py-10 lg:py-12">
-              <dt className="font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none font-bold tracking-[-0.03em] text-orange">
+              <dt className="font-display text-[clamp(2.25rem,4vw,3.25rem)] leading-none font-bold tracking-[-0.03em] text-accent">
                 {p.figure}
                 {p.unit ? (
                   <span className="ml-2 text-[0.4em] tracking-[-0.02em] text-ink">{p.unit}</span>

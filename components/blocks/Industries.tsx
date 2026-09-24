@@ -171,12 +171,7 @@ function GroupLabel({ group, selected }: { group: IndustryGroup; selected: boole
       >
         {group.name}
       </span>
-      <span
-        className={cn(
-          "mt-1 block text-[0.9375rem] transition-colors duration-300",
-          selected ? "text-n-500" : "text-n-400",
-        )}
-      >
+      <span className="mt-1 block text-[0.9375rem] text-n-500 transition-colors duration-300">
         {group.tagline}
       </span>
     </span>

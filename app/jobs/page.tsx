@@ -80,7 +80,7 @@ export default function JobsPage() {
           <ol className="mt-16 grid gap-x-10 gap-y-12 border-t border-n-200 pt-12 md:grid-cols-2 lg:mt-20 lg:grid-cols-4">
             {STEPS.map((s, i) => (
               <li key={s.title}>
-                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400">
+                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 max-w-[16ch] text-[1.375rem] leading-tight text-ink">{s.title}</h3>
@@ -145,7 +145,7 @@ export default function JobsPage() {
           {/* Said plainly, because nobody should think they have applied
               to an opening that is not currently live. */}
           <p className="mt-12 flex max-w-[80ch] gap-3 rounded-lg bg-paper-2 px-6 py-5 text-[1.0625rem] leading-relaxed text-n-600">
-            <Info className="mt-1 size-5 shrink-0 text-orange" strokeWidth={1.75} aria-hidden="true" />
+            <Info className="mt-1 size-5 shrink-0 text-accent" strokeWidth={1.75} aria-hidden="true" />
             {SAMPLE_NOTICE}
           </p>
 

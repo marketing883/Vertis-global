@@ -400,7 +400,7 @@ export default async function IndustryPage({ params }: { params: Params }) {
                     <p className="text-[0.9375rem] text-n-500 md:col-span-3">
                       {jobTypeLabel(job.type)}
                     </p>
-                    <p className="tabular text-[0.875rem] text-n-400 md:col-span-2 md:justify-self-end">
+                    <p className="tabular text-[0.875rem] text-n-500 md:col-span-2 md:justify-self-end">
                       {formatPosted(job.posted)}
                     </p>
                   </Link>

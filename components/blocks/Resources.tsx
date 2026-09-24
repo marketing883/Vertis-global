@@ -137,7 +137,7 @@ function ResourceTile({
         <span
           className={cn(
             "grid size-11 shrink-0 place-items-center rounded-md",
-            onInk ? "bg-white/10 text-amber" : "bg-white text-orange",
+            onInk ? "bg-white/10 text-amber" : "bg-white text-accent",
           )}
         >
           {icon}

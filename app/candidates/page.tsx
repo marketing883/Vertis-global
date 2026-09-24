@@ -104,7 +104,7 @@ export default function CandidatesPage() {
           <ul className="mt-16 grid gap-x-16 border-t border-n-200 md:grid-cols-2 lg:mt-20">
             {STRAIGHT_ANSWERS.map((line) => (
               <li key={line} className="flex gap-4 border-b border-n-200 py-7">
-                <Check className="mt-1 size-5 shrink-0 text-orange" strokeWidth={2.25} aria-hidden="true" />
+                <Check className="mt-1 size-5 shrink-0 text-accent" strokeWidth={2.25} aria-hidden="true" />
                 <span className="max-w-[46ch] text-[1.0625rem] leading-relaxed text-n-600">
                   {line}
                 </span>
@@ -134,7 +134,7 @@ export default function CandidatesPage() {
                 key={s.title}
                 className="grid gap-4 border-b border-n-300/60 py-8 md:grid-cols-12 md:gap-8 lg:py-10"
               >
-                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400 md:col-span-1">
+                <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500 md:col-span-1">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="md:col-span-11">
@@ -193,7 +193,7 @@ export default function CandidatesPage() {
                     <p className="text-[0.9375rem] text-n-500 md:col-span-3">
                       {jobTypeLabel(job.type)}
                     </p>
-                    <p className="tabular text-[0.875rem] text-n-400 md:col-span-2 md:justify-self-end">
+                    <p className="tabular text-[0.875rem] text-n-500 md:col-span-2 md:justify-self-end">
                       {formatPosted(job.posted)}
                     </p>
                   </Link>

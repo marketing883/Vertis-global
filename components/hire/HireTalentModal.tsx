@@ -366,13 +366,13 @@ function Field({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-err` : undefined}
         className={cn(
-          "mt-2 h-13 w-full rounded-md border bg-white px-4 text-base text-ink placeholder:text-n-400 focus-visible:border-accent",
-          error ? "border-[#F26522]" : "border-n-300",
+          "mt-2 h-13 w-full rounded-md border bg-white px-4 text-base text-ink placeholder:text-n-500 focus-visible:border-accent",
+          error ? "border-danger" : "border-n-300",
         )}
         {...input}
       />
       {error && (
-        <span id={`${id}-err`} role="alert" className="mt-1.5 block text-[0.875rem] text-[#F26522]">
+        <span id={`${id}-err`} role="alert" className="mt-1.5 block text-[0.875rem] text-danger">
           {error}
         </span>
       )}

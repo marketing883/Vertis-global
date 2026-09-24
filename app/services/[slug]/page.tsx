@@ -114,7 +114,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 {service.bestFor.map((item) => (
                   <li key={item} className="flex gap-4 border-b border-n-200 py-5">
                     <Check
-                      className="mt-1 size-4 shrink-0 text-orange"
+                      className="mt-1 size-4 shrink-0 text-accent"
                       strokeWidth={2.25}
                       aria-hidden="true"
                     />
@@ -189,7 +189,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 {service.included.map((item) => (
                   <li key={item} className="flex gap-4 border-b border-n-200 py-5">
                     <Check
-                      className="mt-1 size-4 shrink-0 text-orange"
+                      className="mt-1 size-4 shrink-0 text-accent"
                       strokeWidth={2.25}
                       aria-hidden="true"
                     />

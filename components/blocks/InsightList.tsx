@@ -26,8 +26,8 @@ export function InsightList({ posts, className }: { posts: InsightPost[]; classN
               />
             </div>
             <div className="min-w-0 md:col-span-8">
-              <p className="tabular text-[0.9375rem] text-n-400">
-                <span className="text-accent-dark">{post.category}</span>
+              <p className="tabular text-[0.9375rem] text-n-500">
+                <span className="text-accent">{post.category}</span>
                 <span aria-hidden="true"> · </span>
                 <time dateTime={post.date}>{formatInsightDate(post.date)}</time>
                 <span aria-hidden="true"> · </span>

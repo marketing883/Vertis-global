@@ -71,7 +71,7 @@ function PhotoPlaceholder({ id, brief }: { id: string; brief: string }) {
       className="absolute inset-0 flex flex-col justify-end p-6"
       style={{
         background:
-          "linear-gradient(155deg, #e9e6ee 0%, #d9d5e2 42%, #c6c1d3 100%)",
+          "linear-gradient(155deg, #eae8f2 0%, #d9d5e7 42%, #c5bfda 100%)",
       }}
     >
       <div
@@ -79,7 +79,7 @@ function PhotoPlaceholder({ id, brief }: { id: string; brief: string }) {
         className="absolute inset-0 opacity-[0.5]"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(115deg, rgba(39,25,109,.06) 0 1px, transparent 1px 9px)",
+            "repeating-linear-gradient(115deg, rgba(43, 39, 107,.06) 0 1px, transparent 1px 9px)",
         }}
       />
       <div className="relative max-w-md">

@@ -79,7 +79,7 @@ export default function ContactPage() {
               const Icon = w.icon;
               return (
                 <li key={w.title} className="flex flex-col bg-white p-8 lg:p-10">
-                  <Icon className="size-6 text-orange" strokeWidth={1.75} aria-hidden="true" />
+                  <Icon className="size-6 text-accent" strokeWidth={1.75} aria-hidden="true" />
                   <p className="eyebrow mt-8">{w.eyebrow}</p>
                   <h2 className="mt-4 text-[clamp(1.5rem,2.2vw,1.875rem)] text-ink">{w.title}</h2>
                   <p className="mt-4 max-w-[38ch] flex-1 text-[1.0625rem] leading-relaxed text-n-500">
@@ -102,7 +102,7 @@ export default function ContactPage() {
                           href={`mailto:${SITE.careersEmail}?subject=${encodeURIComponent("Resume for Vertis Global")}`}
                           className="link-underline inline-flex items-center gap-2 text-[1.0625rem] text-ink"
                         >
-                          <Mail className="size-4 text-orange" strokeWidth={1.75} aria-hidden="true" />
+                          <Mail className="size-4 text-accent" strokeWidth={1.75} aria-hidden="true" />
                           {SITE.careersEmail}
                         </a>
                         <p className="mt-4 text-[0.9375rem] text-n-500">
@@ -117,7 +117,7 @@ export default function ContactPage() {
                         href={`mailto:${SITE.staffingEmail}`}
                         className="link-underline inline-flex items-center gap-2 text-[1.0625rem] text-ink"
                       >
-                        <Mail className="size-4 text-orange" strokeWidth={1.75} aria-hidden="true" />
+                        <Mail className="size-4 text-accent" strokeWidth={1.75} aria-hidden="true" />
                         {SITE.staffingEmail}
                       </a>
                     )}
@@ -139,7 +139,7 @@ export default function ContactPage() {
               <ol className="mt-10 border-t border-n-200">
                 {NEXT.map((n, i) => (
                   <li key={n.title} className="grid gap-3 border-b border-n-200 py-6 sm:grid-cols-12 sm:gap-6">
-                    <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-400 sm:col-span-2">
+                    <span className="font-mono text-[0.8125rem] tracking-[0.1em] text-n-500 sm:col-span-2">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div className="sm:col-span-10">

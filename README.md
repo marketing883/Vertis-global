@@ -106,7 +106,7 @@ No account, no second page. `components/hire/HireTalentModal.tsx`.
 
 ## Design system
 
-Four colours: near-black ink, warm paper, a warm neutral ramp, one accent blue. The logo's cyan lives inside the mark only.
+The palette is in **Brand** below. The rules that govern how it is used:
 
 - **Cards are the exception.** Editorial lists, split layouts, full-bleed photography.
 - **One button per section.** In-page CTAs are `.link-underline` text links.
@@ -118,9 +118,24 @@ Four colours: near-black ink, warm paper, a warm neutral ramp, one accent blue. 
 
 ## Brand
 
-Official palette only: `#27196D` deep purple is the foundation (the `ink` token resolves to it), `#F26522` orange is the primary accent and every conversion button, `#FAA918` amber is the accent on purple, and `#F5791F #F6871D #F8931B #F99E19` are hover and gradient tones. Plus white, warm paper and a purple-biased neutral ramp. Nothing else. Orange buttons carry purple text: white on the brand orange is only 3.2:1.
+The palette comes out of the logo. The mark is a V in two blades: a warm one running yellow to pink, and a purple one running mauve to violet, beside a deep indigo wordmark.
 
-The mark in `components/brand/Logo.tsx` and the favicon in `app/icon.svg` are vector reconstructions of the supplied artwork. To use the official vectors, place them in `public/brand/` as `vertis-global-logo.svg` and `vertis-global-logo-light.svg` and set `USE_OFFICIAL_ASSET` to `true` in `Logo.tsx`.
+| Role | Colour | |
+| --- | --- | --- |
+| Foundation | `#2b276b` indigo | every dark ground, all headings. The `ink` and `purple` tokens both resolve to it |
+| Interactive on light | `#714e99` violet | links, hovers, active states, readable icons, proof numerals |
+| Quiet accent | `#af7db4` mauve | hairlines and detail on indigo |
+| Filled controls | `#f49055` orange | buttons, and nothing that has to be read |
+| Accent on indigo | `#fdcd61` yellow | the `amber` token resolves to it |
+| Supporting | `#f8aa51` `#f06e66` `#ee546d` `#ec2e70` | the gradient, button hover, focus rings |
+
+Plus white, warm paper, and an indigo-biased neutral ramp. Nothing else.
+
+**The accents divide by ground, and that split is the one rule to keep.** Orange is 2.1:1 on paper, so it fills controls but never carries text or a meaningful icon; a filled orange control takes indigo text at 5.6:1, never white at 2.3:1. On light grounds the readable accent is violet at 5.9:1. On indigo it is yellow at 8.8:1. Reach for `text-accent` on light and `text-amber` on indigo and you cannot get it wrong. Two more tokens exist because the ramp is mixed for light grounds and fails on dark: `on-ink-quiet` (4.7:1) for muted text on indigo, and `danger` (`#cf2863`, the brand pink darkened) for form errors, which reads on both white and paper.
+
+Every value and its computed ratio is documented at the top of `app/globals.css`. Changing a token there changes the whole site; no component hardcodes a brand colour.
+
+**The logo is the client's own artwork, not a reconstruction.** The supplied file was trimmed and split into `public/brand/`: `vertis-global-logo.png` (indigo wordmark), `vertis-global-logo-light.png` (wordmark reversed to white, mark untouched) and `vertis-global-mark.png` (the V alone, also the source of `app/icon.png`). `components/brand/Logo.tsx` picks the variant from `variant="dark" | "light"`. To move to a true vector later, drop an `.svg` beside these and repoint `src`; nothing else changes.
 
 ## The hero
 

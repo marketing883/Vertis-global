@@ -52,7 +52,7 @@ export default async function InsightArticlePage({ params }: { params: Params })
             <header>
               <Eyebrow>{post.category}</Eyebrow>
               <h1 className="mt-7 max-w-[22ch] text-[clamp(2.25rem,5vw,4rem)]">{post.title}</h1>
-              <p className="tabular mt-8 text-[0.9375rem] text-n-400">
+              <p className="tabular mt-8 text-[0.9375rem] text-n-500">
                 <time dateTime={post.date}>{formatInsightDate(post.date)}</time>
                 <span aria-hidden="true"> · </span>
                 {post.readingMinutes} min read

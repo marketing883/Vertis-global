@@ -32,7 +32,7 @@ export function Footer() {
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-[0.9375rem] text-n-400 transition-colors duration-200 hover:text-white"
+                        className="text-[0.9375rem] text-on-ink-muted transition-colors duration-200 hover:text-white"
                       >
                         {link.label}
                       </Link>
@@ -44,14 +44,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-24 grid gap-8 border-t border-ink-line py-10 text-[0.9375rem] text-n-500 lg:grid-cols-12">
+        <div className="mt-24 grid gap-8 border-t border-ink-line py-10 text-[0.9375rem] text-on-ink-quiet lg:grid-cols-12">
           <div className="lg:col-span-4">
             <p>© {new Date().getFullYear()} Vertis Global</p>
             <div className="mt-4 flex gap-4">
               <a
                 href="https://www.linkedin.com/company/vertis-global"
                 aria-label="Vertis Global on LinkedIn"
-                className="grid size-10 place-items-center rounded-md border border-ink-line transition-colors hover:border-n-500 hover:text-white"
+                className="grid size-10 place-items-center rounded-md border border-ink-line transition-colors hover:border-mauve hover:text-white"
               >
                 <Linkedin className="size-4" strokeWidth={1.5} />
               </a>
