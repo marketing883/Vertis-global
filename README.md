@@ -21,11 +21,14 @@ Then open http://localhost:3000
 
 ### Environment
 
-The employer inquiry form delivers by email through Resend. Without these it still works — leads are logged to the server console.
+All three forms (the Hire Talent modal, the resume form and the newsletter signup) deliver through Resend via `lib/email.ts`. Each submission sends two emails: a notification to the team, and a thank-you to the visitor. The notification goes to `lohith.s@aciinfotech.com`, cc `krish.karanam@aciinfotech.com`, with the visitor as reply-to; if it fails the form shows an error. The thank-you never carries what the visitor typed (anyone can enter anyone's address), and if it fails the lead still counts. Without a key both are logged to the server console and the forms still work.
 
 ```
-RESEND_API_KEY=   # from resend.com
-INQUIRY_TO=       # inbox that receives leads (defaults to info@vertisglobal.com)
+RESEND_API_KEY=   # from resend.com; vertisglobal.com must be a verified domain there
+MAIL_FROM=        # defaults to "Vertis Global <no-reply@vertisglobal.com>"
+MAIL_REPLY_TO=    # replies to the thank-you, defaults to info@vertisglobal.com
+NOTIFY_TO=        # comma separated, overrides the default recipient
+NOTIFY_CC=        # comma separated, overrides the default cc
 ```
 
 ## Source and deployment
@@ -60,7 +63,7 @@ Fallbacks, over your own root SSH access (`vertis-staging` in `~/.ssh/config`): 
 | nginx | `/etc/nginx/conf.d/staging.vertisglobal.com.conf` proxies to 3010. The production equivalent is written and waiting as `vertisglobal.com.conf.nextjs-pending`; nginx ignores it until renamed |
 | TLS | Let's Encrypt, both domains, auto renews |
 | Logs | `/home/vertis/.pm2/logs/vertis-<env>-*.log`, `/var/log/nginx/<site>_*.log` |
-| Env | `.env.local` in each checkout is gitignored and never deployed; put `RESEND_API_KEY` and inbox overrides there by hand (see `.env.example`), then `pm2 reload <process> --update-env` |
+| Env | `.env.local` in each checkout is gitignored and never deployed; put `RESEND_API_KEY` and any overrides there by hand (see `.env.example`), then `pm2 reload <process> --update-env`. Next reads `.env.local` at startup, so a reload is enough; no rebuild |
 
 **Going live on vertisglobal.com, first time only.** Production is currently the old static site in `public_html` on the existing nginx config, and nothing above changes that until this is done, in this order: (1) `npm run promote --first-time`, approve the run, and confirm `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3011/` on the server returns 200; (2) on the server, `cp vertisglobal.com.conf vertisglobal.com.conf.static-site-final && mv vertisglobal.com.conf.nextjs-pending vertisglobal.com.conf && nginx -t && systemctl reload nginx` in `/etc/nginx/conf.d`. Rolling back is the reverse rename and a reload; the static site is never deleted.
 
@@ -183,7 +186,7 @@ The listing itself reads `config/jobs.ts`, filtered by arrangement and industry.
 
 `/contact` is deliberately one form short. The employer enquiry is the Hire Talent modal, which already validates, emails and confirms, so the page routes an employer into it rather than repeating the same eight questions. Three doors (employers, job seekers, everything else), what happens next, where we are (`#offices`, which the footer's Locations link now points at), and a close. The office addresses are still `[CONFIRM]` in the footer; the contact page names the two countries and no more.
 
-**The resume form** (`components/candidates/ResumeForm.tsx` and `app/actions/candidate.ts`) takes seven fields and an optional attachment, capped at 5MB and limited to PDF, Word, RTF or text. It emails the recruiter with the file attached and stores nothing, which is how "no candidate database" survives contact with a resume. The attachment is why `next.config.ts` raises `serverActions.bodySizeLimit`; the default 1MB would reject most CVs. `CANDIDATE_TO` overrides the inbox.
+**The resume form** (`components/candidates/ResumeForm.tsx` and `app/actions/candidate.ts`) takes seven fields and an optional attachment, capped at 5MB and limited to PDF, Word, RTF or text. It emails the recruiter with the file attached and stores nothing, which is how "no candidate database" survives contact with a resume. The attachment is why `next.config.ts` raises `serverActions.bodySizeLimit`; the default 1MB would reject most CVs.
 
 **One React 19 trap worth knowing.** React resets an uncontrolled form once its action returns, so a validation error used to wipe every field the person had typed. Both forms now echo the submitted values back in the error state and use them as the inputs' defaults. If you add a field to either form, give it a `defaultValue` from that state or it will empty itself on the first typo.
 
@@ -263,7 +266,7 @@ Everything else on the page is data at the top of `app/industries/page.tsx`: the
 
 **Whitepapers are not Insights.** They are a separate resource with their own route, `/whitepapers`, their own data in `config/resources.ts`, and a footer link under Company. Nothing about them lives in the Insights config or the Insights page. To publish one, add an entry to `WHITEPAPERS` and put the PDF in `public/whitepapers/`, then set `file` to that path. Until `file` is set the link opens a pre-filled "request a copy" email, so nothing ever points at a missing download.
 
-The **newsletter**, "The Shift", also lives in `config/resources.ts`. Its form (`NewsletterForm.tsx`) posts to `app/actions/newsletter.ts`, which delivers through Resend like the inquiry (`NEWSLETTER_TO` overrides the inbox) and logs when no key is set. Swapping in a list provider is a one-function change there.
+The **newsletter**, "The Shift", also lives in `config/resources.ts`. Its form (`NewsletterForm.tsx`) posts to `app/actions/newsletter.ts`, which delivers through Resend like the inquiry and logs when no key is set. Swapping in a list provider is a one-function change there.
 
 The homepage **resources grid** (`components/blocks/Resources.tsx`) is the one place all three meet: the newest article standing tall on the left, two more articles, a Whitepapers tile and a newsletter tile.
 

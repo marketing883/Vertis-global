@@ -8,16 +8,13 @@ import {
   type CandidateState,
   type CandidateValues,
 } from "@/lib/validation/candidate";
-import { SITE } from "@/config/site";
+import { greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
 
-/* The job seeker lead. Same delivery path as the employer inquiry:
-   validated on the server, emailed through Resend when the key is
-   set, logged otherwise. The resume is attached to that email and is
-   never written to disk or to a database, which is what "no candidate
-   database" means in practice.
-
-     RESEND_API_KEY   — from resend.com
-     CANDIDATE_TO     — inbox for job seekers (falls back to INQUIRY_TO) */
+/* The job seeker lead. Same delivery path as the employer inquiry
+   (lib/email.ts): validated on the server, emailed to the team, and
+   a thank-you to the candidate. The resume is attached to the team's
+   email and is never written to disk or to a database, which is what
+   "no candidate database" means in practice. */
 
 export async function submitCandidate(
   _prev: CandidateState,
@@ -79,8 +76,6 @@ export async function submitCandidate(
   }
 
   const reference = makeReference();
-  const to = process.env.CANDIDATE_TO ?? process.env.INQUIRY_TO ?? SITE.staffingEmail;
-  const key = process.env.RESEND_API_KEY;
   const lookingFor =
     CANDIDATE_LOOKING_FOR.find((o) => o.id === lead.lookingFor)?.label ?? lead.lookingFor;
 
@@ -101,43 +96,32 @@ export async function submitCandidate(
     lead.message || "none",
   ].join("\n");
 
-  if (key) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          from: `Vertis Global Website <no-reply@${new URL(SITE.url).hostname}>`,
-          to: [to],
-          reply_to: lead.email,
-          subject,
-          text: body,
-          ...(attachment ? { attachments: [attachment] } : {}),
-        }),
-      });
-      if (!res.ok) {
-        console.error("[candidate] Resend responded", res.status, await res.text());
-        return {
-          status: "error",
-          errors: {},
-          message: "We couldn't send that just now. Please email us directly.",
-        };
-      }
-    } catch (err) {
-      console.error("[candidate] send failed", err);
-      return {
-        status: "error",
-        errors: {},
-        message: "We couldn't send that just now. Please email us directly.",
-      };
-    }
-  } else {
-    console.info(
-      `[candidate] (no RESEND_API_KEY — logging only)\n${body}${
-        attachment ? `\n[resume attached: ${attachment.filename}]` : ""
-      }`,
-    );
+  const sent = await notifyTeam("candidate", {
+    replyTo: lead.email,
+    subject,
+    text: body,
+    ...(attachment ? { attachments: [attachment] } : {}),
+  });
+  if (!sent) {
+    return {
+      status: "error",
+      errors: {},
+      message: "We couldn't send that just now. Please email us directly.",
+    };
   }
+
+  await thankVisitor("candidate", {
+    to: lead.email,
+    subject: `Thanks, we've got your details (${reference})`,
+    text: [
+      greeting(lead.name),
+      ``,
+      `Thanks for sending us your details${attachment ? " and resume" : ""}. A recruiter will read them and come back to you, usually within a business day.`,
+      ``,
+      `Your reference is ${reference}. If anything changes before then, reply to this email and quote it.`,
+      signOff(),
+    ].join("\n"),
+  });
 
   return { status: "success", reference };
 }

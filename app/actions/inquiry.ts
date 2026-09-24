@@ -8,15 +8,12 @@ import {
 } from "@/lib/validation/inquiry";
 import { ALL_INDUSTRIES } from "@/config/industries";
 import { SERVICES } from "@/config/services";
-import { SITE } from "@/config/site";
+import { greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
 
-/* The employer lead. Validates on the server, then delivers by
-   email through Resend's REST API when the two env vars below are
-   set. With no keys configured it logs the lead and still returns
-   success, so the UX can be exercised end to end in development.
-
-     RESEND_API_KEY   — from resend.com
-     INQUIRY_TO       — inbox that receives leads (defaults to info@)
+/* The employer lead. Validates on the server, then emails the team
+   and thanks the visitor through lib/email.ts, which also documents
+   the env vars. With no key configured both emails are logged and
+   the form still succeeds, so the UX works end to end in development.
 
    A CRM hand-off belongs in the same place — see the TODO. */
 
@@ -49,8 +46,6 @@ export async function submitInquiry(
   }
 
   const reference = makeReference();
-  const to = process.env.INQUIRY_TO ?? SITE.staffingEmail;
-  const key = process.env.RESEND_API_KEY;
 
   /* The form submits slugs and ids; the inbox wants readable names.
      Service goes first because it is the strongest routing signal
@@ -83,41 +78,27 @@ export async function submitInquiry(
     lead.details || "none",
   ].join("\n");
 
-  if (key) {
-    try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: `Vertis Global Website <no-reply@${new URL(SITE.url).hostname}>`,
-          to: [to],
-          reply_to: lead.email,
-          subject,
-          text: body,
-        }),
-      });
-      if (!res.ok) {
-        console.error("[inquiry] Resend responded", res.status, await res.text());
-        return {
-          status: "error",
-          errors: {},
-          message: "We couldn't send that just now. Please email us directly.",
-        };
-      }
-    } catch (err) {
-      console.error("[inquiry] send failed", err);
-      return {
-        status: "error",
-        errors: {},
-        message: "We couldn't send that just now. Please email us directly.",
-      };
-    }
-  } else {
-    console.info(`[inquiry] (no RESEND_API_KEY — logging only)\n${body}`);
+  const sent = await notifyTeam("inquiry", { replyTo: lead.email, subject, text: body });
+  if (!sent) {
+    return {
+      status: "error",
+      errors: {},
+      message: "We couldn't send that just now. Please email us directly.",
+    };
   }
+
+  await thankVisitor("inquiry", {
+    to: lead.email,
+    subject: `We've got your request (${reference})`,
+    text: [
+      greeting(lead.name),
+      ``,
+      `Thanks for getting in touch with Vertis Global. Your request has reached our team, and someone will be in touch within a business day.`,
+      ``,
+      `Your reference is ${reference}. If you need to add anything in the meantime, reply to this email and quote it.`,
+      signOff(),
+    ].join("\n"),
+  });
 
   // TODO(phase-2): hand the lead to the CRM here.
 
