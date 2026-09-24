@@ -12,6 +12,14 @@ export const SITE = {
   staffingEmail: "info@vertisglobal.com",
   /* Resumes and portfolios from job seekers. */
   careersEmail: "careers@vertisglobal.com",
+  /* The US office. The footer and the contact page both read this. */
+  usAddress: {
+    street: "5 Gorman Court",
+    city: "Hillsborough",
+    region: "NJ",
+    postalCode: "08844",
+    country: "USA",
+  },
 } as const;
 
 /* Routes whose hero is NOT a dark surface — the header stays solid
