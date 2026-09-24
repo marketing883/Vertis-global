@@ -35,7 +35,7 @@ jobs:
         # Rebuilds the key from the secret however it was pasted: CRLF, lost
         # line breaks or stray spaces all produce the same file. The printed
         # fingerprint is public information; the server accepts
-        # SHA256:A2AAkIUvSI/YF21tb0ALHx7OQFpyYYb2N20iUm0hNz0.
+        # SHA256:9vIYeGZjqgaW2WuKUaVXXmW2cD67flkacPWEJMf2QB0.
         env:
           KEY: ${{ secrets.STAGING_SSH_KEY }}
         run: |
