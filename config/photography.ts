@@ -247,17 +247,6 @@ export const PHOTOS = {
     3 / 4,
     "PORTRAIT. The work itself: one recruiter, one conversation, notes on paper.",
   ),
-  /* The founder portrait as supplied: a wide black and white frame
-     with him on the right and empty black on the left, composed to
-     sit behind type. It is used full bleed under the purple scrim
-     rather than cropped, which is what the empty half is for. */
-  founder: slot(
-    "founder-jag",
-    "Jag, founder of Vertis Global",
-    1964 / 801,
-    "WIDE. The founder, black and white, subject right, black ground left.",
-    "/photos/founder-jag.png",
-  ),
   aboutFirstDay: slot(
     "about-first-day",
     "A new starter being welcomed into a modern office by two colleagues and shown toward her desk",

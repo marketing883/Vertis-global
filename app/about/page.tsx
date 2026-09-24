@@ -277,45 +277,10 @@ export default function AboutPage() {
       </Section>
 
       {/* ── 8 · A word from the founder ──────────────────────── */}
-      {/* The photograph is composed with him on the right and black
-          space on the left, so it runs full bleed under the copy
-          rather than sitting in a column. `object-right` keeps him in
-          frame when a narrow viewport crops the width away. */}
       <Section background="ink" spacing="none" className="relative overflow-hidden">
-        {/* His face sits about 71% across the frame, so the crop is
-            anchored there rather than at the right edge, which is
-            empty shoulder. */}
-        {/* Only from lg up. On a narrow screen a 2.45:1 frame has to
-            zoom so far that his face lands under the paragraph, so
-            below lg the photograph stacks above the words instead. */}
-        <Photo
-          slot="founder"
-          fill
-          sizes="100vw"
-          className="absolute inset-0 hidden h-full w-full lg:block [&>img]:[object-position:70%_45%]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            /* The photograph is already black where the copy sits, so
-               the purple can stay strong on the left and fall away to
-               nothing on his side, which keeps him black and white
-               rather than tinted. */
-            background:
-              "linear-gradient(to right, rgba(43, 39, 107,0.93) 0%, rgba(43, 39, 107,0.86) 36%, rgba(43, 39, 107,0.32) 58%, rgba(43, 39, 107,0.06) 76%, rgba(43, 39, 107,0) 100%), linear-gradient(to top, #2b276b 0%, rgba(43, 39, 107,0.18) 16%, rgba(43, 39, 107,0) 46%)",
-          }}
-        />
         <Container className="relative">
-          <div className="pt-20 md:pt-24 lg:hidden">
-            <Photo slot="founder" sizes="100vw" className="w-full rounded-lg" />
-          </div>
-
           <div className="grid lg:grid-cols-12">
-            {/* Kept shallow on purpose: the photograph is 2.45:1, so a
-                tall section would crop and enlarge him past the point
-                where the frame still reads as a portrait. */}
-            <div className="pt-12 pb-20 md:pt-14 md:pb-24 lg:col-span-6 lg:py-24">
+            <div className="py-20 md:py-24 lg:col-span-8">
               <Eyebrow>From our founder</Eyebrow>
               <blockquote className="mt-8">
                 <p className="font-display text-[clamp(1.5rem,2.9vw,2.375rem)] leading-[1.18] font-bold tracking-[-0.03em] text-white">

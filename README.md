@@ -198,7 +198,7 @@ The listing itself reads `config/jobs.ts`, filtered by arrangement and industry.
 
 **The founder section** carries the client's own approved words from Jag, so treat that copy as signed off and do not rewrite it.
 
-His photograph (`public/photos/founder-jag.png`, slot `founder`) is a 2.45:1 black and white frame composed with him on the right and empty black on the left, made to sit behind type. It runs full bleed under a scrim that stays strong on the left and falls to nothing on his side, so he stays black and white rather than tinted, with the crop anchored at 70 percent across because the right edge is empty shoulder. Below the large breakpoint that frame would have to zoom so far that his face landed under the paragraph, so the photograph stacks above the words instead. If the picture is ever replaced with a different crop, both the anchor and the scrim need revisiting.
+It runs as text only on the indigo ground. The founder's photograph was taken off the site on 24 Sep 2026 at the client's request, and the file was deleted with it; do not reintroduce a portrait without their sign-off.
 
 `PageHero` gained a `scrim` prop for it. The About hero photograph is bright and low contrast, and the standard purple scrim erased it, so `scrim="light"` holds the purple over the copy and lets the picture stay visible on the right. The default is unchanged, so `/industries` and the service pages are untouched.
 
