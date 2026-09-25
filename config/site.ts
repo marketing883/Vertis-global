@@ -12,7 +12,9 @@ export const SITE = {
   staffingEmail: "info@vertisglobal.com",
   /* Resumes and portfolios from job seekers. */
   careersEmail: "careers@vertisglobal.com",
-  /* The US office. The footer and the contact page both read this. */
+  /* The US office. Not shown anywhere for now (taken down 25 Sep 2026
+     at the client's request). To publish it again, render it in the
+     footer's Offices list and on the contact page's United States card. */
   usAddress: {
     street: "5 Gorman Court",
     city: "Hillsborough",

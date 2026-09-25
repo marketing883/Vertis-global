@@ -60,13 +60,8 @@ export function Footer() {
 
           <div className="lg:col-span-4">
             <p className="text-white">Offices</p>
-            <address className="mt-3 not-italic">
-              {SITE.usAddress.street}
-              <br />
-              {SITE.usAddress.city}, {SITE.usAddress.region} {SITE.usAddress.postalCode},{" "}
-              {SITE.usAddress.country}
-            </address>
-            <p className="mt-3">India</p>
+            <p className="mt-3">United States</p>
+            <p>India</p>
           </div>
 
           <ul className="flex flex-wrap gap-x-6 gap-y-2 lg:col-span-4 lg:justify-end">
