@@ -179,6 +179,12 @@ export default function ContactPage() {
               <p className="mt-2 text-[1.0625rem] leading-relaxed text-n-500">
                 Onshore recruiting, client delivery and every role that has to be in the room.
               </p>
+              <address className="mt-5 text-[1.0625rem] leading-relaxed text-ink not-italic">
+                {SITE.usAddress.street}
+                <br />
+                {SITE.usAddress.city}, {SITE.usAddress.region} {SITE.usAddress.postalCode},{" "}
+                {SITE.usAddress.country}
+              </address>
               <a href={`mailto:${SITE.staffingEmail}`} className="link-underline mt-6 inline-flex text-[1.0625rem] text-ink">
                 {SITE.staffingEmail}
               </a>

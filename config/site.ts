@@ -12,14 +12,12 @@ export const SITE = {
   staffingEmail: "info@vertisglobal.com",
   /* Resumes and portfolios from job seekers. */
   careersEmail: "careers@vertisglobal.com",
-  /* The US office. Not shown anywhere for now (taken down 25 Sep 2026
-     at the client's request). To publish it again, render it in the
-     footer's Offices list and on the contact page's United States card. */
+  /* The US office. The footer and the contact page both read this. */
   usAddress: {
-    street: "5 Gorman Court",
-    city: "Hillsborough",
-    region: "NJ",
-    postalCode: "08844",
+    street: "5301 Alpha Rd., Suite 80",
+    city: "Dallas",
+    region: "TX",
+    postalCode: "75240",
     country: "USA",
   },
 } as const;
