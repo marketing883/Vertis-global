@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1 },
     { path: "/services", priority: 0.9 },
     { path: "/industries", priority: 0.9 },
+    /* A static route of its own rather than an INDUSTRY_PAGES entry. */
+    { path: "/industries/oracle-erp", priority: 0.8 },
     { path: "/hire-talent", priority: 0.9 },
     { path: "/candidates", priority: 0.8 },
     { path: "/jobs", priority: 0.8 },
