@@ -18,7 +18,17 @@ import { cn } from "@/lib/utils";
    accordion set null and blank the desktop panel, which is the same
    trap the homepage industries block fell into. */
 
-export function DisciplinePanel({ disciplines }: { disciplines: Discipline[] }) {
+/* The two chip groups are "Tools" and "Standards" on industry pages.
+   Specialist pages (Oracle ERP, Azure) pass their own labels. */
+type Labels = { tools?: string; standards?: string };
+
+export function DisciplinePanel({
+  disciplines,
+  labels,
+}: {
+  disciplines: Discipline[];
+  labels?: Labels;
+}) {
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState<number | null>(0);
   const baseId = useId();
@@ -87,7 +97,7 @@ export function DisciplinePanel({ disciplines }: { disciplines: Discipline[] }) 
           aria-labelledby={`${baseId}-tab-${active}`}
           className="lg:col-span-8 lg:sticky lg:top-32 lg:self-start"
         >
-          <Detail key={current.id} discipline={current} layout="panel" className="reveal" />
+          <Detail key={current.id} discipline={current} layout="panel" labels={labels} className="reveal" />
         </div>
       </div>
 
@@ -144,7 +154,7 @@ export function DisciplinePanel({ disciplines }: { disciplines: Discipline[] }) 
                 )}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <Detail discipline={d} layout="accordion" className="pb-8" />
+                  <Detail discipline={d} layout="accordion" labels={labels} className="pb-8" />
                 </div>
               </div>
             </div>
@@ -164,10 +174,12 @@ export function DisciplinePanel({ disciplines }: { disciplines: Discipline[] }) 
 function Detail({
   discipline,
   layout,
+  labels,
   className,
 }: {
   discipline: Discipline;
   layout: "panel" | "accordion";
+  labels?: Labels;
   className?: string;
 }) {
   const photo = (
@@ -192,7 +204,7 @@ function Detail({
       <p className="max-w-[52ch] text-[clamp(1.125rem,1.7vw,1.375rem)] leading-relaxed text-ink">
         {discipline.builds}
       </p>
-      <Facts discipline={discipline} />
+      <Facts discipline={discipline} labels={labels} />
     </>
   );
 
@@ -213,7 +225,7 @@ function Detail({
   );
 }
 
-function Facts({ discipline }: { discipline: Discipline }) {
+function Facts({ discipline, labels }: { discipline: Discipline; labels?: Labels }) {
   return (
     <>
       <dl className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -222,7 +234,7 @@ function Facts({ discipline }: { discipline: Discipline }) {
           <dd className="mt-3 text-[1.0625rem] text-n-600">{discipline.seniority}</dd>
         </div>
         <div>
-          <dt className="eyebrow">Tools</dt>
+          <dt className="eyebrow">{labels?.tools ?? "Tools"}</dt>
           <dd className="mt-3 flex flex-wrap gap-2">
             {discipline.tools.map((tool) => (
               <span
@@ -235,7 +247,7 @@ function Facts({ discipline }: { discipline: Discipline }) {
           </dd>
         </div>
         <div>
-          <dt className="eyebrow">Standards</dt>
+          <dt className="eyebrow">{labels?.standards ?? "Standards"}</dt>
           <dd className="mt-3 flex flex-wrap gap-2">
             {discipline.standards.map((standard) => (
               <span

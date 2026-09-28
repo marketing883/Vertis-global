@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { SpecialistPage } from "@/components/industries/SpecialistPage";
-import { ORACLE_ERP as P } from "@/config/oracle-erp";
+import { AZURE as P } from "@/config/azure";
 
-/* Oracle ERP staffing. Content in config/oracle-erp.ts; layout shared
-   with the other specialist pages in components/industries/SpecialistPage. */
+/* Azure staffing. Content in config/azure.ts; layout shared with the
+   other specialist pages in components/industries/SpecialistPage. */
 
 export const metadata: Metadata = {
   title: P.meta.title,
@@ -12,6 +12,6 @@ export const metadata: Metadata = {
   openGraph: { type: "website", title: P.meta.title, description: P.meta.description },
 };
 
-export default function OracleErpPage() {
+export default function AzurePage() {
   return <SpecialistPage page={P} />;
 }

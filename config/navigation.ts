@@ -19,15 +19,16 @@ export type NavLink = { label: string; href: string; note?: string };
 export type NavItem = { label: string; href: string; children?: NavLink[] };
 
 /* Every industry page, by name. The order is the client's: Information
-   Technology, then Oracle ERP Staffing beside it (a specialist page
-   under technology, not one of the eighteen industries, so it lives
-   here rather than in config/industries.ts), then Healthcare and
+   Technology, then the two specialist pages beside it, Oracle ERP
+   Staffing and Azure Staffing (not industries, so they are named here
+   rather than taken from ALL_INDUSTRIES), then Healthcare and
    Engineering, then the rest alphabetically. A new industry joins the
    alphabetical tail on its own. */
-const INDUSTRY_LEAD = ["information-technology", "oracle-erp", "healthcare", "engineering"];
+const INDUSTRY_LEAD = ["information-technology", "oracle-erp", "azure", "healthcare", "engineering"];
 const INDUSTRY_PAGES_NAV: NavLink[] = [
   ...ALL_INDUSTRIES.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
   { label: "Oracle ERP Staffing", href: "/industries/oracle-erp" },
+  { label: "Azure Staffing", href: "/industries/azure" },
 ];
 const leadIndex = (l: NavLink) => INDUSTRY_LEAD.indexOf(l.href.replace("/industries/", ""));
 const INDUSTRY_LINKS: NavLink[] = [

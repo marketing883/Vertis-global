@@ -16,8 +16,12 @@
    ============================================================ */
 
 import type { Discipline, StackGroup } from "./industry-pages";
+import type { SpecialistPage } from "./specialist-page";
 
 export const ORACLE_ERP = {
+  slug: "oracle-erp",
+  hireContext: { industry: "information-technology", service: "Oracle ERP staffing" },
+  jobsLabel: "View Oracle ERP jobs",
   meta: {
     title: "Oracle ERP staffing",
     description:
@@ -28,6 +32,7 @@ export const ORACLE_ERP = {
     eyebrow: "Oracle ERP staffing",
     lead: "Put the right Oracle expertise",
     accent: "where the work is.",
+    photo: "serviceContract",
     sub: "Oracle ERP specialists for transformation programs, critical workstreams, release cycles and steady-state operations, without waiting for the perfect full-time hire.",
     facts: [
       {
@@ -66,6 +71,7 @@ export const ORACLE_ERP = {
         body: "Capacity added or reshaped as the program moves from design and build to testing, go-live and support.",
       },
     ],
+    photo: "serviceProjectTeam",
     caption: "One specialist or a connected team, shaped around the work.",
   },
 
@@ -351,4 +357,4 @@ export const ORACLE_ERP = {
     heading: "Tell us what you need to staff.",
     body: "Start with a short note. We will align the Oracle skills, the team shape and the engagement model to the work in front of you.",
   },
-};
+} satisfies SpecialistPage;

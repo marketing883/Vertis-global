@@ -27,6 +27,12 @@ export type IndustryGroup = {
   /** The short, human framing used in the explorer. */
   tagline: string;
   industries: Industry[];
+  /** Specialist staffing pages that belong under this group but are not
+      industries in their own right (Oracle ERP, Azure). The explorer lists
+      them inside the group, straight after `after`; they are kept out of
+      ALL_INDUSTRIES and INDUSTRY_COUNT, so "eighteen industries" stays
+      true, and each has its own static route under app/industries/. */
+  specialisms?: (Industry & { after: string })[];
 };
 
 export const INDUSTRY_GROUPS: IndustryGroup[] = [
@@ -147,8 +153,36 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         line: "Field technicians, engineers, safety and operations staff across power and utilities.",
       },
     ],
+    specialisms: [
+      {
+        slug: "oracle-erp",
+        name: "Oracle ERP Staffing",
+        line: "Fusion Financials, procurement and SCM, PPM and EPM, integration, data, testing and program leadership.",
+        after: "information-technology",
+      },
+      {
+        slug: "azure",
+        name: "Azure Staffing",
+        line: "Cloud and infrastructure, data and analytics, AI, DevOps, security and cloud program talent.",
+        after: "oracle-erp",
+      },
+    ],
   },
 ];
+
+/* The explorer's view of a group: its industries with any specialist
+   pages slotted in after the entry each one names. */
+export type ExplorerEntry = Industry & { specialist?: boolean };
+
+export function withSpecialisms(industries: Industry[], groups = INDUSTRY_GROUPS): ExplorerEntry[] {
+  const list: ExplorerEntry[] = [...industries];
+  for (const s of groups.flatMap((g) => g.specialisms ?? [])) {
+    const at = list.findIndex((i) => i.slug === s.after);
+    if (at < 0) continue;
+    list.splice(at + 1, 0, { slug: s.slug, name: s.name, line: s.line, specialist: true });
+  }
+  return list;
+}
 
 export const ALL_INDUSTRIES: Industry[] = INDUSTRY_GROUPS.flatMap((g) => g.industries);
 export const INDUSTRY_COUNT = ALL_INDUSTRIES.length;
