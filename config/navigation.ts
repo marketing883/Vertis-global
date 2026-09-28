@@ -4,7 +4,7 @@
    the inquiry modal (see components/hire). Dropdowns are short and
    single-purpose; there is no mega menu. */
 
-import { INDUSTRY_GROUPS } from "./industries";
+import { ALL_INDUSTRIES } from "./industries";
 import { SERVICES } from "./services";
 
 /* The five services, written once. `navLabel` keeps the ampersand
@@ -17,6 +17,23 @@ const SERVICE_LINKS: NavLink[] = SERVICES.map((s) => ({
 
 export type NavLink = { label: string; href: string; note?: string };
 export type NavItem = { label: string; href: string; children?: NavLink[] };
+
+/* Every industry page, by name. The order is the client's: Information
+   Technology, then Oracle ERP Staffing beside it (a specialist page
+   under technology, not one of the eighteen industries, so it lives
+   here rather than in config/industries.ts), then Healthcare and
+   Engineering, then the rest alphabetically. A new industry joins the
+   alphabetical tail on its own. */
+const INDUSTRY_LEAD = ["information-technology", "oracle-erp", "healthcare", "engineering"];
+const INDUSTRY_PAGES_NAV: NavLink[] = [
+  ...ALL_INDUSTRIES.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
+  { label: "Oracle ERP Staffing", href: "/industries/oracle-erp" },
+];
+const leadIndex = (l: NavLink) => INDUSTRY_LEAD.indexOf(l.href.replace("/industries/", ""));
+const INDUSTRY_LINKS: NavLink[] = [
+  ...INDUSTRY_LEAD.map((slug) => INDUSTRY_PAGES_NAV.find((l) => l.href === `/industries/${slug}`)!),
+  ...INDUSTRY_PAGES_NAV.filter((l) => leadIndex(l) < 0).sort((a, b) => a.label.localeCompare(b.label)),
+];
 
 export const PRIMARY_NAV: NavItem[] = [
   {
@@ -43,11 +60,7 @@ export const PRIMARY_NAV: NavItem[] = [
   {
     label: "Industries",
     href: "/industries",
-    children: INDUSTRY_GROUPS.map((g) => ({
-      label: g.name,
-      href: `/industries#${g.id}`,
-      note: g.tagline,
-    })),
+    children: INDUSTRY_LINKS,
   },
   { label: "Jobs", href: "/jobs" },
   { label: "About", href: "/about" },

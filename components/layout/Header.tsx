@@ -159,7 +159,9 @@ function Dropdown({
   onMouseLeave: () => void;
 }) {
   if (!item.children) return null;
-  const twoCol = item.children.length > 3;
+  /* Short lists get two columns; the industries list, one link per
+     page, gets three so it stays a compact block rather than a tower. */
+  const cols = item.children.length > 8 ? 3 : item.children.length > 3 ? 2 : 1;
   return (
     <div
       hidden={!open}
@@ -168,7 +170,13 @@ function Dropdown({
       className="absolute inset-x-0 top-full hidden bg-paper/97 backdrop-blur-xl lg:block"
     >
       <Container>
-        <ul className={cn("grid max-w-3xl gap-x-12 gap-y-1 py-10", twoCol && "grid-cols-2")}>
+        <ul
+          className={cn(
+            "grid gap-x-12 gap-y-1 py-10",
+            cols === 3 ? "max-w-4xl grid-cols-3 gap-y-0" : "max-w-3xl",
+            cols === 2 && "grid-cols-2",
+          )}
+        >
           {item.children.map((link) => (
             <li key={link.href}>
               <Link href={link.href} className="group block py-3">
