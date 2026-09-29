@@ -13,6 +13,23 @@ const nextConfig: NextConfig = {
        encoding and the other fields. */
     serverActions: { bodySizeLimit: "8mb" },
   },
+  /* Retired URLs, permanently redirected so links and search results
+     land on the page that replaced them. The three former staffing
+     pages go to their own section of /services/staffing; Oracle ERP
+     and Azure moved from Industries to Services as ERP and Cloud;
+     project and team staffing grew into managed services; direct hire
+     is no longer offered, so it goes to the services overview. */
+  async redirects() {
+    return [
+      { source: "/services/temporary-staffing", destination: "/services/staffing#temporary-staffing", permanent: true },
+      { source: "/services/contract-staffing", destination: "/services/staffing#contract-staffing", permanent: true },
+      { source: "/services/contract-to-hire", destination: "/services/staffing#contract-to-hire", permanent: true },
+      { source: "/services/project-team-staffing", destination: "/services/managed-services", permanent: true },
+      { source: "/services/direct-hire", destination: "/services", permanent: true },
+      { source: "/industries/oracle-erp", destination: "/services/oracle-erp", permanent: true },
+      { source: "/industries/azure", destination: "/services/azure", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

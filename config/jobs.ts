@@ -19,11 +19,11 @@
 
 export type JobType = "temporary" | "contract" | "contract-to-hire" | "direct-hire";
 
-export const JOB_TYPES: { id: JobType; label: string; service: string }[] = [
-  { id: "temporary", label: "Temporary", service: "temporary-staffing" },
-  { id: "contract", label: "Contract", service: "contract-staffing" },
-  { id: "contract-to-hire", label: "Contract-to-hire", service: "contract-to-hire" },
-  { id: "direct-hire", label: "Permanent", service: "direct-hire" },
+export const JOB_TYPES: { id: JobType; label: string }[] = [
+  { id: "temporary", label: "Temporary" },
+  { id: "contract", label: "Contract" },
+  { id: "contract-to-hire", label: "Contract-to-hire" },
+  { id: "direct-hire", label: "Permanent" },
 ];
 
 export type Job = {

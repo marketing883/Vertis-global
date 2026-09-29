@@ -15,41 +15,37 @@ import { WHITEPAPERS } from "@/config/resources";
 
 export const metadata: Metadata = {
   title: "Industries",
-  description: `Vertis Global staffs ${INDUSTRY_COUNT} industries, from administrative and healthcare to manufacturing, semiconductor and energy. Temporary, contract, contract-to-hire, direct hire and project teams.`,
+  description: `Vertis Global staffs ${INDUSTRY_COUNT} industries, from administrative and healthcare to manufacturing, semiconductor and energy. Managed services, and staffing on temporary, contract and contract-to-hire terms.`,
   alternates: { canonical: "/industries" },
 };
 
-/* ── The five ways to engage, per industry ─────────────────── */
+/* ── The services, per industry ─────────────────────────────
+   Managed services and staffing apply in every industry; Cloud and
+   ERP are the specialist technology services. */
 const SOLUTIONS = [
   {
-    name: "Temporary staffing",
-    line: "People for a day, a week or a season.",
+    name: "Managed services",
+    line: "We staff it and run it.",
     detail:
-      "Cover a rush, an absence or a seasonal peak without adding headcount. Common in retail, hospitality, industrial and manufacturing.",
+      "An ongoing team or workstream we recruit, manage day to day and keep staffed as your needs change. One point of contact, one invoice.",
   },
   {
-    name: "Contract staffing",
-    line: "Specialists for as long as the work lasts.",
+    name: "Staffing",
+    line: "The right people, for as long as the work needs them.",
     detail:
-      "Skilled people on a defined contract, employed by us and working for you. Common in information technology, engineering and semiconductor.",
+      "Temporary cover for a rush or a season, contract specialists for work with an end date, and contract-to-hire when you want to see someone work first.",
   },
   {
-    name: "Contract-to-hire",
-    line: "Work together first. Then decide.",
+    name: "Cloud",
+    line: "Microsoft Azure talent.",
     detail:
-      "A set period on the job before the permanent decision. Common in administrative, financial services and healthcare support roles.",
+      "Cloud and infrastructure, data and AI, DevOps, security and program talent, from one specialist to a complete project team.",
   },
   {
-    name: "Direct hire",
-    line: "We find them. You hire them.",
+    name: "ERP",
+    line: "Oracle ERP specialists.",
     detail:
-      "A permanent hire, sourced and shortlisted by a recruiter who knows the role. You interview two or three people, not twenty.",
-  },
-  {
-    name: "Project and team staffing",
-    line: "A whole team, ready to go.",
-    detail:
-      "Several people across roles, assembled around one piece of work, onshore, offshore or both. Common in technology programmes and plant ramp ups.",
+      "Functional, technical, integration, data, testing and program talent for Oracle programs, releases and steady-state operations.",
   },
 ];
 
@@ -148,7 +144,7 @@ export default function IndustriesPage() {
               <h2 className="mt-7 max-w-[15ch]">Hire the way the work demands.</h2>
             </div>
             <p className="max-w-[40ch] text-lg text-n-500 lg:col-span-5">
-              The same five arrangements apply in every industry we serve. We will
+              Managed services and staffing apply in every industry we serve. We will
               tell you honestly which one fits, even when it is the smaller one.
             </p>
           </div>

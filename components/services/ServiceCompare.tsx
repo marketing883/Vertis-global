@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
-import { SERVICES } from "@/config/services";
+import { SERVICE_LIST } from "@/config/services";
 import { cn } from "@/lib/utils";
 
-/* All five arrangements, with the current one marked. This is the
+/* All four services, with the current one marked. This is the
    escape hatch for a visitor who landed on the wrong page, and it is
    what lets the inquiry form keep the service as a hidden field:
    changing your mind should change the page, not a dropdown. */
@@ -12,7 +12,7 @@ export function ServiceCompare({
   current,
   background = "paper2",
   heading = "Not sure which one fits?",
-  intro = "The five arrangements differ in how long the person stays and who employs them. We will tell you honestly which one suits the work, even when it is the smaller one.",
+  intro = "Four services, one standard of screening. We will tell you honestly which one suits the work, even when it is the smaller one.",
 }: {
   /** Slug of the service being viewed, or undefined on the index. */
   current?: string;
@@ -32,7 +32,7 @@ export function ServiceCompare({
         </div>
 
         <ul className="mt-16 border-t border-n-200 lg:mt-20">
-          {SERVICES.map((s) => {
+          {SERVICE_LIST.map((s) => {
             const here = s.slug === current;
             const body = (
               <>
@@ -73,7 +73,7 @@ export function ServiceCompare({
                   <div className={rowClass}>{body}</div>
                 ) : (
                   <Link
-                    href={`/services/${s.slug}`}
+                    href={s.href}
                     className={cn("group transition-colors hover:bg-white", rowClass)}
                   >
                     {body}

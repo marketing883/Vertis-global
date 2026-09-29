@@ -1,11 +1,10 @@
 /* ============================================================
-   ORACLE ERP STAFFING · /industries/oracle-erp
+   ORACLE ERP STAFFING · /services/oracle-erp (the ERP service)
 
-   A specialist page of its own, not an entry in industry-pages.ts.
-   Oracle ERP is a talent market inside Information Technology rather
-   than a nineteenth industry, so it stays out of the explorer and the
-   industry count, and its route (app/industries/oracle-erp) takes
-   precedence over the shared [slug] renderer without touching it.
+   A specialist page, listed under Services as "ERP", drawn by the
+   shared SpecialistPage renderer. Its static route,
+   app/services/oracle-erp, takes precedence over the [slug] service
+   renderer. The old /industries/oracle-erp URL redirects here.
 
    Source: the client's "Oracle ERP Staffing Web Content" document.
    Everything here is taken from it or plainly derived from it. It

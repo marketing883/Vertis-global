@@ -1,7 +1,7 @@
 /* ============================================================
-   AZURE STAFFING · /industries/azure
+   AZURE STAFFING · /services/azure (the Cloud service)
 
-   A specialist page under Technology and Engineering, drawn by the
+   A specialist page, listed under Services as "Cloud", drawn by the
    shared SpecialistPage renderer, the same shape as Oracle ERP.
 
    Source: the client's "Azure Staffing Website Content" document.

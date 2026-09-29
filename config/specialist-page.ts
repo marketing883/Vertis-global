@@ -1,18 +1,17 @@
 /* ============================================================
    SPECIALIST STAFFING PAGES
 
-   The shape behind /industries/oracle-erp and /industries/azure:
-   a specialist talent market inside Technology and Engineering
-   rather than an industry of its own. One renderer,
+   The shape behind /services/oracle-erp (ERP) and /services/azure
+   (Cloud): a specialist talent market offered as a service. One
+   renderer,
    components/industries/SpecialistPage.tsx, draws every page from
    this shape, so the pages share a flow and a look and differ only
    in content.
 
-   Each page has its own static route under app/industries/<slug>,
-   which takes precedence over the shared [slug] industry renderer
-   without touching it, and is listed in the Technology and
-   Engineering group of the explorer through `specialisms` in
-   config/industries.ts.
+   Each page has its own static route under app/services/<slug>,
+   which takes precedence over the [slug] service renderer, and is
+   listed in SERVICE_LIST in config/services.ts. The old
+   /industries/<slug> URLs redirect to them (next.config.ts).
 
    Rules, as for industry pages: every line comes from the client's
    source document or plainly from it. No invented statistics,

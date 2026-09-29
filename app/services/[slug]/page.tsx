@@ -12,22 +12,24 @@ import { ServiceProof } from "@/components/services/ServiceProof";
 import { ServiceSteps } from "@/components/services/ServiceSteps";
 import { ServiceCompare } from "@/components/services/ServiceCompare";
 import { StickyHireBar } from "@/components/services/StickyHireBar";
-import { SERVICES, getService } from "@/config/services";
+import { SERVICES, getListing, getService } from "@/config/services";
 import { ALL_INDUSTRIES } from "@/config/industries";
 import { getLatestInsights } from "@/config/insights";
 import { WHITEPAPERS } from "@/config/resources";
 
-/* One renderer, five pages. Everything that differs between them
-   lives in config/services.ts: the hero, the photograph, the three
-   proof figures, the body copy, the sequence, the FAQ and the closing
-   call to action. The only conditional in this file is the optional
-   `aside`, which is why three of the five pages carry a section the
-   other two do not. */
+/* One renderer for the services drawn from config/services.ts
+   (Managed Services and Staffing). Everything that differs between
+   them lives there: the hero, the photograph, the three proof figures,
+   the body copy, the sequence, the FAQ and the closing call to action.
+   Two sections are optional: `options`, the arrangements side by side
+   (Staffing's three), and `aside`. Cloud and ERP are specialist pages
+   with static routes of their own, app/services/azure and
+   app/services/oracle-erp, which take precedence over this one. */
 
 type Params = Promise<{ slug: string }>;
 
-/* Five services, five prerendered pages. An unknown slug is a static
-   404 rather than a render at request time. */
+/* Every service in SERVICES is prerendered. An unknown slug is a
+   static 404 rather than a render at request time. */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -57,7 +59,7 @@ export default async function ServicePage({ params }: { params: Params }) {
     const found = ALL_INDUSTRIES.find((i) => i.slug === slug);
     return found ? [found] : [];
   });
-  const alternative = getService(service.notRightIf.alternative);
+  const alternative = getListing(service.notRightIf.alternative);
   const paper =
     (service.whitepaper ? WHITEPAPERS.find((w) => w.slug === service.whitepaper) : undefined) ??
     WHITEPAPERS[0];
@@ -129,10 +131,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                   <p className="mt-3 max-w-[44ch] text-[1.0625rem] leading-relaxed text-n-500">
                     {service.notRightIf.body}
                   </p>
-                  <Link
-                    href={`/services/${alternative.slug}`}
-                    className="link-underline mt-6 text-[1.0625rem]"
-                  >
+                  <Link href={alternative.href} className="link-underline mt-6 text-[1.0625rem]">
                     {alternative.name}
                     <ArrowUpRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
                   </Link>
@@ -142,6 +141,64 @@ export default async function ServicePage({ params }: { params: Params }) {
           </div>
         </Container>
       </Section>
+
+      {/* ── 3b · The arrangements within the service ───────────
+          Staffing's three: temporary, contract and contract-to-hire.
+          Each card is an anchor, which is where the old single-page
+          URLs redirect to. */}
+      {service.options ? (
+        <Section background="white" id="options" className="scroll-mt-24">
+          <Container>
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow>{service.options.eyebrow}</Eyebrow>
+                <h2 className="mt-7 max-w-[16ch]">{service.options.heading}</h2>
+              </div>
+              <p className="max-w-[40ch] text-lg text-n-500 lg:col-span-5">{service.options.intro}</p>
+            </div>
+
+            <ul className="mt-16 grid gap-5 lg:mt-20 lg:grid-cols-3 lg:gap-6">
+              {service.options.items.map((option) => (
+                <li
+                  key={option.id}
+                  id={option.id}
+                  className="flex scroll-mt-28 flex-col rounded-lg bg-paper p-8"
+                >
+                  <h3 className="text-[1.5rem] text-ink">{option.name}</h3>
+                  <p className="mt-3 text-[1.0625rem] font-medium text-n-600">{option.line}</p>
+                  <p className="mt-4 text-[1.0625rem] leading-relaxed text-n-500">{option.body}</p>
+                  <ul className="mt-6 border-t border-n-200">
+                    {option.bestFor.map((item) => (
+                      <li key={item} className="flex gap-3 border-b border-n-200 py-3.5">
+                        <Check
+                          className="mt-1 size-4 shrink-0 text-accent"
+                          strokeWidth={2.25}
+                          aria-hidden="true"
+                        />
+                        <span className="text-[1rem] leading-relaxed text-n-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <dl className="mt-auto space-y-4 pt-8">
+                    <div>
+                      <dt className="eyebrow">Who employs the person</dt>
+                      <dd className="mt-2 text-[1.0625rem] text-n-600">{option.terms.employer}</dd>
+                    </div>
+                    <div>
+                      <dt className="eyebrow">Typical length</dt>
+                      <dd className="mt-2 text-[1.0625rem] text-n-600">{option.terms.length}</dd>
+                    </div>
+                    <div>
+                      <dt className="eyebrow">When you commit</dt>
+                      <dd className="mt-2 text-[1.0625rem] text-n-600">{option.terms.commit}</dd>
+                    </div>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      ) : null}
 
       {/* ── 4 · How it works ─────────────────────────────────── */}
       <ServiceSteps
@@ -226,7 +283,7 @@ export default async function ServicePage({ params }: { params: Params }) {
         </Container>
       </Section>
 
-      {/* ── 7 · Compare the five ─────────────────────────────── */}
+      {/* ── 7 · Compare the four ─────────────────────────────── */}
       <ServiceCompare current={service.slug} />
 
       {/* ── 8 · FAQ ──────────────────────────────────────────── */}
@@ -258,7 +315,7 @@ export default async function ServicePage({ params }: { params: Params }) {
             <div className="flex flex-wrap items-center gap-x-10 gap-y-5 lg:col-span-5 lg:justify-end">
               <HireTalentButton variant="onInk">How Can We Help?</HireTalentButton>
               <Link href="/services" className="link-underline text-[1.0625rem]">
-                All five services
+                All services
                 <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
               </Link>
             </div>

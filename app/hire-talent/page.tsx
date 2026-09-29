@@ -16,7 +16,7 @@ import { WHITEPAPERS } from "@/config/resources";
 
 export const metadata: Metadata = {
   title: "Hire talent",
-  description: `Tell Vertis Global who you need and get qualified people in 48 to 72 hours. Temporary, contract, contract-to-hire, direct hire and whole teams, across ${INDUSTRY_COUNT} industries.`,
+  description: `Tell Vertis Global who you need and get qualified people in 48 to 72 hours. Managed teams, and staffing on temporary, contract and contract-to-hire terms, across ${INDUSTRY_COUNT} industries.`,
   alternates: { canonical: "/hire-talent" },
 };
 
@@ -108,7 +108,7 @@ const FAQS = [
   },
   {
     q: "Who employs the people you place?",
-    a: "On temporary, contract and contract-to-hire work, we do. Payroll, taxes, statutory cover and compliance are ours for the length of the assignment. On a direct hire the person is your employee from day one.",
+    a: "On temporary, contract and contract-to-hire work, we do. Payroll, taxes, statutory cover and compliance are ours for the length of the assignment, and on managed services we also run the team day to day. A contract-to-hire moves to your payroll when you convert them.",
   },
   {
     q: "What happens if someone is not right?",
@@ -116,7 +116,7 @@ const FAQS = [
   },
   {
     q: "Can you cover several sites or several roles at once?",
-    a: "Yes. Multi-site and multi-role programmes get one point of contact and one invoice rather than one of each per location. If you need a whole team, that is project and team staffing.",
+    a: "Yes. Multi-site and multi-role programmes get one point of contact and one invoice rather than one of each per location. If you need a whole team run for you, that is managed services.",
   },
 ];
 
@@ -157,7 +157,7 @@ export default function HireTalentPage() {
       <ServiceCompare
         background="paper"
         heading="Hire the way the work demands."
-        intro="Five arrangements, one standard of screening. We will tell you honestly which one fits, even when it is the smaller one."
+        intro="Four services, one standard of screening. We will tell you honestly which one fits, even when it is the smaller one."
       />
 
       {/* ── 5 · What comes with every placement ──────────────── */}
@@ -268,7 +268,7 @@ export default function HireTalentPage() {
             <div className="flex flex-wrap items-center gap-x-10 gap-y-5 lg:col-span-5 lg:justify-end">
               <HireTalentButton variant="onInk">How Can We Help?</HireTalentButton>
               <Link href="/services" className="link-underline text-[1.0625rem]">
-                Compare the five services
+                Compare the services
                 <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
               </Link>
             </div>

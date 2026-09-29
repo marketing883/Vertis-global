@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ALL_INDUSTRIES, INDUSTRY_GROUPS, withSpecialisms } from "@/config/industries";
+import { ALL_INDUSTRIES, INDUSTRY_GROUPS } from "@/config/industries";
 import { cn } from "@/lib/utils";
 
 /* The explorer. Filter by group, scan the whole list, pick one.
@@ -46,25 +46,17 @@ export function IndustryExplorer() {
     el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
   }, [highlight]);
 
-  /* Specialist pages (Oracle ERP, Azure) sit inside their group, after
-     the industry they belong beside. The chip counts what the chip
-     shows, so a group with specialist pages counts them too. */
   const filters = useMemo(
     () => [
-      { id: ALL, name: "All industries", count: withSpecialisms(ALL_INDUSTRIES).length },
-      ...INDUSTRY_GROUPS.map((g) => ({
-        id: g.id,
-        name: g.name,
-        count: withSpecialisms(g.industries, [g]).length,
-      })),
+      { id: ALL, name: "All industries", count: ALL_INDUSTRIES.length },
+      ...INDUSTRY_GROUPS.map((g) => ({ id: g.id, name: g.name, count: g.industries.length })),
     ],
     [],
   );
 
   const shown = useMemo(() => {
-    const owner = INDUSTRY_GROUPS.find((g) => g.id === group);
-    if (group === ALL || !owner) return withSpecialisms(ALL_INDUSTRIES);
-    return withSpecialisms(owner.industries, [owner]);
+    if (group === ALL) return ALL_INDUSTRIES;
+    return INDUSTRY_GROUPS.find((g) => g.id === group)?.industries ?? ALL_INDUSTRIES;
   }, [group]);
 
   const active = INDUSTRY_GROUPS.find((g) => g.id === group);
@@ -133,11 +125,6 @@ export function IndustryExplorer() {
                   aria-hidden="true"
                 />
               </span>
-              {ind.specialist ? (
-                <span className="mt-2 font-mono text-[0.75rem] tracking-[0.1em] text-accent uppercase">
-                  Specialist staffing
-                </span>
-              ) : null}
               <span className="mt-3 text-[0.9375rem] leading-relaxed text-n-500">{ind.line}</span>
             </>
           );

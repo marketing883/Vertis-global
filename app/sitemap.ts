@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/config/site";
-import { SERVICES } from "@/config/services";
+import { SERVICE_LIST } from "@/config/services";
 import { INDUSTRY_PAGES } from "@/config/industry-pages";
 import { getInsights } from "@/config/insights";
 
@@ -15,9 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1 },
     { path: "/services", priority: 0.9 },
     { path: "/industries", priority: 0.9 },
-    /* Specialist pages: static routes of their own, not INDUSTRY_PAGES entries. */
-    { path: "/industries/oracle-erp", priority: 0.8 },
-    { path: "/industries/azure", priority: 0.8 },
     { path: "/hire-talent", priority: 0.9 },
     { path: "/candidates", priority: 0.8 },
     { path: "/jobs", priority: 0.8 },
@@ -40,8 +37,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    ...SERVICES.map((s) => ({
-      url: `${base}/services/${s.slug}`,
+    /* The four services, including Cloud (/services/azure) and ERP
+       (/services/oracle-erp). Retired service URLs redirect and are
+       deliberately absent. */
+    ...SERVICE_LIST.map((s) => ({
+      url: `${base}${s.href}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,

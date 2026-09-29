@@ -5,31 +5,30 @@
    single-purpose; there is no mega menu. */
 
 import { ALL_INDUSTRIES } from "./industries";
-import { SERVICES } from "./services";
+import { SERVICE_LIST } from "./services";
 
-/* The five services, written once. `navLabel` keeps the ampersand
-   that suits a dense menu; the prose form lives on `name`. */
-const SERVICE_LINKS: NavLink[] = SERVICES.map((s) => ({
-  label: s.navLabel,
-  href: `/services/${s.slug}`,
+/* The four services, written once in config/services.ts: Managed
+   Services, Staffing, Cloud and ERP. The header dropdown, the phone
+   drawer and the footer column all read this. */
+const SERVICE_LINKS: NavLink[] = SERVICE_LIST.map((s) => ({
+  label: s.name,
+  href: s.href,
   note: s.summary,
 }));
 
 export type NavLink = { label: string; href: string; note?: string };
 export type NavItem = { label: string; href: string; children?: NavLink[] };
 
-/* Every industry page, by name. The order is the client's: Information
-   Technology, then the two specialist pages beside it, Oracle ERP
-   Staffing and Azure Staffing (not industries, so they are named here
-   rather than taken from ALL_INDUSTRIES), then Healthcare and
-   Engineering, then the rest alphabetically. A new industry joins the
-   alphabetical tail on its own. */
-const INDUSTRY_LEAD = ["information-technology", "oracle-erp", "azure", "healthcare", "engineering"];
-const INDUSTRY_PAGES_NAV: NavLink[] = [
-  ...ALL_INDUSTRIES.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
-  { label: "Oracle ERP Staffing", href: "/industries/oracle-erp" },
-  { label: "Azure Staffing", href: "/industries/azure" },
-];
+/* Every industry page, by name, in the client's order: Information
+   Technology, Healthcare and Engineering first, then the rest
+   alphabetically. A new industry joins the alphabetical tail on its
+   own. Oracle ERP and Azure are services now (ERP and Cloud), so they
+   are listed under Services, not here. */
+const INDUSTRY_LEAD = ["information-technology", "healthcare", "engineering"];
+const INDUSTRY_PAGES_NAV: NavLink[] = ALL_INDUSTRIES.map((i) => ({
+  label: i.name,
+  href: `/industries/${i.slug}`,
+}));
 const leadIndex = (l: NavLink) => INDUSTRY_LEAD.indexOf(l.href.replace("/industries/", ""));
 const INDUSTRY_LINKS: NavLink[] = [
   ...INDUSTRY_LEAD.map((slug) => INDUSTRY_PAGES_NAV.find((l) => l.href === `/industries/${slug}`)!),

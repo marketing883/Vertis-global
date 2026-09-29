@@ -225,7 +225,7 @@ export default function AboutPage() {
           <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
             <HireTalentButton />
             <Link href="/services" className="link-underline text-[1.0625rem]">
-              The five ways to hire with us
+              The ways to hire with us
               <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
             </Link>
           </div>

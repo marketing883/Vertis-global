@@ -14,7 +14,7 @@ const FAQS = [
   },
   {
     q: "Do you handle temporary and permanent hiring?",
-    a: "Both, plus everything between. Temporary cover, contract, contract-to-hire, direct permanent hire, and whole project teams. We will recommend the arrangement that fits the work, even when a smaller one suits you better.",
+    a: "Yes. Temporary cover, contract specialists, contract-to-hire as the route to a permanent hire, and managed teams we run for you. We will recommend the arrangement that fits the work, even when a smaller one suits you better.",
   },
   {
     q: "What happens if a placement does not work out?",
