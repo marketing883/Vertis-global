@@ -26,22 +26,61 @@ export const RESUME_TYPES = [
   "text/plain",
 ];
 
+/* Server-side rules. Values arrive already cleaned by cleanText
+   (control and invisible characters gone, spacing tidied), so these
+   check shape and length only. Lenient on purpose: accents,
+   apostrophes, hyphens and international phone formats all pass. */
+const PHONE_CHARS = /^[+\d\s().-]*$/;
+
 export const candidateSchema = z.object({
-  name: z.string().trim().min(2, "Please tell us your name."),
-  email: z.email("Please enter an email we can reply to."),
-  phone: z.string().trim().max(40).optional().or(z.literal("")),
+  name: z
+    .string()
+    .min(2, "Please tell us your name.")
+    .max(100, "That name is longer than we can take. Please shorten it.")
+    .regex(/\p{L}/u, "Please tell us your name."),
+  email: z.email("Please enter an email we can reply to.").max(254),
+  phone: z
+    .string()
+    .max(30, "Please enter a phone number, or leave it blank.")
+    .refine(
+      (v) => v === "" || (PHONE_CHARS.test(v) && /^(\D*\d){7,15}\D*$/.test(v)),
+      "Please enter a phone number, or leave it blank.",
+    )
+    .optional()
+    .or(z.literal("")),
   work: z
     .string()
-    .trim()
-    .min(3, 'A few words is enough, like "forklift driver" or "accounts payable".'),
-  location: z.string().trim().min(2, "Where are you looking for work?"),
+    .min(3, 'A few words is enough, like "forklift driver" or "accounts payable".')
+    .max(200, "A short description is plenty. Please shorten it."),
+  location: z
+    .string()
+    .min(2, "Where are you looking for work?")
+    .max(120, "A city, state or \"remote\" is plenty. Please shorten it."),
   lookingFor: z.enum(
     CANDIDATE_LOOKING_FOR.map((o) => o.id) as [CandidateLookingFor, ...CandidateLookingFor[]],
   ),
-  message: z.string().trim().max(2000).optional().or(z.literal("")),
+  message: z.string().max(2000, "Please keep this under 2,000 characters.").optional().or(z.literal("")),
   /* honeypot, must stay empty */
   website: z.string().max(0).optional().or(z.literal("")),
 });
+
+/** Strips control and invisible characters and tidies spacing. Keeps
+    line breaks where a field is multi-line (the message). */
+export function cleanText(value: unknown, multiline = false): string {
+  if (typeof value !== "string") return "";
+  const stripped = value
+    .normalize("NFC")
+    .replace(/[\u200B-\u200D\u2060\uFEFF]/g, "")
+    .replace(multiline ? /[\u0000-\u0009\u000B-\u001F\u007F]/g : /[\u0000-\u001F\u007F]/g, " ");
+  return multiline
+    ? stripped
+        .split("\n")
+        .map((l) => l.replace(/\s+/g, " ").trim())
+        .join("\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim()
+    : stripped.replace(/\s+/g, " ").trim();
+}
 
 export type CandidateInput = z.infer<typeof candidateSchema>;
 

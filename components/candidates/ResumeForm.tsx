@@ -28,9 +28,15 @@ export function ResumeForm() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [role, setRole] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
+  /* Time on the form, for bot screening (lib/spam.ts). Started when the
+     form appears, written into the hidden "t" field at submit. A bot
+     that posts without running this script sends no "t" at all. */
+  const shownAt = useRef<number | null>(null);
+  const fillTime = useRef<HTMLInputElement>(null);
   const id = useId();
 
   useEffect(() => {
+    shownAt.current = performance.now();
     const param = new URLSearchParams(window.location.search).get("role");
     if (param) setRole(param);
   }, []);
@@ -69,6 +75,9 @@ export function ResumeForm() {
       noValidate
       className="rounded-lg bg-white p-8 sm:p-10"
       onSubmit={(e) => {
+        if (fillTime.current && shownAt.current !== null) {
+          fillTime.current.value = String(Math.round(performance.now() - shownAt.current));
+        }
         const file = fileInput.current?.files?.[0];
         if (file && file.size > RESUME_MAX_BYTES) {
           e.preventDefault();
@@ -81,6 +90,7 @@ export function ResumeForm() {
           Website <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
+      <input ref={fillTime} type="hidden" name="t" defaultValue="" />
 
       {state.status === "error" && state.message && (
         <p role="alert" className="mb-6 rounded-md bg-paper px-4 py-3 text-[0.9375rem] text-ink">
