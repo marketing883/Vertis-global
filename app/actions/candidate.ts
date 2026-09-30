@@ -12,6 +12,8 @@ import {
 } from "@/lib/validation/candidate";
 import { clientAddress, rateLimited, screen } from "@/lib/spam";
 import { escapeHtml, greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
+import { retentionDays, storeResume } from "@/lib/resume-store";
+import { SITE } from "@/config/site";
 
 /* The job seeker lead. Validated on the server, screened for bots,
    emailed to the recruiters with the resume attached, and a thank-you
@@ -28,7 +30,11 @@ import { escapeHtml, greeting, notifyTeam, signOff, thankVisitor } from "@/lib/e
 
    The recruiter email never shows field names, ids or raw values:
    every field has a human label, the "looking for" id is mapped to
-   its wording, and an empty field reads "Not provided". */
+   its wording, and an empty field reads "Not provided".
+
+   A resume reaches the recruiter twice: attached to the email, and as
+   a private download link in the body (lib/resume-store.ts), because
+   some mail clients hide or strip attachments. */
 
 const NOT_PROVIDED = "Not provided";
 
@@ -58,7 +64,8 @@ export async function submitCandidate(
     fillMs,
     text: [raw.name, raw.work, raw.location, raw.message],
   });
-  const address = clientAddress(await headers());
+  const requestHeaders = await headers();
+  const address = clientAddress(requestHeaders);
   const limited = rateLimited(address);
   if (verdict.spam || limited) {
     const why = limited ? [...verdict.reasons, "rate limited"] : verdict.reasons;
@@ -87,6 +94,7 @@ export async function submitCandidate(
      also enforced in the browser; this is the side that counts. */
   const file = formData.get("resume");
   let attachment: { filename: string; content: string } | null = null;
+  let downloadUrl: string | null = null;
 
   if (file instanceof File && file.size > 0) {
     if (file.size > RESUME_MAX_BYTES) {
@@ -106,10 +114,10 @@ export async function submitCandidate(
         errors: { resume: "Please attach a PDF, Word, RTF or text file." },
       };
     }
-    attachment = {
-      filename,
-      content: Buffer.from(await file.arrayBuffer()).toString("base64"),
-    };
+    const bytes = Buffer.from(await file.arrayBuffer());
+    attachment = { filename, content: bytes.toString("base64") };
+    const token = await storeResume(bytes, filename, file.type);
+    if (token) downloadUrl = `${siteOrigin(requestHeaders)}/resume/${token}`;
   }
 
   /* ── 5 · The recruiter email ───────────────────────────────── */
@@ -118,7 +126,7 @@ export async function submitCandidate(
   const lookingFor =
     CANDIDATE_LOOKING_FOR.find((o) => o.id === lead.lookingFor)?.label ?? NOT_PROVIDED;
 
-  const rows: [label: string, value: string][] = [
+  const rows: Row[] = [
     ["Candidate Reference", reference],
     ["Full Name", lead.name],
     ["Email", lead.email],
@@ -126,7 +134,11 @@ export async function submitCandidate(
     ["Looking For", lookingFor],
     ["Kind of Work", lead.work],
     ["Location", lead.location],
-    ["Resume", attachment ? `${attachment.filename} (attached to this email)` : NOT_PROVIDED],
+    [
+      "Resume",
+      attachment ? attachment.filename : NOT_PROVIDED,
+      attachment ? { href: downloadUrl, attached: true } : undefined,
+    ],
     ["Additional Message", lead.message || NOT_PROVIDED],
     ["Submission Date/Time", formatWhen(submitted)],
   ];
@@ -203,30 +215,63 @@ function formatWhen(d: Date): string {
   return `${fmt("America/Chicago")} (${fmt("Asia/Kolkata").replace(/GMT\+5:30/, "IST")})`;
 }
 
-function plainEmail(rows: [string, string][]): string {
+/** A labelled row. The resume row also carries its download link. */
+type Row = [label: string, value: string, file?: { href: string | null; attached: boolean }];
+
+/** The site the form was submitted on, so a staging test links to
+    staging and a live submission to the live site. */
+function siteOrigin(h: Headers): string {
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  if (!host || !/^[a-z0-9.-]+(:\d+)?$/i.test(host)) return SITE.url.replace(/\/$/, "");
+  const local = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
+  const proto = h.get("x-forwarded-proto") ?? (local ? "http" : "https");
+  return `${proto === "http" ? "http" : "https"}://${host}`;
+}
+
+function fileNote(file: NonNullable<Row[2]>): string {
+  return file.href
+    ? `The download link works for ${retentionDays()} days; the file is also attached to this email.`
+    : "Attached to this email.";
+}
+
+function plainEmail(rows: Row[]): string {
   const width = Math.max(...rows.map(([label]) => label.length)) + 2;
   return [
     "New job seeker submission",
     "",
-    ...rows.map(([label, value]) =>
-      value.includes("\n")
+    ...rows.map(([label, value, file]) => {
+      if (file) {
+        const pad = " ".repeat(width);
+        return [
+          `${(label + ":").padEnd(width)}${value}`,
+          ...(file.href ? [`${pad}Download: ${file.href}`] : []),
+          `${pad}${fileNote(file)}`,
+        ].join("\n");
+      }
+      return value.includes("\n")
         ? `${label}:\n  ${value.split("\n").join("\n  ")}`
-        : `${(label + ":").padEnd(width)}${value}`,
-    ),
+        : `${(label + ":").padEnd(width)}${value}`;
+    }),
     "",
     "Reply to this email to contact the candidate directly.",
   ].join("\n");
 }
 
-function htmlEmail(rows: [string, string][], email: string): string {
+function htmlEmail(rows: Row[], email: string): string {
   const ink = "#2b276b";
   const body = rows
-    .map(([label, value], i) => {
+    .map(([label, value, file], i) => {
       const empty = value === NOT_PROVIDED;
       const shown =
         label === "Email"
           ? `<a href="mailto:${escapeHtml(email)}" style="color:${ink}">${escapeHtml(value)}</a>`
-          : escapeHtml(value).replace(/\n/g, "<br>");
+          : file
+            ? `<div style="font-weight:600">${escapeHtml(value)}</div>` +
+              (file.href
+                ? `<a href="${escapeHtml(file.href)}" style="display:inline-block;margin-top:8px;padding:9px 16px;background:#f49055;color:${ink};font-weight:700;text-decoration:none;border-radius:6px">Download resume</a>`
+                : "") +
+              `<div style="margin-top:6px;font-size:13px;color:#55527a">${escapeHtml(fileNote(file))}</div>`
+            : escapeHtml(value).replace(/\n/g, "<br>");
       return `<tr style="background:${i % 2 ? "#ffffff" : "#f7f6fb"}">
   <td style="padding:10px 14px;width:180px;vertical-align:top;font-weight:600;color:#55527a;white-space:nowrap">${escapeHtml(label)}</td>
   <td style="padding:10px 14px;vertical-align:top;color:${empty ? "#8a88a3" : "#1d1b3a"}${empty ? ";font-style:italic" : ""}">${shown}</td>
