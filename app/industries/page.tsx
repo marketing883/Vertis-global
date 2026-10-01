@@ -15,7 +15,7 @@ import { WHITEPAPERS } from "@/config/resources";
 
 export const metadata: Metadata = {
   title: "Industries",
-  description: `Vertis Global staffs ${INDUSTRY_COUNT} industries, from administrative and healthcare to manufacturing, semiconductor and energy. Managed services, and staffing on temporary, contract and contract-to-hire terms.`,
+  description: `Vertis Global staffs ${INDUSTRY_COUNT} industries, from healthcare and hospitality to manufacturing, semiconductor and energy. Managed services, and staffing on temporary, contract and contract-to-hire terms.`,
   alternates: { canonical: "/industries" },
 };
 
@@ -85,10 +85,10 @@ const CAPABILITIES = [
 
 /* ── The visual band: one industry per frame ───────────────── */
 const AT_WORK = [
-  { slot: "levelFrontline" as const, caption: "Administrative" },
-  { slot: "levelSkilled" as const, caption: "Information Technology" },
-  { slot: "levelProfessional" as const, caption: "Financial Services" },
-  { slot: "levelSpecialized" as const, caption: "Insurance" },
+  { slot: "levelFrontline" as const, caption: "Government" },
+  { slot: "levelSkilled" as const, caption: "Telecommunications" },
+  { slot: "levelProfessional" as const, caption: "Insurance" },
+  { slot: "levelSpecialized" as const, caption: "Information Technology" },
 ];
 
 export default function IndustriesPage() {
@@ -180,7 +180,7 @@ export default function IndustriesPage() {
           <figure className="mt-16 lg:mt-20">
             <Photo slot="industriesTeam" sizes="100vw" className="w-full" />
             <figcaption className="mt-4 text-[0.9375rem] text-n-500">
-              Human Resources: the recruiters, coordinators and talent teams we staff.
+              The shortlist that has to be right: two of our recruiters going through it together.
             </figcaption>
           </figure>
 

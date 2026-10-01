@@ -59,30 +59,6 @@ export const JOBS: Job[] = [
       "Thirteen week contracts on a med/surg floor, three twelves, with the option to extend or convert.",
   },
   {
-    id: "accounts-payable-specialist",
-    title: "Accounts Payable Specialist",
-    industry: "financial-services",
-    level: "professional",
-    type: "contract-to-hire",
-    location: "Dallas, TX",
-    arrangement: "Hybrid, three days on site",
-    posted: "2026-09-04",
-    summary:
-      "High volume invoice processing for a growing finance team, with a permanent seat at the end of the contract.",
-  },
-  {
-    id: "executive-assistant",
-    title: "Executive Assistant",
-    industry: "administrative",
-    level: "administrative",
-    type: "direct-hire",
-    location: "Chicago, IL",
-    arrangement: "On site",
-    posted: "2026-09-03",
-    summary:
-      "Supporting two executives: diaries, travel, board papers and the hundred things that keep a week upright.",
-  },
-  {
     id: "senior-software-engineer",
     title: "Senior Software Engineer",
     industry: "information-technology",
@@ -93,18 +69,6 @@ export const JOBS: Job[] = [
     posted: "2026-09-02",
     summary:
       "Backend work on a platform team, with real ownership and a hiring manager who interviews properly.",
-  },
-  {
-    id: "hr-coordinator",
-    title: "HR Coordinator",
-    industry: "human-resources",
-    level: "administrative",
-    type: "contract-to-hire",
-    location: "Austin, TX",
-    arrangement: "Hybrid",
-    posted: "2026-09-02",
-    summary:
-      "Onboarding, records and first line questions for a people team that is growing faster than its processes.",
   },
   {
     id: "claims-adjuster",
@@ -129,17 +93,6 @@ export const JOBS: Job[] = [
     summary: "Running a shift of twenty two on a packaging line, with real authority over scheduling and quality.",
   },
   {
-    id: "warehouse-associate",
-    title: "Warehouse Associate",
-    industry: "industrial",
-    level: "frontline",
-    type: "temporary",
-    location: "Columbus, OH",
-    arrangement: "On site, day shift",
-    posted: "2026-08-31",
-    summary: "Picking, packing and put away through a seasonal peak. Weekly pay, and the good ones get kept.",
-  },
-  {
     id: "field-service-technician",
     title: "Field Service Technician",
     industry: "energy",
@@ -149,17 +102,6 @@ export const JOBS: Job[] = [
     arrangement: "Field based, regional",
     posted: "2026-08-30",
     summary: "Preventive maintenance and callouts across a regional territory, van and tools provided.",
-  },
-  {
-    id: "marketing-coordinator",
-    title: "Marketing Coordinator",
-    industry: "marketing",
-    level: "professional",
-    type: "contract",
-    location: "Remote, United States",
-    arrangement: "Remote",
-    posted: "2026-08-29",
-    summary: "Six month cover for a campaign team: email, events and the calendar that holds it all together.",
   },
   {
     id: "guest-services-associate",
@@ -217,17 +159,6 @@ export const JOBS: Job[] = [
     arrangement: "Hybrid",
     posted: "2026-08-27",
     summary: "Core network changes and escalations, with a permanent offer at the end if both sides are happy.",
-  },
-  {
-    id: "inside-sales-representative",
-    title: "Inside Sales Representative",
-    industry: "sales",
-    level: "professional",
-    type: "direct-hire",
-    location: "Tampa, FL",
-    arrangement: "Hybrid",
-    posted: "2026-08-26",
-    summary: "Warm pipeline, a real product and a comp plan that pays for the work you actually do.",
   },
 ];
 

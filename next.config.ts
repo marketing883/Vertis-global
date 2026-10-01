@@ -18,7 +18,8 @@ const nextConfig: NextConfig = {
      pages go to their own section of /services/staffing; Oracle ERP
      and Azure moved from Industries to Services as ERP and Cloud;
      project and team staffing grew into managed services; direct hire
-     is no longer offered, so it goes to the services overview. */
+     is no longer offered, so it goes to the services overview. The
+     six industries no longer served go to the industries overview. */
   async redirects() {
     return [
       { source: "/services/temporary-staffing", destination: "/services/staffing#temporary-staffing", permanent: true },
@@ -28,6 +29,9 @@ const nextConfig: NextConfig = {
       { source: "/services/direct-hire", destination: "/services", permanent: true },
       { source: "/industries/oracle-erp", destination: "/services/oracle-erp", permanent: true },
       { source: "/industries/azure", destination: "/services/azure", permanent: true },
+      ...["administrative", "financial-services", "human-resources", "marketing", "sales", "industrial"].map(
+        (slug) => ({ source: `/industries/${slug}`, destination: "/industries", permanent: true }),
+      ),
     ];
   },
   async headers() {

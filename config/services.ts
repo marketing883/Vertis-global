@@ -262,9 +262,9 @@ export const SERVICES: Service[] = [
       "information-technology",
       "engineering",
       "manufacturing",
-      "industrial",
       "healthcare",
-      "financial-services",
+      "insurance",
+      "government",
     ],
     aside: {
       eyebrow: "Which one",
@@ -452,12 +452,12 @@ export const SERVICES: Service[] = [
       "No cost replacement if the fit is wrong",
     ],
     industries: [
-      "industrial",
       "manufacturing",
       "healthcare",
+      "hospitality",
+      "retail",
       "information-technology",
       "engineering",
-      "financial-services",
     ],
     aside: {
       eyebrow: "Delivery",

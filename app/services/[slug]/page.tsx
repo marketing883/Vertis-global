@@ -260,7 +260,7 @@ export default async function ServicePage({ params }: { params: Params }) {
               <p className="eyebrow">Where we use it most</p>
               <p className="mt-8 max-w-[44ch] text-lg leading-relaxed text-n-500">
                 Common in these industries, though we run {service.name.toLowerCase()} across all
-                eighteen we serve.
+                twelve we serve.
               </p>
               <ul className="mt-8 flex flex-wrap gap-2">
                 {industries.map((industry) => (
@@ -275,7 +275,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 ))}
               </ul>
               <Link href="/industries" className="link-underline mt-10 text-[1.0625rem]">
-                All eighteen industries
+                All twelve industries
                 <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
               </Link>
             </div>

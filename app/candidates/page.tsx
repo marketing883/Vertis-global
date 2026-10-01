@@ -38,7 +38,7 @@ export default function CandidatesPage() {
         eyebrow="For job seekers"
         title="Your next job, found by"
         titleAccent="a person."
-        intro="Temporary, contract and permanent work across eighteen industries. Free to you, always, and you will hear back either way."
+        intro="Temporary, contract and permanent work across twelve industries. Free to you, always, and you will hear back either way."
         titleClassName="max-w-[15ch]"
         scrim="light"
         actions={

@@ -64,7 +64,7 @@ const FAQS = [
   },
   {
     q: "Which industries do you staff for?",
-    a: "Eighteen, from administrative and financial services through manufacturing, healthcare and hospitality to information technology, semiconductor and energy. Managed services and staffing are available in every one of them.",
+    a: "Twelve, from insurance and government through manufacturing, healthcare and hospitality to information technology, semiconductor and energy. Managed services and staffing are available in every one of them.",
   },
   {
     q: "Do you staff outside the United States?",

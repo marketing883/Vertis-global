@@ -1,7 +1,7 @@
 /* ============================================================
    INDUSTRIES
 
-   Eighteen industries in four groups. This is the spine of the
+   Twelve industries in four groups. This is the spine of the
    broad-staffing positioning: the grouping is what makes the range
    legible at a glance, and the per-industry `line` is what each
    industry page opens with.
@@ -9,7 +9,9 @@
    Slugs are stable: they become /industries/<slug>.
 
    Not offered, and therefore not listed anywhere on the site:
-   construction, real estate, media and entertainment, nonprofit,
+   administrative, financial services, human resources, marketing,
+   sales and industrial (removed October 2026; their old pages
+   redirect to /industries), construction, real estate, media and entertainment, nonprofit,
    logistics, legal, life sciences, creative, clerical, education,
    customer service.
    ============================================================ */
@@ -36,34 +38,9 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
     tagline: "The people who run the office, and the public office.",
     industries: [
       {
-        slug: "administrative",
-        name: "Administrative",
-        line: "Administrative assistants, receptionists, coordinators and office operations people.",
-      },
-      {
-        slug: "financial-services",
-        name: "Financial Services",
-        line: "Accountants, analysts, bookkeepers, and operations staff for banks and lenders.",
-      },
-      {
-        slug: "human-resources",
-        name: "Human Resources",
-        line: "Recruiters, HR coordinators, payroll and benefits specialists.",
-      },
-      {
         slug: "insurance",
         name: "Insurance",
         line: "Claims, underwriting support, policy servicing and administration.",
-      },
-      {
-        slug: "marketing",
-        name: "Marketing",
-        line: "Marketing coordinators, content specialists, analysts and campaign managers.",
-      },
-      {
-        slug: "sales",
-        name: "Sales",
-        line: "Inside sales, account managers, business development and sales support.",
       },
       {
         slug: "government",
@@ -86,11 +63,6 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         slug: "automotive",
         name: "Automotive",
         line: "Technicians, assembly, parts, service advisors and dealership staff.",
-      },
-      {
-        slug: "industrial",
-        name: "Industrial",
-        line: "General labour, forklift operators, maintenance and plant staff.",
       },
     ],
   },

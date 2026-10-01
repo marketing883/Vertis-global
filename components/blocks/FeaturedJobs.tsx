@@ -3,13 +3,14 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 
 /* A clean list, like a modern job board. The four featured roles
-   are chosen to show the range — a nurse, a forklift operator, an
-   admin, a developer. Placeholder data until the jobs listing lands. */
+   are chosen to show the range: a nurse, a production supervisor, a
+   claims adjuster, a developer. Placeholder data until the jobs
+   listing lands; each matches a role in config/jobs.ts. */
 const JOBS = [
   { title: "Registered Nurse, Med/Surg", meta: "Charlotte, NC · Contract · Nights", posted: "2 days ago" },
-  { title: "Forklift Operator", meta: "Dallas, TX · Temporary · Day shift", posted: "3 days ago" },
-  { title: "Administrative Assistant", meta: "Chicago, IL · Contract-to-hire", posted: "5 days ago" },
-  { title: "Senior Software Developer", meta: "Remote, US · Direct hire", posted: "1 week ago" },
+  { title: "Production Supervisor", meta: "Greenville, SC · Permanent · Second shift", posted: "3 days ago" },
+  { title: "Claims Adjuster", meta: "Phoenix, AZ · Permanent · Hybrid", posted: "5 days ago" },
+  { title: "Senior Software Developer", meta: "Remote, US · Permanent", posted: "1 week ago" },
 ];
 
 export function FeaturedJobs() {
