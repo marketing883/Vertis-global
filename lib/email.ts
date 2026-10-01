@@ -34,9 +34,6 @@ type Message = {
   replyTo?: string;
   subject: string;
   text: string;
-  /** Optional HTML version. The plain text is always sent too, for
-      mail clients and filters that prefer it. */
-  html?: string;
   attachments?: Attachment[];
 };
 
@@ -78,7 +75,6 @@ async function send(tag: string, msg: Message): Promise<boolean> {
         ...(msg.replyTo ? { reply_to: msg.replyTo } : {}),
         subject: msg.subject,
         text: msg.text,
-        ...(msg.html ? { html: msg.html } : {}),
         ...(msg.attachments?.length ? { attachments: msg.attachments } : {}),
       }),
     });
@@ -96,7 +92,7 @@ async function send(tag: string, msg: Message): Promise<boolean> {
 /** The lead, to the team. The form fails if this does. */
 export function notifyTeam(
   tag: string,
-  msg: { replyTo?: string; subject: string; text: string; html?: string; attachments?: Attachment[] },
+  msg: { replyTo?: string; subject: string; text: string; attachments?: Attachment[] },
 ) {
   return send(tag, {
     ...msg,
@@ -122,16 +118,6 @@ export async function thankVisitor(
     text: msg.text,
   });
   if (!ok) console.error(`[${tag}] thank-you not sent to ${msg.to}; the lead was delivered`);
-}
-
-/** Escapes text for safe inclusion in an HTML email. */
-export function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }
 
 /** "Hi Priya," from whatever was typed in the name field: first word,
