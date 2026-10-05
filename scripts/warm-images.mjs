@@ -15,6 +15,22 @@ const base = (process.argv[2] || "http://127.0.0.1:3011").replace(/\/$/, "");
 const CONCURRENCY = Number(process.env.WARM_CONCURRENCY) || 1;
 const FORMATS = ["image/avif", "image/webp"];
 
+// Next 16.1 never refreshes an expired entry: it serves it as STALE,
+// with its old max-age, indefinitely. Delete expired entries (file name
+// is <maxAge>.<expireAt>.<etag>...) so the crawl below re-encodes them.
+// Run from the app checkout; a missing cache dir is fine.
+import { readdir, rm } from "node:fs/promises";
+const CACHE = ".next/cache/images";
+let expired = 0;
+for (const key of await readdir(CACHE).catch(() => [])) {
+  for (const file of await readdir(`${CACHE}/${key}`).catch(() => [])) {
+    if (Number(file.split(".")[1]) < Date.now()) {
+      await rm(`${CACHE}/${key}`, { recursive: true, force: true });
+      expired++;
+    }
+  }
+}
+
 async function text(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${url} → ${res.status}`);
@@ -61,5 +77,6 @@ const total = jobs.length;
 await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 console.log(
   `warmed ${done - failed}/${total} image variants from ${pages.length} pages ` +
+    `(${expired} expired entries cleared) ` +
     `in ${Math.round((Date.now() - started) / 1000)}s${failed ? ` (${failed} failed)` : ""}`,
 );
