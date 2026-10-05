@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
@@ -43,6 +44,9 @@ export function Hero() {
           would land between people, so it pulls right onto them.
           The vertical bias keeps heads in frame rather than centring
           on torsos. */}
+      {/* The poster is what a visitor sees until the clip can play, so
+          it is fetched at top priority alongside the page itself. */}
+      {video?.poster ? (preload(video.poster, { as: "image", fetchPriority: "high" }), null) : null}
       {video ? (
         <video
           className="absolute inset-0 h-full w-full object-cover object-[62%_45%] motion-reduce:hidden md:object-[50%_42%]"
@@ -51,7 +55,7 @@ export function Hero() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
         >
           {video.mobile ? (

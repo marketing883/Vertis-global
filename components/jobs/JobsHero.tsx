@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
@@ -25,6 +26,8 @@ const VIDEO = {
 export function JobsHero() {
   return (
     <Section background="ink" spacing="none" className="relative overflow-hidden">
+      {/* Poster first: it is what shows until the clip can play. */}
+      {(preload(VIDEO.poster, { as: "image", fetchPriority: "high" }), null)}
       <video
         className="absolute inset-0 h-full w-full object-cover object-[62%_40%] motion-reduce:hidden md:object-[50%_40%]"
         poster={VIDEO.poster}
@@ -32,7 +35,7 @@ export function JobsHero() {
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
       >
         <source src={VIDEO.src} type="video/mp4" media="(min-width: 768px)" />

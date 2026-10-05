@@ -18,6 +18,10 @@ import { cn } from "@/lib/utils";
 
    The mark's intrinsic ratio is 330:244, the lockup's 1737:247;
    both are passed to next/image so nothing shifts while loading.
+   `sizes` is the width it is actually drawn at (h-10 = 40px tall is
+   about 282px wide), so the browser fetches a ~640px file for sharp
+   2x screens instead of the 1920 to 3840px files the intrinsic width
+   would otherwise ask for.
    To swap in a true vector later, drop an .svg beside these and
    point the `src` at it: nothing else here needs to change.
 ------------------------------------------------------------------ */
@@ -36,6 +40,7 @@ export function LogoMark({ className, title = "Vertis Global", priority }: MarkP
       width={MARK.w}
       height={MARK.h}
       priority={priority}
+      sizes="54px"
       className={cn("block h-9 w-auto", className)}
     />
   );
@@ -60,6 +65,7 @@ export function Logo({ className, variant = "dark", markOnly = false, priority }
       width={LOCKUP.w}
       height={LOCKUP.h}
       priority={priority}
+      sizes="282px"
       className={cn("block h-9 w-auto sm:h-10", className)}
     />
   );

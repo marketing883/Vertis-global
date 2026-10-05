@@ -83,7 +83,7 @@ export function Header() {
       <Container>
         <div className="flex h-20 items-center justify-between gap-8 lg:h-24">
           <Link href="/" aria-label="Vertis Global — home" className="shrink-0">
-            <Logo variant={light ? "light" : "dark"} />
+            <Logo variant={light ? "light" : "dark"} priority />
           </Link>
 
           <nav aria-label="Primary" className="hidden lg:block">

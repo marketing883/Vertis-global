@@ -20,12 +20,14 @@ case "$ENV" in
     APP=/var/www/vertisglobal.com/staging/app
     BRANCH=staging
     PROCESS=vertis-staging
+    PORT=3010
     URL=https://staging.vertisglobal.com/
     ;;
   production)
     APP=/var/www/vertisglobal.com/production/app
     BRANCH=main
     PROCESS=vertis-production
+    PORT=3011
     URL=https://vertisglobal.com/
     ;;
   *)
@@ -58,3 +60,10 @@ sleep 2
 code=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
 echo "→ $URL $code"
 [ "$code" = "200" ]
+
+# Pre-encode every page image in the background, so no visitor waits on
+# a first conversion. Detached: the deploy does not wait for it, and
+# after the first run it is nearly all cache hits.
+echo "→ warming image cache in the background (log: $APP/../warm-images.log)"
+nohup setsid node scripts/warm-images.mjs "http://127.0.0.1:$PORT" \
+  >"$APP/../warm-images.log" 2>&1 </dev/null &

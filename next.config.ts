@@ -5,6 +5,18 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    /* Every width here is a separate encode the server must do the
+       first time a visitor needs it, and AVIF takes 1.3 to 1.7s per
+       photo on this server. 3840 is dropped: it is what a full-width
+       hero on a 2x laptop asks for, the slowest encode, and no sharper
+       to the eye than 2048 behind a scrim. Fewer, more common widths
+       also mean a warm cache serves more visitors. */
+    deviceSizes: [640, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [64, 128, 256, 384],
+    /* Optimised images keep for 30 days instead of 4 hours, so they are
+       not re-encoded over and over. A changed photo should get a new
+       filename, as every photo here already has. */
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   experimental: {
     /* Candidates attach a resume to the server action, and the
@@ -36,6 +48,17 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      /* Photos, brand files and the hero videos are served from public/
+         with max-age=0, so every page view re-checked them. They now
+         keep for a week, and are refreshed quietly for a day after. */
+      ...["/photos/:path*", "/brand/:path*", "/hero-video/:path*", "/jobs-video/:path*"].map(
+        (source) => ({
+          source,
+          headers: [
+            { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+          ],
+        }),
+      ),
       {
         source: "/:path*",
         headers: [
