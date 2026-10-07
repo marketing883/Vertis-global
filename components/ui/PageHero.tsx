@@ -78,7 +78,7 @@ export function PageHero({
             <h1 className={cn("mt-8 text-white", titleClassName ?? "max-w-[14ch]")}>
               {title} {titleAccent ? <span className="text-amber">{titleAccent}</span> : null}
             </h1>
-            <p className="mt-8 max-w-[46ch] text-xl leading-relaxed text-on-ink-muted">{intro}</p>
+            <p className="mt-8 max-w-[46ch] text-xl leading-relaxed text-white">{intro}</p>
             {actions ? (
               <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">{actions}</div>
             ) : null}

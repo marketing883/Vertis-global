@@ -113,7 +113,7 @@ export function Hero() {
             <h1 className="mt-8 max-w-[11ch] text-white">
               People who keep businesses <span className="text-amber">moving.</span>
             </h1>
-            <p className="mt-8 max-w-[44ch] text-xl leading-relaxed text-on-ink-muted lg:text-[1.375rem]">
+            <p className="mt-8 max-w-[44ch] text-xl leading-relaxed text-white lg:text-[1.375rem]">
               Whether you need your next opportunity or your next hire, we get you
               there faster, with people who fit.
             </p>

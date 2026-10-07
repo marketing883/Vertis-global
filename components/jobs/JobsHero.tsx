@@ -55,7 +55,7 @@ export function JobsHero() {
             <h1 className="mt-8 max-w-[13ch] text-white">
               Find work that <span className="text-amber">moves you forward.</span>
             </h1>
-            <p className="mt-8 max-w-[46ch] text-xl leading-relaxed text-on-ink-muted">
+            <p className="mt-8 max-w-[46ch] text-xl leading-relaxed text-white">
               Temporary, contract, contract-to-hire and permanent roles across {INDUSTRY_COUNT}{" "}
               industries, from the front line to the specialist. Free to you, and a real person
               reads what you send.

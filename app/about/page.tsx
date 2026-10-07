@@ -176,7 +176,7 @@ export default function AboutPage() {
                 Work is how most people build{" "}
                 <span className="text-amber">a life.</span>
               </h2>
-              <p className="mt-8 max-w-[48ch] text-xl leading-relaxed text-on-ink-muted">
+              <p className="mt-8 max-w-[48ch] text-xl leading-relaxed text-white">
                 A job is a mortgage application, a school run that works, a reason to get up on
                 a Tuesday. When we get a placement right, somebody's week gets easier and a
                 business gets to keep its promises. When we get it wrong, both of those people
