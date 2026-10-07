@@ -44,7 +44,7 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
       {
         slug: "government",
         name: "Government",
-        line: "Administrative, program support, IT and compliance staff for public agencies.",
+        line: "Program support, IT, grants and citizen services staff for federal and state agencies.",
       },
       {
         slug: "banking",

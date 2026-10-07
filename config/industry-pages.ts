@@ -1707,24 +1707,25 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     meta: {
       title: "Government staffing",
       description:
-        "Program support, IT and cybersecurity, contracts and procurement, grants and compliance staff for public agencies and contractors, with clearance status verified.",
+        "Public sector staffing for federal agencies, state agencies and their contractors: program support, IT and cybersecurity, contracts and procurement, grants, compliance and citizen services, with clearance status verified.",
     },
     hero: {
       eyebrow: "Government",
       lead: "Public work needs",
       accent: "people who show up.",
-      sub: "Program support, IT and cybersecurity, contracts and procurement, grants, compliance and citizen services. For agencies, and for the contractors who serve them.",
+      sub: "Program support, IT and cybersecurity, contracts and procurement, grants, compliance and citizen services. For federal agencies, state agencies and the contractors who serve the public alongside them.",
       photo: "industryGovernmentHero",
       facts: [
         { figure: "6 functions", caption: "from program and administrative support through contracts, IT and compliance" },
         { figure: "Clearance verified", caption: "status and investigation date confirmed at screening where a role requires it" },
-        { figure: "Contract vehicles", caption: "staff supplied to primes and subcontractors as well as directly to agencies" },
+        { figure: "Federal and state", caption: "staff supplied directly to federal and state agencies, and to the primes and subcontractors on their contracts" },
       ],
     },
     overview: {
       heading: "The constraint is rarely the candidate.",
       paragraphs: [
-        "We staff public sector work across program and administrative support, IT and cybersecurity, contracts and procurement, finance and grants, compliance and records, and citizen facing services. Agencies at every level, and the contractors delivering for them.",
+        "We staff public sector work across program and administrative support, IT and cybersecurity, contracts and procurement, finance and grants, compliance and records, and citizen facing services. Federal agencies, state agencies and local government, and the contractors delivering for them.",
+        "The rules change with the level of government. Federal agencies and their contractors bring clearances, FAR and DFARS, and federal security frameworks. State agencies bring their own procurement codes, federally funded programs run under Uniform Guidance, and caseloads that move with every change in policy. We screen for the one you actually work under.",
         "Government hiring runs on process. Position descriptions, approval chains, onboarding and, where relevant, clearance. The candidate is often ready weeks before the paperwork is.",
         "So we plan around it: verify clearance status at screening, confirm residency and background requirements early, and tell you plainly when a start date is being set by onboarding rather than by sourcing.",
       ],
@@ -1747,27 +1748,27 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
         name: "IT and cybersecurity",
         photo: "/photos/roles/government-gov-it.jpg",
         photoAlt: "A public sector IT specialist checking equipment with a tablet",
-        builds: "Service desk, infrastructure, application support and the security controls an assessor will test.",
+        builds: "Service desk, infrastructure, application support and the security controls an assessor will test, on federal and state agency systems alike.",
         seniority: "Support technician through to security analyst and systems engineer",
         tools: ["ServiceNow", "Active Directory", "Azure Government", "Splunk", "Tenable"],
-        standards: ["NIST 800-53 and 800-171", "FedRAMP awareness", "Section 508 accessibility"],
+        standards: ["NIST 800-53 and 800-171", "FedRAMP awareness", "CJIS Security Policy", "Section 508 accessibility"],
       },
       {
         id: "contracts",
         name: "Contracts and procurement",
         photo: "/photos/roles/government-contracts.jpg",
         photoAlt: "A contracts specialist reviewing a contract document",
-        builds: "Solicitations, proposals, modifications, subcontract administration and the file that survives an audit.",
+        builds: "Federal solicitations and state procurements, proposals, modifications, subcontract administration and the file that survives an audit.",
         seniority: "Contract administrator through to contracts manager",
         tools: ["Contract management systems", "SAM registration", "Procurement portals"],
-        standards: ["FAR and DFARS", "Small business requirements", "Audit documentation"],
+        standards: ["FAR and DFARS", "State procurement codes", "Small business requirements", "Audit documentation"],
       },
       {
         id: "grants",
         name: "Finance and grants",
         photo: "/photos/roles/government-grants.jpg",
         photoAlt: "A grants accountant reconciling a budget against a grant agreement",
-        builds: "Budgets, drawdowns, grant reporting, reconciliations and the compliance a single audit will examine.",
+        builds: "Budgets, drawdowns, subrecipient monitoring on federal funds passed through state agencies, and the compliance a single audit will examine.",
         seniority: "Grants accountant through to grants manager",
         tools: ["Government accounting systems", "Grants management platforms", "Excel"],
         standards: ["Uniform Guidance", "Single audit readiness", "Cost principles"],
@@ -1787,7 +1788,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
         name: "Citizen services",
         photo: "/photos/roles/government-citizen-services.jpg",
         photoAlt: "A citizen services representative helping a member of the public",
-        builds: "Call centres, eligibility, intake, benefits support and the queue that grows when a policy changes.",
+        builds: "Call centres, intake and eligibility for state agency programs such as Medicaid, SNAP and unemployment insurance, and the queue that grows when a policy changes.",
         seniority: "Service representative through to team supervisor",
         tools: ["Case management systems", "Telephony platforms", "Eligibility systems"],
         standards: ["Service level targets", "Privacy and PII handling", "Quality monitoring"],
@@ -1815,7 +1816,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
         },
         {
           title: "The environment named honestly",
-          body: "Agency or contractor, on site or remote, and the pace, because public sector work suits some people and frustrates others.",
+          body: "Federal agency, state agency or contractor, on site or remote, and the pace, because public sector work suits some people and frustrates others.",
         },
         {
           title: "Framework knowledge questioned",
@@ -1863,10 +1864,10 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
           shape: "Contract for the length of the period of performance.",
         },
         {
-          name: "The permanent hire",
-          covers: "Roles an agency or contractor intends to keep.",
+          name: "The long term hire",
+          covers: "Roles a federal or state agency, or its contractor, intends to keep.",
           fits: "Contracts managers, grants managers, compliance leads, senior analysts.",
-          shape: "Direct hire, with onboarding runway planned into the timeline.",
+          shape: "Contract-to-hire, with onboarding runway planned into the timeline.",
         },
       ],
     },
@@ -1876,7 +1877,7 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
       items: [
         "Citizenship, residency and background investigation requirements",
         "Whether a clearance is genuinely required, and at what level",
-        "Agency, prime or subcontractor, and the contract vehicle if relevant",
+        "Federal agency, state agency, prime or subcontractor, and the contract vehicle if relevant",
         "How long badging and systems access realistically take at your site",
         "The period of performance, if the role is tied to one",
         "The rate or salary band, and whether it is set by a schedule",
@@ -1886,6 +1887,10 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
       {
         q: "Do you place cleared personnel?",
         a: "We recruit candidates who hold active clearances and verify status and investigation date at screening. Sponsorship of a new clearance sits with the agency or the prime, and we will tell you plainly when a requirement is going to shrink the candidate pool dramatically.",
+      },
+      {
+        q: "Do you work with state agencies as well as federal?",
+        a: "Yes. Federal agencies and their contractors more often need clearances and FAR depth. State agencies more often need eligibility and case staff, grants staff for federally funded programs, and IT people who work to the state's own security policies. We screen against whichever applies.",
       },
       {
         q: "Can you support a contract award ramp?",
@@ -1905,11 +1910,11 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
       },
       {
         q: "What does it cost?",
-        a: "Contract staff are an hourly rate covering pay, our employment costs and our margin. Permanent hires are a percentage of first year salary. Both quoted before work starts, and we will work to a rate schedule where one applies.",
+        a: "Temporary and contract staff are an hourly rate covering pay, our employment costs and our margin. Contract-to-hire conversion terms are agreed before anyone starts, and we will work to a rate schedule where one applies.",
       },
     ],
     cta: {
-      heading: "Staffing a public programme?",
+      heading: "Staffing a federal or state program?",
       body: "Tell us the eligibility requirements and the period of performance. We will be honest about what the clearance requirement does to the timeline.",
     },
   },

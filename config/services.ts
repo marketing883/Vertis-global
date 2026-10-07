@@ -128,7 +128,7 @@ export const SERVICE_LIST: ServiceListing[] = [
   },
   {
     slug: "staffing",
-    name: "Staffing",
+    name: "Staffing Services",
     summary: "Temporary, contract and contract-to-hire people, employed by us and working in your team.",
     line: "The right people, for as long as the work needs them.",
     detail:
@@ -328,7 +328,7 @@ export const SERVICES: Service[] = [
      from those pages, not new claims. */
   {
     slug: "staffing",
-    name: "Staffing",
+    name: "Staffing Services",
     shortName: "Staffing",
     need: "role",
     photo: "serviceTemporary",
@@ -339,12 +339,12 @@ export const SERVICES: Service[] = [
     },
     whitepaper: "contract-to-hire-playbook",
     meta: {
-      title: "Staffing",
+      title: "Staffing Services",
       description:
-        "Staffing from Vertis Global: temporary staffing for a rush or a season, contract staffing for skilled specialists, and contract-to-hire when you want to see someone work before you commit. We employ them, pay them and handle the compliance.",
+        "Staffing services from Vertis Global: temporary staffing for a rush or a season, contract staffing for skilled specialists, and contract-to-hire when you want to see someone work before you commit. We employ them, pay them and handle the compliance.",
     },
     hero: {
-      eyebrow: "Staffing",
+      eyebrow: "Staffing Services",
       lead: "The right people, for as long as the",
       accent: "work needs them.",
       sub: "Temporary cover for a rush or a season, contract specialists for work with an end date, and contract-to-hire when you want to see someone do the job before you commit. We employ them, pay them and handle the compliance.",

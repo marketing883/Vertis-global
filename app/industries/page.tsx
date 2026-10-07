@@ -30,7 +30,7 @@ const SOLUTIONS = [
       "An ongoing team or workstream we recruit, manage day to day and keep staffed as your needs change. One point of contact, one invoice.",
   },
   {
-    name: "Staffing",
+    name: "Staffing Services",
     line: "The right people, for as long as the work needs them.",
     detail:
       "Temporary cover for a rush or a season, contract specialists for work with an end date, and contract-to-hire when you want to see someone work first.",
