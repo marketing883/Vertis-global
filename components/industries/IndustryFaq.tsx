@@ -6,7 +6,7 @@ import { Faq } from "@/components/ui/Faq";
 const FAQS = [
   {
     q: "Which industries do you staff for?",
-    a: "Twelve, from insurance and government through manufacturing, healthcare and hospitality to information technology, semiconductor and energy. The explorer above is the full list. If your work sits between two of them, call us and we will tell you honestly whether we are the right fit.",
+    a: "Sixteen, from insurance, government and banking through manufacturing, aerospace, pharma, healthcare and hospitality to information technology, life sciences, semiconductor and energy. The explorer above is the full list. If your work sits between two of them, call us and we will tell you honestly whether we are the right fit.",
   },
   {
     q: "How quickly can you send people?",

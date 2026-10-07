@@ -201,6 +201,30 @@ export const PHOTOS = {
     3 / 2,
     "WIDE. Network work, indoors and orderly.",
   ),
+  industryPharmaHero: slot(
+    "industry-pharma-hero",
+    "Two production technicians in cleanroom gowning reviewing a batch record beside a tablet press",
+    3 / 2,
+    "WIDE. GMP production, gowned and procedural.",
+  ),
+  industryAerospaceHero: slot(
+    "industry-aerospace-hero",
+    "An aircraft maintenance technician and an inspector working beneath an open engine cowling in a hangar",
+    3 / 2,
+    "WIDE. Hangar work, hands on and checked.",
+  ),
+  industryLifeSciencesHero: slot(
+    "industry-life-sciences-hero",
+    "Two research scientists working side by side at a biosafety cabinet in a bright laboratory",
+    3 / 2,
+    "WIDE. Bench science, careful and collaborative.",
+  ),
+  industryDataBankingHero: slot(
+    "industry-data-banking-hero",
+    "A data analyst and a risk manager talking over a laptop and printed reports in a bank office",
+    3 / 2,
+    "WIDE. Regulated office work, calm and considered.",
+  ),
 
   /* ── Employers and job seekers ──────────────────────────── */
   employerHero: slot(

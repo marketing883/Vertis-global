@@ -1,7 +1,7 @@
 /* ============================================================
    INDUSTRIES
 
-   Twelve industries in four groups. This is the spine of the
+   Sixteen industries in four groups. This is the spine of the
    broad-staffing positioning: the grouping is what makes the range
    legible at a glance, and the per-industry `line` is what each
    industry page opens with.
@@ -12,8 +12,7 @@
    administrative, financial services, human resources, marketing,
    sales and industrial (removed October 2026; their old pages
    redirect to /industries), construction, real estate, media and entertainment, nonprofit,
-   logistics, legal, life sciences, creative, clerical, education,
-   customer service.
+   logistics, legal, creative, clerical, education, customer service.
    ============================================================ */
 
 export type Industry = {
@@ -47,6 +46,11 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         name: "Government",
         line: "Administrative, program support, IT and compliance staff for public agencies.",
       },
+      {
+        slug: "data-banking",
+        name: "Data & Banking",
+        line: "Banking operations, KYC and AML, risk and compliance, data engineering and analytics.",
+      },
     ],
   },
   {
@@ -63,6 +67,16 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         slug: "automotive",
         name: "Automotive",
         line: "Technicians, assembly, parts, service advisors and dealership staff.",
+      },
+      {
+        slug: "aerospace",
+        name: "Aerospace",
+        line: "A&P and avionics technicians, assemblers, NDT inspectors, and design and test engineers.",
+      },
+      {
+        slug: "pharma",
+        name: "Pharma",
+        line: "GMP operators, QA and QC, validation, regulatory affairs and cold chain warehouse staff.",
       },
     ],
   },
@@ -117,6 +131,11 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         slug: "energy",
         name: "Energy",
         line: "Field technicians, engineers, safety and operations staff across power and utilities.",
+      },
+      {
+        slug: "life-sciences",
+        name: "Life Sciences",
+        line: "Research scientists, lab operations, clinical research, device engineers and bioinformaticians.",
       },
     ],
   },

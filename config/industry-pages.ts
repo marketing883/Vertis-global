@@ -62,6 +62,11 @@ export type IndustryPage = {
   /** Must match an Industry slug in config/industries.ts. */
   slug: string;
   meta: { title: string; description: string };
+  /** Optional. The candidate path, e.g. "View pharma jobs". When set,
+      the hero's secondary link points to the open roles on the page
+      instead of the disciplines, and the closing call to action
+      repeats it. Pages without it render exactly as before. */
+  jobsLabel?: string;
   hero: {
     eyebrow: string;
     lead: string;
@@ -2769,6 +2774,869 @@ export const INDUSTRY_PAGES: IndustryPage[] = [
     },
   },
 
+  /* ══════════════════════════════════════════════════════════
+     PHARMA
+     ══════════════════════════════════════════════════════════ */
+  {
+    slug: "pharma",
+    meta: {
+      title: "Pharmaceutical staffing",
+      description:
+        "GMP manufacturing, quality assurance, QC laboratory, validation, regulatory affairs and GDP supply chain staff for pharmaceutical manufacturers and CDMOs, screened on documentation practice as well as technical skill.",
+    },
+    jobsLabel: "View pharma jobs",
+    hero: {
+      eyebrow: "Pharma",
+      lead: "Batches moving,",
+      accent: "records audit ready.",
+      sub: "Manufacturing operators, quality assurance, QC analysts, validation engineers, regulatory and supply chain staff for pharmaceutical manufacturers and CDMOs. Screened on GMP practice, not just GMP vocabulary.",
+      photo: "industryPharmaHero",
+      facts: [
+        { figure: "6 functions", caption: "from the production suite and the QC lab through validation, regulatory and the cold chain" },
+        { figure: "GMP in practice", caption: "screened on how people document, deviate and escalate, not on whether the acronym is on the resume" },
+        { figure: "48 to 72 hours", caption: "to first qualified profiles on most pharmaceutical briefs" },
+      ],
+    },
+    overview: {
+      heading: "In pharma, the record is part of the work.",
+      paragraphs: [
+        "We staff pharmaceutical manufacturers, contract development and manufacturing organisations, packagers and distributors: production operators, quality assurance and quality control, validation and commissioning, regulatory affairs and drug safety, and the warehouse staff who keep the cold chain intact.",
+        "What separates a strong pharma hire from an average one is rarely technical. It is whether they record what they did, when they did it, the way the procedure says to. Data integrity and good documentation practice are where inspections find problems, so they are where we screen hardest.",
+        "The second constraint is the site. Sterile or non-sterile, oral solid dose or biologics, commercial or clinical supply. Experience in one transfers to another less freely than job titles suggest, and we confirm which one a candidate actually knows before anyone is put forward.",
+      ],
+    },
+    disciplinesLabel: "Functions",
+    disciplinesHeading: "What we actually recruit for.",
+    disciplines: [
+      {
+        id: "manufacturing",
+        name: "Manufacturing operations",
+        photo: "/photos/roles/pharma-manufacturing.jpg",
+        photoAlt: "A production operator in cleanroom gowning setting up a vial filling line",
+        builds: "Dispensing, granulation, compression, filling and packaging, run to the batch record and signed as it happens rather than at the end of the shift.",
+        seniority: "Operator and technician through to production supervisor",
+        tools: ["MES and electronic batch records", "Tablet presses and fill lines", "Isolators and RABS", "SAP shop floor"],
+        standards: ["21 CFR 210 and 211", "Good documentation practice", "Aseptic gowning qualification"],
+      },
+      {
+        id: "quality-assurance",
+        name: "Quality assurance",
+        photo: "/photos/roles/pharma-quality-assurance.jpg",
+        photoAlt: "A quality assurance specialist reviewing a batch record beside a window onto the production floor",
+        builds: "Batch record review, deviations, CAPA, change control and the release decision a product cannot ship without.",
+        seniority: "QA associate through to QA manager",
+        tools: ["Veeva Vault QMS", "MasterControl", "TrackWise", "Electronic batch record review"],
+        standards: ["21 CFR Part 11", "ICH Q9 and Q10", "Data integrity (ALCOA+)"],
+      },
+      {
+        id: "quality-control",
+        name: "Quality control laboratory",
+        photo: "/photos/roles/pharma-quality-control.jpg",
+        photoAlt: "An analytical chemist loading sample vials into an HPLC autosampler",
+        builds: "Raw material, in-process, release and stability testing, and the out of specification investigation when a result does not land.",
+        seniority: "QC analyst through to laboratory supervisor",
+        tools: ["HPLC and GC", "Empower", "LIMS", "Dissolution and Karl Fischer", "Environmental monitoring"],
+        standards: ["USP and EP methods", "OOS investigation procedure", "Method validation (ICH Q2)"],
+      },
+      {
+        id: "validation",
+        name: "Validation and engineering",
+        photo: "/photos/roles/pharma-validation.jpg",
+        photoAlt: "A validation engineer placing a temperature logger inside an autoclave chamber",
+        builds: "Commissioning and qualification of equipment, utilities and facilities, plus cleaning, process and computer system validation.",
+        seniority: "Validation specialist through to validation lead",
+        tools: ["Kaye and Ellab loggers", "Kneat", "ValGenesis", "BMS and EMS platforms"],
+        standards: ["IQ, OQ and PQ", "GAMP 5", "ASTM E2500", "EU GMP Annex 1 and Annex 15"],
+      },
+      {
+        id: "regulatory",
+        name: "Regulatory affairs and drug safety",
+        photo: "/photos/roles/pharma-regulatory.jpg",
+        photoAlt: "A regulatory affairs specialist working through a printed submission dossier",
+        builds: "Submissions, variations and labelling, adverse event case processing, and the safety signal that has to reach a regulator on time.",
+        seniority: "Associate through to regulatory affairs manager",
+        tools: ["eCTD publishing tools", "Veeva Vault RIM", "Argus Safety", "MedDRA coding"],
+        standards: ["FDA and EMA submission requirements", "ICH E2 safety guidance", "GVP modules"],
+      },
+      {
+        id: "supply-chain",
+        name: "Supply chain and GDP warehouse",
+        photo: "/photos/roles/pharma-supply-chain.jpg",
+        photoAlt: "A warehouse associate scanning cartons in a temperature controlled pharmaceutical warehouse",
+        builds: "Receipt, storage, picking and shipping under temperature control, with serialisation and a chain of custody that holds up to scrutiny.",
+        seniority: "Warehouse associate through to distribution supervisor",
+        tools: ["WMS", "SAP EWM", "Temperature monitoring systems", "Serialisation and aggregation"],
+        standards: ["Good Distribution Practice", "DSCSA", "Cold chain handling"],
+      },
+    ],
+    stack: {
+      heading: "What we recruit against.",
+      intro:
+        "Dosage form, quality system and regulation. Those three questions decide most pharmaceutical shortlists before years of experience are even discussed.",
+      groups: [
+        { name: "Dosage forms", items: ["Oral solid dose", "Sterile injectables", "Aseptic fill finish", "Biologics", "Liquids and topicals", "Packaging and labelling"] },
+        { name: "Systems", items: ["Veeva Vault", "MasterControl", "TrackWise", "LIMS", "Empower", "MES", "SAP"] },
+        { name: "Regulations", items: ["21 CFR 210 and 211", "21 CFR Part 11", "EU GMP Annex 1", "ICH Q7 to Q10", "DSCSA"] },
+        { name: "Practice", items: ["GDocP", "ALCOA+", "CAPA", "Change control", "OOS and OOT", "Aseptic qualification"] },
+      ],
+    },
+    screening: {
+      heading: "How we screen for a GMP site.",
+      intro:
+        "Technical knowledge is the easy part of a pharmaceutical candidate to verify. Documentation habits are the part that fails audits, so that is where most of the screen goes.",
+      steps: [
+        {
+          title: "Dosage form and site type named",
+          body: "Sterile or non-sterile, small molecule or biologic, commercial or clinical supply. This is the question that decides whether experience transfers.",
+        },
+        {
+          title: "Documentation habits tested",
+          body: "We ask candidates to walk through a deviation they raised and a correction they made to a record, and how they made it. Good documentation practice shows up in the detail of the answer.",
+        },
+        {
+          title: "Systems confirmed",
+          body: "The QMS, LIMS or MES they actually worked in, and whether they used it, reviewed in it or administered it. Three different people share one line on a resume.",
+        },
+        {
+          title: "Gowning and shift readiness",
+          body: "Aseptic qualification history, any gowning or medical requirement your site applies, and the shift pattern, confirmed with the candidate before you meet them.",
+        },
+        {
+          title: "A reference from quality, not only production",
+          body: "Somebody who reviewed their records. In this industry that is the reference worth having.",
+        },
+      ],
+    },
+    pullQuote:
+      "Anyone can put GMP on a resume. The useful question is what they did the last time a record was wrong.",
+    market: {
+      heading: "Where the market is actually tight.",
+      intro: "What our recruiters see running these searches. Experience rather than a guarantee.",
+      rows: [
+        { role: "GDP warehouse associates", market: "Available in most distribution hubs. Cold chain experience narrows the field.", timeline: "One to two weeks" },
+        { role: "Manufacturing operators", market: "Available for oral solid dose. Aseptic experience is far thinner.", timeline: "Two to three weeks" },
+        { role: "QC analysts", market: "A steady supply of graduates, far fewer with Empower and OOS investigation experience.", timeline: "Two to four weeks" },
+        { role: "QA specialists", market: "Competitive, particularly for batch release and deviation ownership.", timeline: "Three to five weeks" },
+        { role: "Validation engineers", market: "Tight, and driven by capital projects across a whole region at once.", timeline: "Four to six weeks" },
+        { role: "Regulatory affairs and drug safety", market: "Specialist and national rather than local, often remote or hybrid.", timeline: "Four to six weeks" },
+      ],
+      note: "Sites inside an established pharmaceutical cluster have a larger pool and a more aggressive market. Sites outside one should expect to discuss relocation for anything beyond operator level.",
+    },
+    engagements: {
+      heading: "Three shapes this usually takes.",
+      intro: "Pharmaceutical demand is driven by capital projects, inspections and launches.",
+      options: [
+        {
+          name: "Project and validation team",
+          covers: "Validation and engineering staff against a commissioning and qualification schedule.",
+          fits: "A new line, a facility expansion, a technology transfer.",
+          shape: "Contract for the project, with the option to convert the people you want to keep.",
+        },
+        {
+          name: "Quality backlog and remediation",
+          covers: "QA reviewers and QC analysts to clear a backlog or support an inspection response.",
+          fits: "Deviation and CAPA backlogs, stability catch up, preparing for or responding to an inspection.",
+          shape: "Contract, scoped to the backlog, with a clear end date.",
+        },
+        {
+          name: "Production and warehouse cover",
+          covers: "Operators and GDP associates for a launch, a campaign or a seasonal volume increase.",
+          fits: "New product launches, extra shifts, leave cover on a qualified line.",
+          shape: "Temporary or contract-to-hire, with gowning and shift requirements confirmed up front.",
+        },
+      ],
+    },
+    brief: {
+      heading: "What to have ready before you call.",
+      intro: "Five specifics here are worth more than a full job description.",
+      items: [
+        "The dosage form and whether the area is sterile or non-sterile",
+        "The quality system, LIMS or MES the person will work in",
+        "Any gowning, aseptic qualification or medical requirement",
+        "The shift pattern, including weekends and nights",
+        "Whether the role reviews, approves or only executes",
+        "The rate or salary band, and whether relocation is supported",
+      ],
+    },
+    faqs: [
+      {
+        q: "Do your candidates have GMP experience, or just GMP training?",
+        a: "We screen for practice. A certificate says somebody attended a course; a walk through of a real deviation or record correction tells you whether they work that way. Where a role suits a graduate or career changer, we say so plainly rather than dressing it up.",
+      },
+      {
+        q: "Can you support a validation or capital project?",
+        a: "Yes. Contract validation and engineering staff against a commissioning and qualification schedule is one of the most common pharmaceutical arrangements, and the people you want to keep can convert afterwards.",
+      },
+      {
+        q: "Does sterile experience transfer from non-sterile manufacturing?",
+        a: "Partly. Documentation discipline transfers well. Aseptic behaviour and gowning qualification do not, and if your line cannot absorb that learning curve the requirement needs to say so.",
+      },
+      {
+        q: "How do you handle background checks and drug screening?",
+        a: "To your site's requirements, completed before the start date. Where a role touches controlled substances we confirm any additional checks your licence requires.",
+      },
+      {
+        q: "Do you staff regulatory and drug safety roles remotely?",
+        a: "Yes. Regulatory affairs and safety case processing are often remote or hybrid, which widens the search to a national market.",
+      },
+      {
+        q: "What does it cost?",
+        a: "Temporary and contract staff are an hourly rate covering pay, our employment costs and our margin. Contract-to-hire conversion terms are agreed before anyone starts. Everything is quoted before any work begins.",
+      },
+    ],
+    cta: {
+      heading: "Inspection coming, or a line to staff?",
+      body: "Tell us the dosage form, the system and the shift. We will tell you honestly how long the search will take.",
+    },
+  },
+
+  /* ══════════════════════════════════════════════════════════
+     AEROSPACE
+     ══════════════════════════════════════════════════════════ */
+  {
+    slug: "aerospace",
+    meta: {
+      title: "Aerospace staffing",
+      description:
+        "Aircraft maintenance technicians, avionics, structures assembly, NDT and quality inspection, design and stress engineering, and test staff for MROs, OEMs and suppliers, screened on certification, platform and eligibility.",
+    },
+    jobsLabel: "View aerospace jobs",
+    hero: {
+      eyebrow: "Aerospace",
+      lead: "Certified hands,",
+      accent: "signed off right.",
+      sub: "Maintenance technicians, avionics, structures assembly, inspection, engineering and test for MROs, OEMs and their suppliers. Certification, platform and eligibility checked before you see a name.",
+      photo: "industryAerospaceHero",
+      facts: [
+        { figure: "6 functions", caption: "from the hangar floor and the assembly jig through inspection, engineering and test" },
+        { figure: "Eligibility first", caption: "export control and clearance requirements confirmed before skills are even discussed" },
+        { figure: "Platform specific", caption: "airframe, engine and system experience matched to what you actually fly or build" },
+      ],
+    },
+    overview: {
+      heading: "In aerospace, who can do the work is decided before how well.",
+      paragraphs: [
+        "We staff maintenance, repair and overhaul shops, aircraft and engine manufacturers, and the suppliers behind them: airframe and powerplant technicians, avionics, structures and composites, non-destructive testing and quality inspection, design and stress engineering, and test.",
+        "Aerospace hiring has a gate most industries do not. Export control, citizenship and security clearance requirements decide who is eligible before anyone discusses ability, and getting that wrong costs weeks. We establish eligibility first, in writing.",
+        "The second filter is the platform. A technician current on one airframe or engine family is valuable on another, but not immediately, and an inspector's authority depends on the certification they hold. We match both to your work rather than to a job title.",
+      ],
+    },
+    disciplinesLabel: "Functions",
+    disciplinesHeading: "What we actually recruit for.",
+    disciplines: [
+      {
+        id: "maintenance",
+        name: "Aircraft maintenance",
+        photo: "/photos/roles/aerospace-maintenance.jpg",
+        photoAlt: "An aircraft maintenance technician servicing the main landing gear of a jet in a hangar",
+        builds: "Scheduled checks, unscheduled repairs, component changes and the logbook entry that returns an aircraft to service.",
+        seniority: "Mechanic through to lead technician and crew chief",
+        tools: ["AMM and IPC", "Torque and rigging tooling", "Maintenance tracking systems", "Borescope"],
+        standards: ["FAA A&P certificate", "14 CFR Part 145", "14 CFR Part 43"],
+      },
+      {
+        id: "avionics",
+        name: "Avionics and electrical",
+        photo: "/photos/roles/aerospace-avionics.jpg",
+        photoAlt: "An avionics technician testing a wiring harness connector inside an aircraft electronics bay",
+        builds: "Troubleshooting, wiring repair, system installation and the functional test that proves a system works as installed.",
+        seniority: "Avionics technician through to avionics lead",
+        tools: ["Wiring diagrams and WDM", "Pitot static and transponder test sets", "Crimp and termination tooling"],
+        standards: ["FAA A&P or repairman certificate", "FCC GROL where required", "EWIS practices"],
+      },
+      {
+        id: "assembly",
+        name: "Structures and assembly",
+        photo: "/photos/roles/aerospace-assembly.jpg",
+        photoAlt: "An aerospace assembler installing fasteners on a fuselage section in an assembly jig",
+        builds: "Drilling, fastening, sealing, composite layup and bonding, to drawing and to the work instruction, on the line or in the jig.",
+        seniority: "Assembler and composite technician through to line lead",
+        tools: ["Blueprint and GD&T reading", "Pneumatic drilling and riveting", "Autoclave and layup tooling", "Torque and sealant application"],
+        standards: ["AS9100 work instructions", "FOD prevention", "NADCAP special processes"],
+      },
+      {
+        id: "quality",
+        name: "Quality and NDT inspection",
+        photo: "/photos/roles/aerospace-quality.jpg",
+        photoAlt: "A non-destructive testing inspector running an ultrasonic probe across a composite wing panel",
+        builds: "First article and in-process inspection, non-destructive testing, nonconformance reports and the signature that accepts the part.",
+        seniority: "Inspector through to quality engineer and Level 3",
+        tools: ["UT, ET, PT, MT and RT methods", "CMM", "Calibrated gauging", "QMS and NCR systems"],
+        standards: ["NAS 410 certification", "AS9102 first article", "AS9100D"],
+      },
+      {
+        id: "engineering",
+        name: "Design and stress engineering",
+        photo: "/photos/roles/aerospace-engineering.jpg",
+        photoAlt: "An aerospace engineer reviewing a CAD model of a machined bracket while holding the part",
+        builds: "Structural design, stress analysis, repair substantiation and the engineering disposition that makes a nonconforming part flyable or not.",
+        seniority: "Engineer through to principal and DER support",
+        tools: ["CATIA", "Siemens NX", "NASTRAN and PATRAN", "Teamcenter or ENOVIA"],
+        standards: ["14 CFR Part 25 and Part 33", "DO-178C and DO-254 for systems", "Configuration management"],
+      },
+      {
+        id: "test",
+        name: "Test and certification",
+        photo: "/photos/roles/aerospace-test.jpg",
+        photoAlt: "A test engineer monitoring live data in a jet engine test cell control room",
+        builds: "Ground, engine and system test, instrumentation, data reduction and the evidence a certification plan depends on.",
+        seniority: "Test technician through to test engineer and test lead",
+        tools: ["Data acquisition systems", "LabVIEW", "MATLAB", "Strain gauge and thermocouple instrumentation"],
+        standards: ["Test plan and procedure control", "DO-160 environmental testing", "Conformity inspection"],
+      },
+    ],
+    stack: {
+      heading: "What we recruit against.",
+      intro:
+        "Eligibility, certification and platform. Those three questions decide almost every aerospace shortlist we build.",
+      groups: [
+        { name: "Eligibility", items: ["ITAR", "EAR", "US person status", "Secret clearance", "Top Secret clearance"] },
+        { name: "Certifications", items: ["FAA A&P", "FAA repairman", "NAS 410 Level 2 and 3", "FCC GROL", "EASA Part 66"] },
+        { name: "Engineering tools", items: ["CATIA", "Siemens NX", "NASTRAN", "Teamcenter", "LabVIEW", "MATLAB"] },
+        { name: "Standards", items: ["AS9100D", "AS9102", "NADCAP", "14 CFR Part 145", "14 CFR Part 25", "DO-178C"] },
+      ],
+    },
+    screening: {
+      heading: "How we screen for aerospace.",
+      intro:
+        "Aerospace screening starts with questions a hiring manager is not always allowed to ask in an interview, and a recruiter has to ask properly. Eligibility comes before skill.",
+      steps: [
+        {
+          title: "Eligibility established",
+          body: "Export control status, citizenship where the programme requires it, and any existing clearance. Confirmed in writing first, because nothing else matters if this fails.",
+        },
+        {
+          title: "Certificates verified",
+          body: "A&P certificates checked against the FAA registry, NDT levels and methods confirmed against the employer's written practice, not taken from the resume.",
+        },
+        {
+          title: "Platform and depth established",
+          body: "Which airframe, engine or system, which checks or assemblies, and whether they performed the work, inspected it or signed for it.",
+        },
+        {
+          title: "Shift and tooling confirmed",
+          body: "Night and weekend shifts, AOG call outs, and whether the candidate brings their own tooling, confirmed before anyone is put forward.",
+        },
+        {
+          title: "A reference from a lead or inspector",
+          body: "Somebody who checked their work and would sign behind it, not a general supervisor.",
+        },
+      ],
+    },
+    pullQuote:
+      "Eligible, certified, current on the platform. Three questions that decide an aerospace shortlist before experience is even discussed.",
+    market: {
+      heading: "Where the market is actually tight.",
+      intro: "What our recruiters see running these searches. Experience rather than a guarantee.",
+      rows: [
+        { role: "Structures assemblers", market: "Available near established aerospace clusters, competing with every OEM nearby.", timeline: "Two to three weeks" },
+        { role: "A&P technicians", market: "Tight nationally, and tighter for specific airframes and heavy check experience.", timeline: "Three to five weeks" },
+        { role: "Avionics technicians", market: "Tight. Troubleshooting depth is rarer than the certificate.", timeline: "Three to five weeks" },
+        { role: "NDT inspectors, Level 2", market: "Very tight, and method specific. Level 3 is scarcer still.", timeline: "Four to six weeks" },
+        { role: "Stress and design engineers", market: "Competitive, and narrowed sharply by clearance requirements.", timeline: "Four to six weeks" },
+        { role: "Cleared engineers and technicians", market: "The hardest aerospace hire we run. An active clearance is worth weeks.", timeline: "Six weeks and up" },
+      ],
+      note: "If a programme requires a clearance the candidate does not yet hold, the timeline is set by the clearance process rather than by recruitment. Say so early and we will plan the search around it.",
+    },
+    engagements: {
+      heading: "Three shapes this usually takes.",
+      intro: "Aerospace demand is driven by build rates, maintenance seasons and programme milestones.",
+      options: [
+        {
+          name: "Rate increase and line support",
+          covers: "Assemblers, inspectors and leads against a production rate.",
+          fits: "A rate increase, a new line, recovery from a backlog.",
+          shape: "Contract or contract-to-hire, with the people you want to keep converting.",
+        },
+        {
+          name: "Heavy check and MRO surge",
+          covers: "A&P and avionics technicians for a maintenance season or an induction schedule.",
+          fits: "Heavy checks, modification programmes, a fleet induction.",
+          shape: "Contract for the season, with tooling, shift and travel agreed up front.",
+        },
+        {
+          name: "Programme engineering",
+          covers: "Design, stress and test engineers for a programme phase or a certification milestone.",
+          fits: "New development, a certification campaign, a repair substantiation backlog.",
+          shape: "Contract or contract-to-hire, with eligibility confirmed before submission.",
+        },
+      ],
+    },
+    brief: {
+      heading: "What to have ready before you call.",
+      intro: "Five specifics here are worth more than a full job description.",
+      items: [
+        "Export control and clearance requirements for the programme",
+        "The airframe, engine or system the person will work on",
+        "Certificates required, and NDT methods and levels if relevant",
+        "Whether the role performs, inspects or signs off the work",
+        "The shift pattern, AOG expectations and tooling arrangements",
+        "The rate or salary band, and any travel or relocation support",
+      ],
+    },
+    faqs: [
+      {
+        q: "Can you find candidates who already hold a security clearance?",
+        a: "Yes, and we confirm the level and status before submission. Cleared candidates are the scarcest in this industry, so tell us early whether an active clearance is required or whether the candidate can be sponsored.",
+      },
+      {
+        q: "How do you verify A&P certificates and NDT levels?",
+        a: "A&P certificates against the FAA registry. NDT levels and methods against the candidate's certification records and your written practice, because NAS 410 certification belongs to the employer that issued it.",
+      },
+      {
+        q: "Do you staff MROs as well as manufacturers?",
+        a: "Yes. Maintenance and manufacturing are different markets with different certifications and shift patterns, and we recruit for each on its own terms.",
+      },
+      {
+        q: "Can you support an AOG or short notice request?",
+        a: "Where the requirement is common, such as A&P technicians on widely flown types, often. Where it needs a specific certification or clearance, we will tell you honestly that it cannot be done overnight.",
+      },
+      {
+        q: "Does platform experience transfer?",
+        a: "Partially. Good technicians cross airframes and engines with time and type training, but if your schedule cannot absorb that learning curve the requirement needs to say so.",
+      },
+      {
+        q: "What does it cost?",
+        a: "Temporary and contract staff are an hourly rate covering pay, our employment costs and our margin, with per diem and travel handled separately where they apply. Contract-to-hire conversion terms are agreed before anyone starts.",
+      },
+    ],
+    cta: {
+      heading: "Raising the rate, or inducting a fleet?",
+      body: "Tell us the platform, the certifications and the eligibility requirement. The more specific the brief, the shorter the search.",
+    },
+  },
+
+  /* ══════════════════════════════════════════════════════════
+     LIFE SCIENCES
+     ══════════════════════════════════════════════════════════ */
+  {
+    slug: "life-sciences",
+    meta: {
+      title: "Life sciences staffing",
+      description:
+        "Research scientists, laboratory operations, clinical research, medical device engineering and quality, bioinformatics and biostatistics talent for biotechs, CROs, research institutes and device companies.",
+    },
+    jobsLabel: "View life sciences jobs",
+    hero: {
+      eyebrow: "Life Sciences",
+      lead: "Science moving,",
+      accent: "evidence holding.",
+      sub: "Research scientists, lab operations, clinical research, medical device engineering, bioinformatics and biostatistics for biotechs, CROs and device companies. Screened on the techniques and data you actually depend on.",
+      photo: "industryLifeSciencesHero",
+      facts: [
+        { figure: "6 functions", caption: "from the bench and the core lab through clinical research, devices and data" },
+        { figure: "Technique specific", caption: "matched on the assays, models and platforms you run, not on a degree title" },
+        { figure: "Funding aware", caption: "contract and contract-to-hire arrangements that follow a funding round or a study timeline" },
+      ],
+    },
+    overview: {
+      heading: "In life sciences, the degree tells you very little.",
+      paragraphs: [
+        "We staff biotechnology companies, contract research organisations, research institutes, hospital research units and medical device companies: research scientists and associates, laboratory operations, clinical research, device engineering and quality, bioinformatics and biostatistics.",
+        "Two candidates with the same PhD can be entirely wrong for each other's jobs. What matters is the technique: which assays, which models, which instruments, which data. We screen on that, in the vocabulary of the lab, because a shortlist built on degree titles wastes your scientists' time.",
+        "The other reality is timing. Hiring here follows funding rounds, grant cycles and study milestones, and it often has to move fast or not at all. Contract and contract-to-hire arrangements let you staff the work in front of you without committing headcount before the next milestone is certain.",
+      ],
+    },
+    disciplinesLabel: "Functions",
+    disciplinesHeading: "What we actually recruit for.",
+    disciplines: [
+      {
+        id: "research",
+        name: "Research scientists",
+        photo: "/photos/roles/life-sciences-research.jpg",
+        photoAlt: "A research scientist pipetting samples at a laboratory bench",
+        builds: "Experiments designed, run and repeated, assays developed, and data a project team can make decisions on.",
+        seniority: "Research associate through to senior scientist",
+        tools: ["Cell culture", "qPCR and ddPCR", "Flow cytometry", "ELISA and immunoassays", "CRISPR workflows"],
+        standards: ["Electronic lab notebooks", "GLP where required", "Biosafety level practice"],
+      },
+      {
+        id: "lab-operations",
+        name: "Laboratory operations",
+        photo: "/photos/roles/life-sciences-lab-operations.jpg",
+        photoAlt: "A laboratory technician placing a sample rack into a minus 80 freezer",
+        builds: "Sample management, inventory, instrument upkeep and the lab that keeps working while the scientists work.",
+        seniority: "Lab technician through to lab manager",
+        tools: ["LIMS", "Sample tracking and biobanking", "Liquid handlers", "Freezer and cold storage monitoring"],
+        standards: ["Chain of custody", "Biosafety and chemical hygiene", "Instrument calibration"],
+      },
+      {
+        id: "clinical",
+        name: "Clinical research",
+        photo: "/photos/roles/life-sciences-clinical.jpg",
+        photoAlt: "A clinical research coordinator reviewing a study binder in a research clinic office",
+        builds: "Study start up, patient visits, monitoring, source data verification and the clean data a study is judged on.",
+        seniority: "Clinical research coordinator through to clinical trial manager",
+        tools: ["Medidata Rave", "Veeva Vault CTMS and eTMF", "Oracle Clinical", "IRT systems"],
+        standards: ["ICH E6 GCP", "21 CFR Parts 50 and 312", "IRB procedures"],
+      },
+      {
+        id: "devices",
+        name: "Medical device engineering and quality",
+        photo: "/photos/roles/life-sciences-devices.jpg",
+        photoAlt: "A medical device engineer inspecting a catheter component under a magnifier",
+        builds: "Design and development, verification testing, design history files and the risk file a submission rests on.",
+        seniority: "Engineer through to principal engineer and quality manager",
+        tools: ["SolidWorks", "Design control systems", "Test method validation", "Greenlight Guru or Arena"],
+        standards: ["ISO 13485", "21 CFR Part 820", "ISO 14971", "IEC 62304 for software"],
+      },
+      {
+        id: "bioinformatics",
+        name: "Bioinformatics and computational biology",
+        photo: "/photos/roles/life-sciences-bioinformatics.jpg",
+        photoAlt: "A bioinformatics scientist studying sequence data on two monitors beside a sequencing lab",
+        builds: "Pipelines for sequencing data, analysis that answers a biological question, and results a wet lab can act on.",
+        seniority: "Bioinformatician through to principal scientist",
+        tools: ["Python and R", "Nextflow and Snakemake", "NGS and single cell analysis", "AWS and HPC clusters"],
+        standards: ["Reproducible pipelines", "Version control", "Data provenance"],
+      },
+      {
+        id: "biostatistics",
+        name: "Biostatistics and clinical data",
+        photo: "/photos/roles/life-sciences-biostatistics.jpg",
+        photoAlt: "A biostatistician writing notes on a printed table of results beside a laptop",
+        builds: "Statistical analysis plans, datasets and tables, data management and the analysis a regulator or a journal reviews.",
+        seniority: "Statistical programmer through to principal biostatistician",
+        tools: ["SAS", "R", "CDISC SDTM and ADaM", "EDC data management platforms"],
+        standards: ["ICH E9", "21 CFR Part 11", "CDISC standards"],
+      },
+    ],
+    stack: {
+      heading: "What we recruit against.",
+      intro:
+        "Technique, modality and data. Those three questions decide a life sciences shortlist far more than a degree title does.",
+      groups: [
+        { name: "Lab techniques", items: ["Cell culture", "qPCR", "Flow cytometry", "ELISA", "NGS library prep", "CRISPR", "Mass spectrometry"] },
+        { name: "Clinical and device systems", items: ["Medidata Rave", "Veeva Vault CTMS", "eTMF", "SolidWorks", "Design control platforms"] },
+        { name: "Data", items: ["Python", "R", "SAS", "Nextflow", "CDISC SDTM and ADaM", "AWS"] },
+        { name: "Standards", items: ["ICH E6 GCP", "GLP", "ISO 13485", "21 CFR Part 820", "ISO 14971", "21 CFR Part 11"] },
+      ],
+    },
+    screening: {
+      heading: "How we screen for a lab.",
+      intro:
+        "Life sciences screening is about specificity. A broad question gets a broad shortlist, and here a broad shortlist is one your scientists have to filter themselves.",
+      steps: [
+        {
+          title: "Technique and modality named",
+          body: "Which assays, models, instruments and therapeutic areas. The question that decides whether a candidate can contribute in their first month.",
+        },
+        {
+          title: "Hands on depth established",
+          body: "Ran the assay, developed it, or supervised the people who did. Three very different candidates write the same line on a resume.",
+        },
+        {
+          title: "Regulated or discovery",
+          body: "Whether the candidate has worked under GLP, GCP or design controls, or only in discovery. Both are valuable; they are not interchangeable.",
+        },
+        {
+          title: "Data and documentation habits",
+          body: "How they record experiments, version analysis and hand work on. In regulated settings this decides whether the work counts.",
+        },
+        {
+          title: "A reference from a principal investigator or lead",
+          body: "Somebody who relied on their results, not a general line manager.",
+        },
+      ],
+    },
+    pullQuote:
+      "Same degree, different science. The technique on the bench decides the shortlist, not the title on the diploma.",
+    market: {
+      heading: "Where the market is actually tight.",
+      intro: "What our recruiters see running these searches. Experience rather than a guarantee.",
+      rows: [
+        { role: "Lab technicians and operations", market: "Available near research clusters, thinner outside them.", timeline: "One to three weeks" },
+        { role: "Research associates", market: "A healthy supply of graduates. Specific technique experience narrows it quickly.", timeline: "Two to four weeks" },
+        { role: "Clinical research coordinators", market: "Steady, and site and therapeutic area experience matter.", timeline: "Two to four weeks" },
+        { role: "Medical device quality and design engineers", market: "Competitive, particularly with design control and risk file ownership.", timeline: "Four to six weeks" },
+        { role: "Bioinformaticians", market: "Tight, and single cell and multi-omics experience tighter still.", timeline: "Four to six weeks" },
+        { role: "Biostatisticians", market: "Scarce at senior levels, often remote and national.", timeline: "Five weeks and up" },
+      ],
+      note: "Data roles in life sciences increasingly run remote or hybrid, which widens the search to a national market. Bench roles cannot, and are bounded by the commute to the lab.",
+    },
+    engagements: {
+      heading: "Three shapes this usually takes.",
+      intro: "Life sciences demand follows funding rounds, grants and study milestones.",
+      options: [
+        {
+          name: "Milestone staffing",
+          covers: "Scientists and associates against a programme milestone or a funded workplan.",
+          fits: "A new programme after a funding round, a data readout, a grant deliverable.",
+          shape: "Contract or contract-to-hire, so headcount follows the next milestone rather than running ahead of it.",
+        },
+        {
+          name: "Study and site support",
+          covers: "Clinical research coordinators, monitors and data staff around a study timeline.",
+          fits: "Study start up, enrolment peaks, database lock.",
+          shape: "Contract for the study phase, with an agreed end date.",
+        },
+        {
+          name: "Lab operations cover",
+          covers: "Technicians and lab operations staff who keep the lab running.",
+          fits: "A lab move or expansion, leave cover, an instrument or biobank backlog.",
+          shape: "Temporary or contract-to-hire, with biosafety and shift requirements confirmed up front.",
+        },
+      ],
+    },
+    brief: {
+      heading: "What to have ready before you call.",
+      intro: "Five specifics here are worth more than a full job description.",
+      items: [
+        "The techniques, models or instruments the person must already know",
+        "The therapeutic area or modality, if it matters",
+        "Whether the work is regulated (GLP, GCP, design controls) or discovery",
+        "Whether the role runs the work, develops it or leads it",
+        "On site, hybrid or remote, and the biosafety level of the lab",
+        "The rate or salary band, and how long funding for the role is secured",
+      ],
+    },
+    faqs: [
+      {
+        q: "How is this different from your pharma page?",
+        a: "Pharma is about making and releasing product under GMP: manufacturing, quality, validation and supply. Life sciences is about discovering and proving: research, clinical studies, devices and the data behind them. Many organisations need both, and we recruit for each on its own terms.",
+      },
+      {
+        q: "Can you recruit for very specific techniques?",
+        a: "Yes, and we would rather you were specific. Name the assay, the instrument or the model and we screen for hands on experience with it, not familiarity with the term.",
+      },
+      {
+        q: "Do you place PhD scientists as well as technicians?",
+        a: "Yes, from lab technicians and research associates through to senior scientists. We tell you honestly where a requirement is scarce rather than sending a near miss.",
+      },
+      {
+        q: "Can roles be remote?",
+        a: "Data roles such as bioinformatics and biostatistics often can, which widens the search considerably. Bench and clinical site roles cannot.",
+      },
+      {
+        q: "We are an early stage company. Does contract work make sense?",
+        a: "Often. Contract and contract-to-hire arrangements let you staff the work in front of you while funding is confirmed, and keep the people who prove themselves.",
+      },
+      {
+        q: "What does it cost?",
+        a: "Temporary and contract staff are an hourly rate covering pay, our employment costs and our margin. Contract-to-hire conversion terms are agreed before anyone starts. Everything is quoted before any work begins.",
+      },
+    ],
+    cta: {
+      heading: "Funding landed, or a study about to start?",
+      body: "Tell us the technique, the modality and the timeline. We will tell you where the people actually are.",
+    },
+  },
+
+  /* ══════════════════════════════════════════════════════════
+     DATA & BANKING
+     ══════════════════════════════════════════════════════════ */
+  {
+    slug: "data-banking",
+    meta: {
+      title: "Data and banking staffing",
+      description:
+        "Banking operations, KYC and financial crime, risk and compliance, data engineering, analytics and data governance, and payments talent for banks, credit unions and fintechs, screened for regulated environments.",
+    },
+    jobsLabel: "View data and banking jobs",
+    hero: {
+      eyebrow: "Data & Banking",
+      lead: "Regulated work,",
+      accent: "trusted people.",
+      sub: "Banking operations, KYC and financial crime, risk and compliance, data engineering, analytics and payments for banks, credit unions and fintechs. Screened for the regulations you answer to and the data you are accountable for.",
+      photo: "industryDataBankingHero",
+      facts: [
+        { figure: "6 functions", caption: "from loan operations and financial crime through risk, data and payments" },
+        { figure: "Background ready", caption: "fingerprinting and background requirements for regulated institutions completed before day one" },
+        { figure: "Data and domain", caption: "data talent screened on banking context, not only on tools" },
+      ],
+    },
+    overview: {
+      heading: "In banking, data is regulated work too.",
+      paragraphs: [
+        "We staff banks, credit unions, mortgage lenders and fintechs: loan and deposit operations, KYC, AML and fraud, risk and regulatory compliance, data engineering, analytics and data governance, and payments operations.",
+        "Banking puts two filters on every hire. The first is trust: regulated institutions carry background and fingerprinting requirements, and some convictions bar employment outright. We complete those checks to your standard before anyone starts, not after.",
+        "The second is context. A data engineer who has built regulatory reporting pipelines knows why lineage and reconciliation matter; one who has not will learn on your audit. We screen data talent on banking context as well as tools, and operations talent on the regulations behind the procedure.",
+      ],
+    },
+    disciplinesLabel: "Functions",
+    disciplinesHeading: "What we actually recruit for.",
+    disciplines: [
+      {
+        id: "operations",
+        name: "Banking operations",
+        photo: "/photos/roles/data-banking-operations.jpg",
+        photoAlt: "A loan operations specialist checking mortgage documents against a laptop",
+        builds: "Loan processing, underwriting support, closing and servicing, deposit operations and the reconciliations that keep the ledger true.",
+        seniority: "Processor and specialist through to operations supervisor",
+        tools: ["nCino", "Encompass", "Fiserv, FIS and Jack Henry cores", "Excel reconciliation"],
+        standards: ["TRID and RESPA", "Regulation E", "Dual control procedures"],
+      },
+      {
+        id: "financial-crime",
+        name: "KYC, AML and fraud",
+        photo: "/photos/roles/data-banking-financial-crime.jpg",
+        photoAlt: "A financial crime analyst reviewing a customer due diligence case on two monitors",
+        builds: "Customer due diligence, transaction monitoring alerts, investigations and the suspicious activity report that has to be right and on time.",
+        seniority: "Analyst through to investigations manager",
+        tools: ["NICE Actimize", "Oracle FCCM", "LexisNexis and World-Check", "Case management systems"],
+        standards: ["BSA and AML", "CIP and CDD rules", "OFAC sanctions", "SAR filing"],
+      },
+      {
+        id: "risk",
+        name: "Risk and regulatory compliance",
+        photo: "/photos/roles/data-banking-risk.jpg",
+        photoAlt: "A risk and compliance manager reading a printed regulatory report in a meeting room",
+        builds: "Compliance testing, risk assessments, model validation, exam preparation and the issue log a regulator will read.",
+        seniority: "Analyst through to risk and compliance manager",
+        tools: ["Archer and GRC platforms", "SAS and Python for model work", "Policy management systems"],
+        standards: ["FFIEC guidance", "SR 11-7 model risk", "CCAR and DFAST", "SOX controls"],
+      },
+      {
+        id: "data-engineering",
+        name: "Data engineering",
+        photo: "/photos/roles/data-banking-data-engineering.jpg",
+        photoAlt: "A data engineer writing code with a pipeline diagram on a second monitor",
+        builds: "Pipelines from core systems into the warehouse, regulatory reporting feeds, and data that reconciles to the general ledger.",
+        seniority: "Data engineer through to lead and architect",
+        tools: ["SQL", "Python and Spark", "Snowflake and Databricks", "Informatica", "Azure and AWS data services"],
+        standards: ["BCBS 239 principles", "Data lineage", "Change control"],
+      },
+      {
+        id: "analytics",
+        name: "Analytics and data governance",
+        photo: "/photos/roles/data-banking-analytics.jpg",
+        photoAlt: "A data analyst annotating a printed chart at a standing table beside a laptop",
+        builds: "Reporting, dashboards, customer and credit analytics, data quality rules and the definitions everyone agrees to use.",
+        seniority: "Analyst through to analytics manager and data steward lead",
+        tools: ["Power BI", "Tableau", "SQL", "Collibra and Alation", "SAS"],
+        standards: ["Data quality frameworks", "Fair lending analysis", "GLBA privacy"],
+      },
+      {
+        id: "payments",
+        name: "Payments and core technology",
+        photo: "/photos/roles/data-banking-payments.jpg",
+        photoAlt: "A payments operations analyst monitoring transaction queues across several screens",
+        builds: "ACH, wire and card operations, exception handling, core and payments system support, and conversions that cannot lose a transaction.",
+        seniority: "Analyst through to payments manager and systems lead",
+        tools: ["Fedwire and ACH platforms", "SWIFT", "Card processing platforms", "Core banking systems"],
+        standards: ["Nacha rules", "Regulation J", "PCI DSS"],
+      },
+    ],
+    stack: {
+      heading: "What we recruit against.",
+      intro:
+        "Regulation, system and data. Those three questions decide almost every banking shortlist we build.",
+      groups: [
+        { name: "Core and lending systems", items: ["Fiserv", "FIS", "Jack Henry", "Temenos", "nCino", "Encompass"] },
+        { name: "Financial crime", items: ["NICE Actimize", "Oracle FCCM", "World-Check", "LexisNexis", "Verafin"] },
+        { name: "Data platforms", items: ["SQL", "Python", "Spark", "Snowflake", "Databricks", "Informatica", "Power BI", "Collibra"] },
+        { name: "Regulation", items: ["BSA and AML", "OFAC", "FFIEC", "SR 11-7", "BCBS 239", "SOX", "Nacha", "PCI DSS"] },
+      ],
+    },
+    screening: {
+      heading: "How we screen for a bank.",
+      intro:
+        "Banking screening has a trust gate and a context gate. Technical skill matters, but on its own it does not make somebody safe to put in front of your customers' data.",
+      steps: [
+        {
+          title: "Background and eligibility checked",
+          body: "Criminal, credit where permitted, employment verification and fingerprinting to your institution's standard, with FDIC Section 19 in mind. Completed before the start date.",
+        },
+        {
+          title: "Regulation named",
+          body: "Which rules the candidate has actually worked under: BSA and AML, lending regulations, model risk, payments. Familiarity is not the same as accountability.",
+        },
+        {
+          title: "Systems confirmed",
+          body: "The core, lending, financial crime or data platform they used, and whether they operated it, configured it or built on it.",
+        },
+        {
+          title: "Data work tested in context",
+          body: "For data roles, a conversation about reconciliation, lineage and what happens when a regulatory report does not tie out. The answer shows whether banking data is new to them.",
+        },
+        {
+          title: "A reference from a reviewer or manager",
+          body: "Somebody who checked their work: a QC reviewer, a compliance lead or a data owner, not only a peer.",
+        },
+      ],
+    },
+    pullQuote:
+      "A good data engineer knows the tools. A good banking data engineer knows what happens when the report does not reconcile.",
+    market: {
+      heading: "Where the market is actually tight.",
+      intro: "What our recruiters see running these searches. Experience rather than a guarantee.",
+      rows: [
+        { role: "Loan and deposit operations", market: "Available in most banking centres. System specific experience narrows it.", timeline: "One to three weeks" },
+        { role: "KYC and AML analysts", market: "Steady supply at entry level, much thinner for investigations and SAR writing.", timeline: "Two to four weeks" },
+        { role: "Data and BI analysts", market: "Plentiful in general, far fewer with banking data context.", timeline: "Two to four weeks" },
+        { role: "Payments operations", market: "Tight for wire and ACH exception experience.", timeline: "Three to four weeks" },
+        { role: "Data engineers", market: "Competitive, and regulatory reporting experience is scarce.", timeline: "Four to six weeks" },
+        { role: "Model risk and senior compliance", market: "The hardest banking hire we run, and largely national.", timeline: "Six weeks and up" },
+      ],
+      note: "Remediation programmes and exam findings create sudden demand across the whole market at once. If your timeline is driven by a regulator, tell us early and we will plan the search around the date.",
+    },
+    engagements: {
+      heading: "Three shapes this usually takes.",
+      intro: "Banking demand is driven by remediation, conversions and volume.",
+      options: [
+        {
+          name: "Remediation and look back team",
+          covers: "KYC, AML and compliance analysts for a defined review population.",
+          fits: "A consent order or exam finding, a KYC refresh, an alert backlog.",
+          shape: "Contract, scoped to the review, with a clear end date and QC built in.",
+        },
+        {
+          name: "Data and conversion project",
+          covers: "Data engineers, analysts and system specialists for a migration or reporting build.",
+          fits: "A core conversion, a merger integration, a new regulatory report.",
+          shape: "Contract or contract-to-hire, with the option to keep the people who own the result.",
+        },
+        {
+          name: "Operations volume cover",
+          covers: "Processors and operations staff for a rate driven surge or a backlog.",
+          fits: "Refinance waves, seasonal volume, leave cover in a critical queue.",
+          shape: "Temporary or contract-to-hire, with background checks complete before day one.",
+        },
+      ],
+    },
+    brief: {
+      heading: "What to have ready before you call.",
+      intro: "Five specifics here are worth more than a full job description.",
+      items: [
+        "Your background, fingerprinting and credit check requirements",
+        "The core, lending, financial crime or data platforms in use",
+        "The regulations the role is accountable to",
+        "Whether the role performs, reviews or approves the work",
+        "On site, hybrid or remote, and any data access restrictions",
+        "The rate or salary band, and any regulator driven deadline",
+      ],
+    },
+    faqs: [
+      {
+        q: "Do you complete background checks to banking standards?",
+        a: "Yes. Criminal, employment and education verification, credit where permitted, and fingerprinting where your institution requires it, all completed before the start date and with FDIC Section 19 in mind.",
+      },
+      {
+        q: "Can you staff a KYC or AML remediation quickly?",
+        a: "Often, for analyst level work. Investigations and SAR writing experience is much scarcer, so tell us the mix early and we will be honest about the ramp.",
+      },
+      {
+        q: "Are your data candidates bank experienced?",
+        a: "Where you need it, yes, and we screen for it explicitly. Where general data experience is enough, we say so, because it widens the search considerably.",
+      },
+      {
+        q: "Do you work with credit unions and fintechs as well as banks?",
+        a: "Yes. The regulations differ in places and so do the systems, and we recruit against the ones you actually operate under.",
+      },
+      {
+        q: "Can roles be remote?",
+        a: "Many data, analytics and financial crime roles can, subject to your data access and security policies. Branch, vault and some payments roles cannot.",
+      },
+      {
+        q: "What does it cost?",
+        a: "Temporary and contract staff are an hourly rate covering pay, our employment costs and our margin. Contract-to-hire conversion terms are agreed before anyone starts. Everything is quoted before any work begins.",
+      },
+    ],
+    cta: {
+      heading: "Remediation, conversion or a report to build?",
+      body: "Tell us the regulation, the system and the deadline. We will tell you honestly how fast the right people can start.",
+    },
+  },
 ];
 
 export function getIndustryPage(slug: string): IndustryPage | null {

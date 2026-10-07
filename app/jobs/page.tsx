@@ -12,7 +12,7 @@ import { SITE } from "@/config/site";
 export const metadata: Metadata = {
   title: "Jobs",
   description:
-    "Temporary, contract, contract-to-hire and permanent roles across twelve industries. Tell us what you are looking for and a recruiter will come back to you.",
+    "Temporary, contract, contract-to-hire and permanent roles across sixteen industries. Tell us what you are looking for and a recruiter will come back to you.",
   alternates: { canonical: "/jobs" },
 };
 

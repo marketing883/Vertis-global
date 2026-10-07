@@ -53,6 +53,10 @@ export default async function IndustryPage({ params }: { params: Params }) {
     .filter((j) => j.industry === page.slug)
     .slice(0, 4);
 
+  /* The candidate path, for pages that set `jobsLabel`: the open roles
+     further down this page when there are any, the jobs board when not. */
+  const jobsHref = jobs.length > 0 ? "#jobs" : "/jobs";
+
   return (
     <>
       <HireTalentScope industry={page.slug} />
@@ -69,10 +73,17 @@ export default async function IndustryPage({ params }: { params: Params }) {
         actions={
           <>
             <HireTalentButton variant="onInk" />
-            <Link href="#disciplines" className="link-underline text-[1.0625rem]">
-              {page.disciplinesLabel.toLowerCase()} we recruit for
-              <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
-            </Link>
+            {page.jobsLabel ? (
+              <Link href={jobsHref} className="link-underline text-[1.0625rem]">
+                {page.jobsLabel}
+                <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
+              </Link>
+            ) : (
+              <Link href="#disciplines" className="link-underline text-[1.0625rem]">
+                {page.disciplinesLabel.toLowerCase()} we recruit for
+                <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
+              </Link>
+            )}
           </>
         }
       />
@@ -365,7 +376,7 @@ export default async function IndustryPage({ params }: { params: Params }) {
 
       {/* ── 11 · Open roles in this industry ─────────────────── */}
       {jobs.length > 0 ? (
-        <Section background="paper">
+        <Section background="paper" id="jobs" className="scroll-mt-24">
           <Container>
             <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6">
               <div>
@@ -436,10 +447,17 @@ export default async function IndustryPage({ params }: { params: Params }) {
             </div>
             <div className="flex flex-wrap items-center gap-x-10 gap-y-5 lg:col-span-5 lg:justify-end">
               <HireTalentButton variant="onInk">How Can We Help?</HireTalentButton>
-              <Link href="/industries" className="link-underline text-[1.0625rem]">
-                All industries
-                <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
-              </Link>
+              {page.jobsLabel ? (
+                <Link href={jobsHref} className="link-underline text-[1.0625rem]">
+                  {page.jobsLabel}
+                  <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
+                </Link>
+              ) : (
+                <Link href="/industries" className="link-underline text-[1.0625rem]">
+                  All industries
+                  <ArrowRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
+                </Link>
+              )}
             </div>
           </div>
         </Container>
