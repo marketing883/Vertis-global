@@ -47,9 +47,9 @@ export const INDUSTRY_GROUPS: IndustryGroup[] = [
         line: "Administrative, program support, IT and compliance staff for public agencies.",
       },
       {
-        slug: "data-banking",
-        name: "Data & Banking",
-        line: "Banking operations, KYC and AML, risk and compliance, data engineering and analytics.",
+        slug: "banking",
+        name: "Banking",
+        line: "Branch and loan operations, credit analysts, KYC and AML, compliance and payments staff.",
       },
     ],
   },

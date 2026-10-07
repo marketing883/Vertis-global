@@ -229,7 +229,7 @@ export const JOBS: Job[] = [
   {
     id: "kyc-aml-analyst",
     title: "KYC and AML Analyst",
-    industry: "data-banking",
+    industry: "banking",
     level: "professional",
     type: "contract",
     location: "Charlotte, NC",
@@ -238,15 +238,15 @@ export const JOBS: Job[] = [
     summary: "Customer due diligence refresh on a defined review population, with QC review and a clear end date.",
   },
   {
-    id: "data-engineer-regulatory-reporting",
-    title: "Data Engineer, Regulatory Reporting",
-    industry: "data-banking",
+    id: "commercial-credit-analyst",
+    title: "Commercial Credit Analyst",
+    industry: "banking",
     level: "specialized",
     type: "contract-to-hire",
     location: "Dallas, TX",
     arrangement: "Hybrid",
     posted: "2026-09-28",
-    summary: "Pipelines from core systems into Snowflake for regulatory reports that have to reconcile to the ledger.",
+    summary: "Financial spreading, credit memos and annual reviews for a commercial lending team, with a path to underwriter.",
   },
 ];
 

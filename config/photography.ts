@@ -219,9 +219,9 @@ export const PHOTOS = {
     3 / 2,
     "WIDE. Bench science, careful and collaborative.",
   ),
-  industryDataBankingHero: slot(
-    "industry-data-banking-hero",
-    "A data analyst and a risk manager talking over a laptop and printed reports in a bank office",
+  industryBankingHero: slot(
+    "industry-banking-hero",
+    "An analyst and a risk manager talking over a laptop and printed reports in a bank office",
     3 / 2,
     "WIDE. Regulated office work, calm and considered.",
   ),
