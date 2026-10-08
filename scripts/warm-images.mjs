@@ -43,10 +43,20 @@ const pages = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
   (m) => base + new URL(m[1]).pathname,
 );
 
+// Hero images first. They are the ones a visitor waits on (each page
+// preloads its hero with <link rel="preload" imagesrcset>), so right
+// after a deploy they must not queue behind a thousand card thumbnails.
+// Within the heroes, the widths real screens ask for most come first.
+const heroes = new Set();
 const images = new Set();
 for (const page of pages) {
   try {
     const html = await text(page);
+    for (const link of html.matchAll(/<link[^>]+rel="preload"[^>]+as="image"[^>]*>/g)) {
+      for (const m of link[0].matchAll(/\/_next\/image\?url=[^"\s,]+/g)) {
+        heroes.add(m[0].replaceAll("&amp;", "&"));
+      }
+    }
     for (const m of html.matchAll(/\/_next\/image\?url=[^"\s,]+/g)) {
       images.add(m[0].replaceAll("&amp;", "&"));
     }
@@ -55,7 +65,23 @@ for (const page of pages) {
   }
 }
 
-const jobs = [...images].flatMap((path) => FORMATS.map((accept) => ({ path, accept })));
+const WIDTH_ORDER = [1440, 1200, 1920, 1080, 828, 640, 2048];
+const rank = (p) => {
+  const i = WIDTH_ORDER.indexOf(Number(new URL(p, base).searchParams.get("w")));
+  return i < 0 ? WIDTH_ORDER.length : i;
+};
+const ordered = [
+  ...[...heroes].sort((a, b) => rank(a) - rank(b)),
+  ...[...images].filter((p) => !heroes.has(p)),
+];
+// Every hero width in AVIF (what nearly every browser asks for) before
+// any WebP, then everything else.
+const heroJobs = ordered.filter((p) => heroes.has(p));
+const jobs = [
+  ...heroJobs.map((path) => ({ path, accept: FORMATS[0] })),
+  ...heroJobs.map((path) => ({ path, accept: FORMATS[1] })),
+  ...ordered.filter((p) => !heroes.has(p)).flatMap((path) => FORMATS.map((accept) => ({ path, accept }))),
+];
 let done = 0;
 let failed = 0;
 const started = Date.now();
@@ -76,7 +102,7 @@ async function worker() {
 const total = jobs.length;
 await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 console.log(
-  `warmed ${done - failed}/${total} image variants from ${pages.length} pages ` +
+  `warmed ${done - failed}/${total} image variants (${heroes.size} hero images first) from ${pages.length} pages ` +
     `(${expired} expired entries cleared) ` +
     `in ${Math.round((Date.now() - started) / 1000)}s${failed ? ` (${failed} failed)` : ""}`,
 );

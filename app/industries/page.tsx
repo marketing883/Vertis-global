@@ -99,7 +99,7 @@ export default function IndustriesPage() {
     <>
       {/* ── 1 · Hero ─────────────────────────────────────────── */}
       <PageHero
-        photo="industriesHero"
+        photo="industriesOverviewHero"
         eyebrow="Industries we serve"
         title="The people your industry"
         titleAccent="runs on."

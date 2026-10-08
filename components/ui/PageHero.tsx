@@ -1,6 +1,7 @@
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { Photo } from "@/components/media/Photo";
-import type { PhotoId } from "@/config/photography";
+import { PHOTOS, type PhotoId } from "@/config/photography";
+import PLACEHOLDERS from "@/config/photo-placeholders.json";
 import { cn } from "@/lib/utils";
 
 /* The interior page hero: one photograph, a purple well under the
@@ -56,7 +57,14 @@ export function PageHero({
       spacing="none"
       className={cn("relative overflow-hidden", className)}
     >
-      <Photo slot={photo} fill priority sizes="100vw" className="absolute inset-0 h-full w-full" />
+      <Photo
+        slot={photo}
+        fill
+        priority
+        sizes="100vw"
+        blurDataURL={blurFor(photo)}
+        className="absolute inset-0 h-full w-full"
+      />
       {/* The scrim lives in globals.css (`.scrim-photo`) so every
           hero on the site lightens or darkens together. */}
       <div
@@ -93,4 +101,14 @@ export function PageHero({
       />
     </Section>
   );
+}
+
+/* The hero's blurred preview, from config/photo-placeholders.json
+   (scripts/photo-placeholders.mjs). The photo paints at once as a soft
+   version of itself instead of an empty purple block, which matters
+   most to visitors far from the server. */
+function blurFor(slot: PhotoId): string | undefined {
+  const src = PHOTOS[slot].src;
+  const key = src?.split("/").pop()?.replace(/\.jpe?g$/i, "");
+  return key ? (PLACEHOLDERS as Record<string, string>)[key] : undefined;
 }

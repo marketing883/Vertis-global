@@ -78,6 +78,13 @@ export const PHOTOS = {
     3 / 2,
     "WIDE. A corporate atrium in motion; the range of professional work in one frame.",
   ),
+  /* /industries has its own hero so it no longer repeats /services. */
+  industriesOverviewHero: slot(
+    "industries-overview-hero",
+    "A nurse, a lab scientist and site workers in hard hats and hi-vis walking together along a campus walkway at the start of a shift",
+    3 / 2,
+    "WIDE. Different industries in one frame, outdoors and in motion.",
+  ),
   industriesTeam: slot(
     "industries-team",
     "Two talent acquisition professionals reviewing candidate shortlists together on a large screen in a modern office",

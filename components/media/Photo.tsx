@@ -11,6 +11,10 @@ type PhotoProps = {
   sizes?: string;
   /** Darkens the image so text can sit over it. */
   overlay?: "none" | "soft" | "strong";
+  /** A tiny blurred preview, shown until the real image arrives. Passed
+      in by server components only (see PageHero), so the previews are
+      not bundled into every page's JavaScript. */
+  blurDataURL?: string;
 };
 
 /* One component owns every photograph on the site: the aspect box
@@ -23,6 +27,7 @@ export function Photo({
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
   overlay = "none",
+  blurDataURL,
 }: PhotoProps) {
   const photo = PHOTOS[slot];
 
@@ -53,6 +58,8 @@ export function Photo({
           fill
           priority={priority}
           sizes={sizes}
+          placeholder={blurDataURL ? "blur" : "empty"}
+          blurDataURL={blurDataURL}
           className="object-cover"
         />
       ) : (
