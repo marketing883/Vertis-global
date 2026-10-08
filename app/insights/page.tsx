@@ -28,7 +28,7 @@ export default function InsightsPage() {
             </p>
           </div>
 
-          <InsightList posts={posts} className="mt-16 lg:mt-24" />
+          <InsightList posts={posts} className="mt-16 lg:mt-24" priorityFirst />
         </Container>
       </Section>
 

@@ -20,7 +20,7 @@ import { INDUSTRY_COUNT } from "@/config/industries";
 const VIDEO = {
   src: "/jobs-video/jobs-hero.mp4",
   mobile: "/jobs-video/jobs-hero-mobile.mp4",
-  poster: "/jobs-video/jobs-hero-poster.jpg",
+  poster: "/jobs-video/jobs-hero-poster.webp",
 };
 
 export function JobsHero() {

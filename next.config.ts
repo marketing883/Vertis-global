@@ -10,8 +10,11 @@ const nextConfig: NextConfig = {
        photo on this server. 3840 is dropped: it is what a full-width
        hero on a 2x laptop asks for, the slowest encode, and no sharper
        to the eye than 2048 behind a scrim. Fewer, more common widths
-       also mean a warm cache serves more visitors. */
-    deviceSizes: [640, 828, 1080, 1200, 1920, 2048],
+       also mean a warm cache serves more visitors. 1440 is kept: it is
+       the most common laptop width, and without it every full-width
+       hero there jumps from 1200 to 1920, a third more bytes on the
+       image that decides LCP. */
+    deviceSizes: [640, 828, 1080, 1200, 1440, 1920, 2048],
     imageSizes: [64, 128, 256, 384],
     /* Optimised images keep for 30 days instead of 4 hours, so they are
        not re-encoded over and over. A changed photo should get a new

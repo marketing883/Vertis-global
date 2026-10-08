@@ -6,11 +6,21 @@ import { cn } from "@/lib/utils";
 
 /* One editorial row per article: photograph, then the words. Used
    by the homepage (three latest) and the Insights index (all). The
-   whole row is the link. */
-export function InsightList({ posts, className }: { posts: InsightPost[]; className?: string }) {
+   whole row is the link. `priorityFirst` is for the Insights index,
+   where the first photograph is in the opening viewport and is the
+   largest thing on a phone screen. */
+export function InsightList({
+  posts,
+  className,
+  priorityFirst = false,
+}: {
+  posts: InsightPost[];
+  className?: string;
+  priorityFirst?: boolean;
+}) {
   return (
     <ul className={cn("border-t border-n-200", className)}>
-      {posts.map((post) => (
+      {posts.map((post, i) => (
         <li key={post.slug} className="border-b border-n-200">
           <Link
             href={`/insights/${post.slug}`}
@@ -21,6 +31,7 @@ export function InsightList({ posts, className }: { posts: InsightPost[]; classN
                 src={post.image.src}
                 alt=""
                 fill
+                priority={priorityFirst && i === 0}
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               />
