@@ -16,8 +16,9 @@ import { cn } from "@/lib/utils";
 const IDLE: CandidateState = { status: "idle" };
 
 /* The job seeker form. Seven fields, one optional attachment, and no
-   account to create. Nothing is stored: the action emails it to a
-   recruiter and forgets it.
+   account to create. The action screens it for bots and emails it to
+   a recruiter (or holds it while recruiter emails are paused); see
+   app/actions/candidate.ts.
 
    Arriving from a job with `?role=` prefills what they are looking
    for, read from window.location rather than useSearchParams so the
@@ -28,9 +29,15 @@ export function ResumeForm() {
   const [fileError, setFileError] = useState<string | null>(null);
   const [role, setRole] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
+  /* Time on the form, for bot screening (lib/spam.ts). Started when the
+     form appears, written into the hidden "t" field at submit. A bot
+     that posts without running this script sends no "t" at all. */
+  const shownAt = useRef<number | null>(null);
+  const fillTime = useRef<HTMLInputElement>(null);
   const id = useId();
 
   useEffect(() => {
+    shownAt.current = performance.now();
     const param = new URLSearchParams(window.location.search).get("role");
     if (param) setRole(param);
   }, []);
@@ -69,6 +76,9 @@ export function ResumeForm() {
       noValidate
       className="rounded-lg bg-white p-8 sm:p-10"
       onSubmit={(e) => {
+        if (fillTime.current && shownAt.current !== null) {
+          fillTime.current.value = String(Math.round(performance.now() - shownAt.current));
+        }
         const file = fileInput.current?.files?.[0];
         if (file && file.size > RESUME_MAX_BYTES) {
           e.preventDefault();
@@ -81,6 +91,7 @@ export function ResumeForm() {
           Website <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
+      <input ref={fillTime} type="hidden" name="t" defaultValue="" />
 
       {state.status === "error" && state.message && (
         <p role="alert" className="mb-6 rounded-md bg-paper px-4 py-3 text-[0.9375rem] text-ink">
@@ -125,7 +136,12 @@ export function ResumeForm() {
           <select
             name="lookingFor"
             defaultValue={was.lookingFor ?? "open"}
-            className="mt-2 h-13 w-full rounded-md border border-n-300 bg-paper px-4 text-base text-ink focus-visible:border-accent"
+            aria-invalid={errors.lookingFor ? true : undefined}
+            aria-describedby={errors.lookingFor ? "cand-lookingFor-err" : undefined}
+            className={cn(
+              "mt-2 h-13 w-full rounded-md border bg-paper px-4 text-base text-ink focus-visible:border-accent",
+              errors.lookingFor ? "border-danger" : "border-n-300",
+            )}
           >
             {CANDIDATE_LOOKING_FOR.map((o) => (
               <option key={o.id} value={o.id}>
@@ -133,6 +149,11 @@ export function ResumeForm() {
               </option>
             ))}
           </select>
+          {errors.lookingFor && (
+            <span id="cand-lookingFor-err" role="alert" className="mt-1.5 block text-[0.875rem] text-danger">
+              {errors.lookingFor}
+            </span>
+          )}
         </label>
         <Field
           label="What kind of work?"
