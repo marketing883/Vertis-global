@@ -31,6 +31,18 @@ NOTIFY_TO=        # comma separated, overrides the default recipient
 NOTIFY_CC=        # comma separated, overrides the default cc
 ```
 
+Only `RESEND_API_KEY` is needed; everything else has a working default in the code. Optional overrides, the folders all defaulting to beside the app checkout:
+
+```
+CANDIDATE_NOTIFICATIONS=  # "on" sends job seeker submissions to the recruiters; anything else (or unset) keeps them paused
+CANDIDATE_HOLD_DIR=       # held submissions while paused, default ../held-candidates
+RESUME_DIR=               # resume download links, default ../resumes
+RESUME_RETENTION_DAYS=    # default 30
+VERTIS_DATA_DIR=          # admin database, uploads and saved resumes, default ../data
+```
+
+There is deliberately no `.env.example` in the repository; this section is the reference.
+
 ## Source and deployment
 
 The code lives at **https://github.com/marketing883/Vertis-global**. Two branches matter:
@@ -63,7 +75,7 @@ Fallbacks, over your own root SSH access (`vertis-staging` in `~/.ssh/config`): 
 | nginx | In `/etc/nginx/conf.d`: `staging.vertisglobal.com.conf` proxies to 3010, `vertisglobal.com.conf` to 3011, and `www.vertisglobal.com.conf` only 301s www (http and https) to the apex. The apex is canonical; `SITE.url` must match it. The old static site's config is kept as `vertisglobal.com.conf.static-site-final` for rollback |
 | TLS | certbot, nginx authenticator. The apex certificate comes from GoDaddy's ACME server (see `server =` in `/etc/letsencrypt/renewal/vertisglobal.com.conf`); www and staging from Let's Encrypt. Renewal runs on `certbot-renew.timer` (off by default on AlmaLinux, now enabled) and `renewal-hooks/deploy/reload-nginx.sh` reloads nginx after each one |
 | Logs | `/home/vertis/.pm2/logs/vertis-<env>-*.log`, `/var/log/nginx/<site>_*.log` |
-| Env | `.env.local` in each checkout is gitignored and never deployed; put `RESEND_API_KEY` and any overrides there by hand (see `.env.example`), then `pm2 reload <process> --update-env`. Next reads `.env.local` at startup, so a reload is enough; no rebuild |
+| Env | `.env.local` in each checkout is gitignored and never deployed; put `RESEND_API_KEY` and any overrides there by hand (see Environment above), then `pm2 reload <process> --update-env`. Next reads `.env.local` at startup, so a reload is enough; no rebuild |
 
 **Going live on vertisglobal.com, first time only (done 24 Sep 2026; kept for reference).** Root's `mv` and `cp` are aliased to ask before overwriting, so use `\mv -f`. Production is currently the old static site in `public_html` on the existing nginx config, and nothing above changes that until this is done, in this order: (1) `npm run promote --first-time`, approve the run, and confirm `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3011/` on the server returns 200; (2) on the server, `cp vertisglobal.com.conf vertisglobal.com.conf.static-site-final && mv vertisglobal.com.conf.nextjs-pending vertisglobal.com.conf && nginx -t && systemctl reload nginx` in `/etc/nginx/conf.d`. Rolling back is the reverse rename and a reload; the static site is never deleted.
 

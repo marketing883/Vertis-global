@@ -8,7 +8,6 @@ tsconfig.tsbuildinfo
 # secrets: never commit an env file. Staging keeps its own .env.local on the server.
 .env
 .env.*
-!.env.example
 
 # local tooling
 .claude/
