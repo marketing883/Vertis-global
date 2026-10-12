@@ -21,7 +21,8 @@ import { dataPath } from "@/lib/db";
    ============================================================ */
 
 export const IMAGE_MAX_BYTES = 8 * 1024 * 1024;
-export const PDF_MAX_BYTES = 10 * 1024 * 1024;
+/* Under the 10MB request body limit of proxy.ts, with room for the form. */
+export const PDF_MAX_BYTES = 9 * 1024 * 1024;
 const MAX_EDGE = 2400;
 
 export const MEDIA_NAME = /^[0-9a-f]{32}\.(jpg|png|pdf)$/;
@@ -55,7 +56,7 @@ export async function saveImage(bytes: Buffer): Promise<{ url: string; width: nu
 }
 
 export async function savePdf(bytes: Buffer): Promise<{ url: string }> {
-  if (bytes.length > PDF_MAX_BYTES) throw new MediaError("PDFs must be under 10MB.");
+  if (bytes.length > PDF_MAX_BYTES) throw new MediaError("PDFs must be under 9MB.");
   if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") throw new MediaError("That file isn't a PDF.");
   const name = newName("pdf");
   await fs.writeFile(dataPath("media", name), bytes, { mode: 0o644 });
