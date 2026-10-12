@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ExternalLink, Eye } from "lucide-react";
 import { requirePage } from "@/lib/admin/auth";
 import { getJob } from "@/lib/admin/jobs";
+import { isClosed } from "@/lib/data/jobs";
 import { JOB_OPTIONS } from "@/lib/admin/options";
 import { removeJob } from "@/app/admin/actions/jobs";
 import { JobForm } from "@/components/admin/JobForm";
@@ -31,6 +32,8 @@ export default async function EditJobPage({ params, searchParams }: Props) {
     level: job.level,
     arrangement: job.arrangement,
     schedule: job.schedule,
+    deadline: job.deadline ?? "",
+    notify_emails: job.notify_emails,
   };
 
   return (
@@ -42,6 +45,7 @@ export default async function EditJobPage({ params, searchParams }: Props) {
         actions={
           <>
             <Badge tone={job.status}>{job.status === "published" ? "Published" : "Draft"}</Badge>
+            {job.status === "published" && isClosed(job) ? <Badge tone="closed">Closed</Badge> : null}
             <Link href={`/admin/jobs/${job.id}/preview`} className={buttonClass.secondary}>
               <Eye className="size-4" aria-hidden="true" /> Preview
             </Link>

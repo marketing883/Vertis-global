@@ -38,3 +38,10 @@ export const LIGHT_HEADER_ROUTES = [
 /* Paths under these prefixes also have a light top (a job's own page,
    while the /jobs list itself keeps its dark hero). */
 export const LIGHT_HEADER_PREFIXES = ["/jobs/"];
+
+/* Where job applications are emailed when a job's "Notification
+   email(s)" setting is left blank. Temporary, until a shared recruiting
+   inbox exists: change it here and every job without its own
+   addresses follows. General resume submissions (not for a specific
+   job) are not sent here; they follow CANDIDATE_NOTIFICATIONS. */
+export const JOB_APPLICATIONS_INBOX = "neha.kulkarni@aciinfotech.com";

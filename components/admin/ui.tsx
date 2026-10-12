@@ -48,6 +48,7 @@ const BADGE: Record<string, string> = {
   shortlisted: "bg-[#fff0e6] text-[#9a4b14]",
   interview: "bg-[#efe6ff] text-[#5b2ea6]",
   rejected: "bg-[#fde8e8] text-[#9b1c1c]",
+  closed: "bg-[#fde8e8] text-[#9b1c1c]",
   admin: "bg-ink text-white",
   hr: "bg-paper-2 text-n-600",
   disabled: "bg-[#fde8e8] text-[#9b1c1c]",

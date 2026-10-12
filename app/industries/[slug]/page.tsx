@@ -481,3 +481,7 @@ function cnRow(index: number) {
     .filter(Boolean)
     .join(" ");
 }
+
+/* Rebuilt at most hourly in the background, so a job whose application
+   deadline has passed leaves this page without anyone saving anything. */
+export const revalidate = 3600;

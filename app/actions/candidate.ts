@@ -12,10 +12,10 @@ import {
 } from "@/lib/validation/candidate";
 import { clientAddress, emailRateLimited, rateLimited, screen } from "@/lib/spam";
 import { candidateNotificationsOn, holdCandidate } from "@/lib/candidate-delivery";
-import { escapeHtml, greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
+import { escapeHtml, greeting, notifyJobRecipients, notifyTeam, signOff, thankVisitor } from "@/lib/email";
 import { retentionDays, storeResume } from "@/lib/resume-store";
 import { referenceTaken, saveApplication, setNotification } from "@/lib/applications";
-import { getPublishedJob } from "@/lib/data/jobs";
+import { applicationRecipients, getPublishedJob } from "@/lib/data/jobs";
 import { SITE } from "@/config/site";
 
 /* The job seeker lead. Validated on the server, screened for bots,
@@ -31,8 +31,11 @@ import { SITE } from "@/config/site";
      3. validate shape, length and the allowed options
      4. check the attachment
      5. save the application (and its resume) for the admin
-     6. email the recruiters, or hold the email while recruiter
-        notifications are paused (lib/candidate-delivery.ts), then
+     6. email it: an application to a specific job goes to that job's
+        "Notification email(s)" (default JOB_APPLICATIONS_INBOX in
+        config/site.ts) whatever the pause says; a general submission
+        goes to the recruiters, or is held while recruiter
+        notifications are paused (lib/candidate-delivery.ts). Then
         thank the candidate. Once the application is saved, a failed
         email no longer fails the submission: the recruiters see it in
         the admin, marked "email failed".
@@ -147,13 +150,18 @@ export async function submitCandidate(
     CANDIDATE_LOOKING_FOR.find((o) => o.id === lead.lookingFor)?.label ?? NOT_PROVIDED;
 
   /* The job applied for, when they came from a job page. Only a
-     published job counts; anything else is ignored, not an error. */
+     published job counts; anything else is ignored, not an error. Its
+     applications go to the job's own recipients (see step 6). */
   const jobSlug = cleanText(formData.get("job"));
   let job: { id: number; title: string } | null = null;
+  let jobRecipients: string[] = [];
   if (/^[a-z0-9-]{1,120}$/.test(jobSlug)) {
     try {
       const row = getPublishedJob(jobSlug);
-      if (row) job = { id: row.id, title: row.title };
+      if (row) {
+        job = { id: row.id, title: row.title };
+        jobRecipients = applicationRecipients(row);
+      }
     } catch {
       /* database unavailable: the submission still goes through */
     }
@@ -178,7 +186,9 @@ export async function submitCandidate(
     ["Screening", screeningNote(fillMs)],
   ];
 
-  const subject = `New Job Seeker Submission | ${lead.name.slice(0, 60)} | ${reference}`;
+  const subject = job
+    ? `New Job Application | ${job.title.slice(0, 60)} | ${lead.name.slice(0, 60)} | ${reference}`
+    : `New Job Seeker Submission | ${lead.name.slice(0, 60)} | ${reference}`;
 
   const email = {
     replyTo: lead.email,
@@ -188,8 +198,12 @@ export async function submitCandidate(
     ...(attachment ? { attachments: [attachment] } : {}),
   };
 
-  /* ── 5 · Applications ──────────────────────────────────────── */
-  const notifying = candidateNotificationsOn();
+  /* ── 5 · Applications ──────────────────────────────────────────
+     An application to a specific job is always emailed, to that job's
+     recipients. A general submission follows the recruiter pause
+     (CANDIDATE_NOTIFICATIONS) exactly as before. */
+  const toJob = job !== null && jobRecipients.length > 0;
+  const notifying = toJob || candidateNotificationsOn();
   let saved: number | null = null;
   try {
     saved = await saveApplication({
@@ -213,7 +227,7 @@ export async function submitCandidate(
 
   /* ── 6 · Notify ────────────────────────────────────────────── */
   if (notifying) {
-    const sent = await notifyTeam("candidate", email);
+    const sent = toJob ? await notifyJobRecipients("candidate", jobRecipients, email) : await notifyTeam("candidate", email);
     if (!sent && saved !== null) {
       setNotification(saved, "failed");
       console.error(`[candidate] ${reference} saved, but the recruiter email failed`);
@@ -245,7 +259,7 @@ export async function submitCandidate(
     text: [
       greeting(lead.name),
       ``,
-      `Thanks for sending us your details${attachment ? " and resume" : ""}. A recruiter will read them and come back to you${candidateNotificationsOn() ? ", usually within a business day" : ""}.`,
+      `Thanks for sending us your details${attachment ? " and resume" : ""}. A recruiter will read them and come back to you${notifying ? ", usually within a business day" : ""}.`,
       ``,
       `Your reference is ${reference}. If anything changes before then, reply to this email and quote it.`,
       signOff(),

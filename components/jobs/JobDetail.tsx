@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { SAMPLE_NOTICE, formatPosted, jobTypeLabel } from "@/config/jobs";
 import { ALL_INDUSTRIES, TALENT_LEVELS } from "@/config/industries";
 import { SITE } from "@/config/site";
-import { arrangementText, lines, type JobRow } from "@/lib/data/jobs";
+import { arrangementText, formatDeadline, isClosed, lines, type JobRow } from "@/lib/data/jobs";
 import { bodyBlocks } from "@/lib/data/content";
 
 /* One job, as the public sees it at /jobs/<slug>. Also rendered by the
@@ -22,13 +22,14 @@ export function JobDetail({ job }: { job: JobRow }) {
     .split(/[,\n]/)
     .map((s) => s.trim())
     .filter(Boolean);
+  const closed = isClosed(job);
   const apply = `/candidates?role=${encodeURIComponent(job.title)}&job=${encodeURIComponent(job.slug)}#submit-resume`;
 
-  /* Google's JobPosting markup, for real vacancies only: the original
-     representative roles are not openings and must not be marked up
-     as if they were. */
+  /* Google's JobPosting markup, for real, open vacancies only: the
+     original representative roles are not openings, and a closed job
+     must drop out of Google's job results. */
   const jsonLd =
-    job.is_sample === 1
+    job.is_sample === 1 || closed
       ? null
       : {
           "@context": "https://schema.org",
@@ -38,6 +39,7 @@ export function JobDetail({ job }: { job: JobRow }) {
             .filter(Boolean)
             .join("\n"),
           datePosted: posted,
+          ...(job.deadline ? { validThrough: `${job.deadline}T23:59:59-06:00` } : {}),
           employmentType:
             job.employment_type === "direct-hire"
               ? "FULL_TIME"
@@ -90,6 +92,12 @@ export function JobDetail({ job }: { job: JobRow }) {
               </p>
               <p className="tabular mt-2 text-[0.9375rem] text-n-500">
                 Posted <time dateTime={posted}>{formatPosted(posted).toLowerCase()}</time>
+                {job.deadline && !closed ? (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    Apply by <time dateTime={job.deadline}>{formatDeadline(job.deadline)}</time>
+                  </>
+                ) : null}
               </p>
             </header>
 
@@ -124,17 +132,36 @@ export function JobDetail({ job }: { job: JobRow }) {
               </section>
             ) : null}
 
-            <footer className="mt-16 rounded-lg bg-white p-8 sm:p-10">
-              <h2 className="text-[clamp(1.5rem,2.4vw,1.875rem)] leading-snug">Interested?</h2>
-              <p className="mt-4 max-w-[48ch] text-lg text-n-500">
-                Send us your details and resume. A recruiter reads every one and comes back to you
-                either way.
-              </p>
-              <Button href={apply} className="mt-8">
-                Apply for this role
-                <ArrowRight strokeWidth={2} aria-hidden="true" />
-              </Button>
-            </footer>
+            {closed ? (
+              <footer className="mt-16 rounded-lg bg-white p-8 sm:p-10">
+                <h2 className="text-[clamp(1.5rem,2.4vw,1.875rem)] leading-snug">Applications have closed.</h2>
+                <p className="mt-4 max-w-[48ch] text-lg text-n-500">
+                  This role stopped taking applications on {formatDeadline(job.deadline!)}. Have a look at what
+                  is open now, or send us your resume for roles like it.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-5">
+                  <Button href="/jobs">
+                    Browse open jobs
+                    <ArrowRight strokeWidth={2} aria-hidden="true" />
+                  </Button>
+                  <Link href="/candidates#submit-resume" className="link-underline text-[1.0625rem]">
+                    Send us your resume
+                  </Link>
+                </div>
+              </footer>
+            ) : (
+              <footer className="mt-16 rounded-lg bg-white p-8 sm:p-10">
+                <h2 className="text-[clamp(1.5rem,2.4vw,1.875rem)] leading-snug">Interested?</h2>
+                <p className="mt-4 max-w-[48ch] text-lg text-n-500">
+                  Send us your details and resume. A recruiter reads every one and comes back to you
+                  either way.
+                </p>
+                <Button href={apply} className="mt-8">
+                  Apply for this role
+                  <ArrowRight strokeWidth={2} aria-hidden="true" />
+                </Button>
+              </footer>
+            )}
           </article>
         </Container>
       </Section>

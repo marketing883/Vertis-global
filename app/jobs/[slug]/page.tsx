@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JobDetail } from "@/components/jobs/JobDetail";
-import { getJobs, getPublishedJob } from "@/lib/data/jobs";
+import { getJobs, getPublishedJob, isClosed } from "@/lib/data/jobs";
 
 /* One job, as published from /admin/jobs. Drafts and unpublished jobs
    404 here; the admin previews them at /admin/jobs/<id>/preview. */
@@ -23,6 +23,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description,
     alternates: { canonical: `/jobs/${job.slug}` },
     openGraph: { type: "website", title: job.title, description },
+    /* A closed job stays reachable for shared links, but out of search. */
+    ...(isClosed(job) ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
@@ -32,3 +34,7 @@ export default async function JobPage({ params }: { params: Params }) {
 
   return <JobDetail job={job} />;
 }
+
+/* Rebuilt at most hourly in the background, so a job whose application
+   deadline has passed leaves this page without anyone saving anything. */
+export const revalidate = 3600;

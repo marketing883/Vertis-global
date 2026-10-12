@@ -12,7 +12,7 @@ import { Badge, Card, PageHeader, buttonClass, formatWhen } from "@/components/a
 export const metadata = { title: "Application" };
 
 const NOTIFICATION: Record<string, { label: string; tone: string }> = {
-  sent: { label: "Emailed to recruiters", tone: "published" },
+  sent: { label: "Email sent", tone: "published" },
   paused: { label: "Recruiter email paused", tone: "sample" },
   failed: { label: "Recruiter email failed", tone: "rejected" },
 };

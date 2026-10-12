@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { saveJob, type JobFormState } from "@/app/admin/actions/jobs";
 import { buttonClass, Card } from "@/components/admin/ui";
 import { Select, TextArea, TextField } from "@/components/admin/Fields";
+import { JOB_APPLICATIONS_INBOX } from "@/config/site";
 
 type Option = { value: string; label: string };
 
@@ -51,6 +52,26 @@ export function JobForm({
         <Select name="level" label="Experience level" required options={options.levels} placeholder="Choose…" defaultValue={v.level} error={e.level} />
         <Select name="arrangement" label="Work arrangement" required options={options.arrangements} placeholder="Choose…" defaultValue={v.arrangement} error={e.arrangement} />
         <TextField name="schedule" label="Schedule note" placeholder="e.g. nights, second shift" defaultValue={v.schedule} error={e.schedule} help='Optional. Shown after the arrangement: "On site, nights".' />
+      </Card>
+
+      <Card className="grid gap-5 p-6 md:grid-cols-2">
+        <h2 className="text-base font-semibold text-ink md:col-span-2">Settings</h2>
+        <TextField
+          name="deadline"
+          label="Application deadline (optional)"
+          type="date"
+          defaultValue={v.deadline}
+          error={e.deadline}
+          help="Last day to apply, US Central. After it the job leaves the listings and its page says applications have closed."
+        />
+        <TextField
+          name="notify_emails"
+          label="Notification email(s)"
+          placeholder={JOB_APPLICATIONS_INBOX}
+          defaultValue={v.notify_emails}
+          error={e.notify_emails}
+          help={`Each application to this job is emailed here, with the resume. Comma-separate multiple addresses. Leave blank to send to ${JOB_APPLICATIONS_INBOX}.`}
+        />
       </Card>
 
       <Card className="grid gap-5 p-6">

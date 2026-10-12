@@ -15,6 +15,34 @@ import { slugify } from "@/lib/admin/slug";
 const ids = <T extends string>(list: readonly { id: T }[]) => list.map((x) => x.id) as [T, ...T[]];
 const industrySlugs = ALL_INDUSTRIES.map((i) => i.slug) as [string, ...string[]];
 
+const EMAIL = /^[^\s@,;<>"]+@[^\s@,;<>"]+\.[a-z]{2,}$/i;
+
+/** "a@x.com; B@y.com" → "a@x.com, b@y.com": trimmed, lowercased, no
+    duplicates, every one a plausible address, at most ten. */
+const notifyEmails = z
+  .string()
+  .max(1000, "That list is too long.")
+  .default("")
+  .transform((value, ctx) => {
+    const list = [...new Set(value.split(/[,;\s]+/).map((s) => s.trim().toLowerCase()).filter(Boolean))];
+    const bad = list.find((e) => !EMAIL.test(e) || e.length > 254);
+    if (bad) {
+      ctx.addIssue({ code: "custom", message: `"${bad.slice(0, 60)}" isn't a valid email address.` });
+      return z.NEVER;
+    }
+    if (list.length > 10) {
+      ctx.addIssue({ code: "custom", message: "Ten addresses at most." });
+      return z.NEVER;
+    }
+    return list.join(", ");
+  });
+
+const deadline = z
+  .string()
+  .default("")
+  .refine((v) => v === "" || (/^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T12:00:00Z`))), "Use a date.")
+  .transform((v) => v || null);
+
 export const jobSchema = z.object({
   title: z.string().min(3, "Give the job a title.").max(120, "Keep the title under 120 characters."),
   summary: z.string().max(300, "Keep the summary under 300 characters.").default(""),
@@ -28,6 +56,8 @@ export const jobSchema = z.object({
   level: z.enum(TALENT_LEVELS.map((l) => l.id) as [string, ...string[]], { error: "Choose a level." }),
   arrangement: z.enum(ids(ARRANGEMENTS), { error: "Choose on site, hybrid or remote." }),
   schedule: z.string().max(60, "Keep the schedule note short.").default(""),
+  deadline,
+  notify_emails: notifyEmails,
 });
 export type JobInput = z.infer<typeof jobSchema>;
 
@@ -91,9 +121,11 @@ export function createJob(input: JobInput, status: "draft" | "published"): numbe
   const info = getDb()
     .prepare(
       `INSERT INTO jobs (slug, title, summary, description, responsibilities, qualifications, skills,
-        industry, location, employment_type, level, arrangement, schedule, status, posted_at, created_at, updated_at)
+        industry, location, employment_type, level, arrangement, schedule, deadline, notify_emails,
+        status, posted_at, created_at, updated_at)
        VALUES (@slug, @title, @summary, @description, @responsibilities, @qualifications, @skills,
-        @industry, @location, @employment_type, @level, @arrangement, @schedule, @status, @posted_at, @t, @t)`,
+        @industry, @location, @employment_type, @level, @arrangement, @schedule, @deadline, @notify_emails,
+        @status, @posted_at, @t, @t)`,
     )
     .run({ ...input, slug: uniqueSlug(input.title), status, posted_at: status === "published" ? t : null, t });
   return Number(info.lastInsertRowid);
@@ -110,7 +142,8 @@ export function updateJob(id: number, input: JobInput, isSample: boolean) {
       `UPDATE jobs SET slug=@slug, title=@title, summary=@summary, description=@description,
         responsibilities=@responsibilities, qualifications=@qualifications, skills=@skills, industry=@industry,
         location=@location, employment_type=@employment_type, level=@level, arrangement=@arrangement,
-        schedule=@schedule, is_sample=@is_sample, updated_at=@t WHERE id=@id`,
+        schedule=@schedule, deadline=@deadline, notify_emails=@notify_emails, is_sample=@is_sample,
+        updated_at=@t WHERE id=@id`,
     )
     .run({ ...input, slug, id, is_sample: isSample && existing.is_sample === 1 ? 1 : 0, t: now() });
   return true;

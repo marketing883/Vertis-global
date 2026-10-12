@@ -56,8 +56,8 @@ export default async function DashboardPage() {
         <p className="mb-6 flex gap-3 rounded-lg border border-[#f3d9a4] bg-[#fff8e8] px-4 py-3 text-sm text-n-600">
           <BellOff className="mt-0.5 size-4 shrink-0 text-[#9a6b00]" aria-hidden="true" />
           <span>
-            Recruiter email notifications are paused. Every submission is still saved and listed in Applications; check
-            here for new ones.
+            Recruiter emails for general resume submissions are paused; they are saved here only. Applications to a
+            specific job are emailed to that job&apos;s notification addresses.
           </span>
         </p>
       ) : null}

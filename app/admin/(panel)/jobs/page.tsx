@@ -4,7 +4,7 @@ import { requirePage } from "@/lib/admin/auth";
 import { listJobs } from "@/lib/admin/jobs";
 import { JOB_OPTIONS, industryName } from "@/lib/admin/options";
 import { jobTypeLabel } from "@/config/jobs";
-import { arrangementText } from "@/lib/data/jobs";
+import { arrangementText, formatDeadline, isClosed } from "@/lib/data/jobs";
 import { changeJobStatus } from "@/app/admin/actions/jobs";
 import {
   Badge,
@@ -74,6 +74,9 @@ export default async function JobsAdminPage({ searchParams }: { searchParams: Se
               <td className="px-4 py-3">
                 <Link href={`/admin/jobs/${j.id}/edit`} className="font-semibold text-ink hover:text-accent">{j.title}</Link>
                 <p className="text-sm text-n-500">{j.location} · {arrangementText(j)}</p>
+                {j.deadline ? (
+                  <p className="text-xs text-n-500">{isClosed(j) ? "Closed" : "Apply by"} {formatDeadline(j.deadline)}</p>
+                ) : null}
               </td>
               <td className="px-4 py-3 text-sm">{industryName(j.industry)}</td>
               <td className="px-4 py-3 text-sm">{jobTypeLabel(j.employment_type)}</td>
@@ -81,6 +84,7 @@ export default async function JobsAdminPage({ searchParams }: { searchParams: Se
                 <span className="flex flex-wrap gap-1.5">
                   <Badge tone={j.status}>{j.status === "published" ? "Published" : "Draft"}</Badge>
                   {j.is_sample ? <Badge tone="sample">Sample</Badge> : null}
+                  {j.status === "published" && isClosed(j) ? <Badge tone="closed">Closed</Badge> : null}
                 </span>
               </td>
               <td className="px-4 py-3 text-sm">

@@ -105,6 +105,17 @@ export function notifyTeam(
   });
 }
 
+/** An application to a specific job, to that job's own recipients
+    (the job's "Notification email(s)", or JOB_APPLICATIONS_INBOX).
+    No cc: the default team recipients are not copied. */
+export function notifyJobRecipients(
+  tag: string,
+  to: string[],
+  msg: { replyTo?: string; subject: string; text: string; html?: string; attachments?: Attachment[] },
+) {
+  return send(tag, { ...msg, to });
+}
+
 /** The acknowledgement, to the visitor. Never fails the form.
 
     Anyone can type anyone's address into a public form, so this email
