@@ -18,9 +18,17 @@ export function proxy(request: NextRequest) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "Not signed in" }, { status: 401, headers: noindex() });
     }
-    const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
-    url.search = `?next=${encodeURIComponent(pathname + search)}`;
+    /* Built from the Host header: behind nginx, request.nextUrl carries
+       the internal address (localhost:3010), not the public host. */
+    const next = `/admin/login?next=${encodeURIComponent(pathname + search)}`;
+    const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? "";
+    let url: URL | string = new URL(next, request.nextUrl.origin);
+    if (/^[a-z0-9.-]+(:\d+)?$/i.test(host)) {
+      /* https except locally; x-forwarded-proto is unreliable here (see
+         cookieIsSecure in lib/admin/auth.ts). */
+      const local = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
+      url = `${local ? "http" : "https"}://${host}${next}`;
+    }
     return NextResponse.redirect(url, { headers: noindex() });
   }
 

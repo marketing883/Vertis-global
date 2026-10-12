@@ -44,11 +44,13 @@ function hashToken(token: string) {
   return createHash("sha256").update(token).digest("hex");
 }
 
+/** Secure everywhere except a local run. Not x-forwarded-proto: Next
+    fills that in as "http" when nginx does not send it, which would
+    quietly drop the Secure flag on the live site. Both public hosts are
+    HTTPS only. */
 async function cookieIsSecure(): Promise<boolean> {
   const h = await headers();
-  const proto = h.get("x-forwarded-proto");
-  if (proto) return proto === "https";
-  const host = h.get("host") ?? "";
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "";
   return !/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
 }
 
