@@ -54,7 +54,9 @@ export async function userAction(_prev: UserActionState, formData: FormData): Pr
   const db = getDb();
   const target = db.prepare("SELECT id, email FROM admin_users WHERE id = ?").get(id) as { id: number; email: string } | undefined;
   if (!target) return { error: "That user no longer exists." };
-  if (target.id === actor.id && op !== "reset") return { error: "You can't change your own access here." };
+  if (target.id === actor.id) {
+    return { error: op === "reset" ? "Change your own password at My account." : "You can't change your own access here." };
+  }
 
   if (op === "reset") {
     const password = oneTimePassword();

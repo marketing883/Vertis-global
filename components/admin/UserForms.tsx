@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { addUser, userAction, type UserActionState, type UserFormState } from "@/app/admin/actions/users";
 import { changePassword, type PasswordState } from "@/app/admin/actions/auth";
@@ -52,11 +53,27 @@ export function UserRowActions({ id, disabled, role, self }: { id: number; disab
   return (
     <div>
       <div className="flex flex-wrap gap-2">
-        <form action={action}>
-          <input type="hidden" name="recordId" value={id} />
-          <input type="hidden" name="op" value="reset" />
-          <button className={buttonClass.secondary} disabled={pending}>Reset password</button>
-        </form>
+        {/* Your own password is changed at My account: a reset here would
+            sign you out before the new password could be shown. */}
+        {self ? (
+          <Link href="/admin/account" className={buttonClass.secondary}>
+            Change my password
+          </Link>
+        ) : (
+          <form action={action}>
+            <input type="hidden" name="recordId" value={id} />
+            <input type="hidden" name="op" value="reset" />
+            <button
+              className={buttonClass.secondary}
+              disabled={pending}
+              onClick={(e) => {
+                if (!window.confirm("Give this user a new one-time password? They will be signed out everywhere.")) e.preventDefault();
+              }}
+            >
+              Reset password
+            </button>
+          </form>
+        )}
         {!self ? (
           <>
             <form action={action}>
