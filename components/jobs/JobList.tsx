@@ -98,7 +98,7 @@ export function JobList({ jobs }: { jobs: Job[] }) {
             return (
               <li key={job.id} className="border-b border-n-200">
                 <Link
-                  href={`/candidates?role=${encodeURIComponent(job.title)}#submit-resume`}
+                  href={`/jobs/${job.id}`}
                   className="group grid gap-y-3 py-8 transition-colors hover:bg-white md:grid-cols-12 md:items-center md:gap-8 md:px-6 lg:py-9"
                 >
                   <div className="min-w-0 md:col-span-7">
@@ -127,7 +127,7 @@ export function JobList({ jobs }: { jobs: Job[] }) {
                   </div>
 
                   <span className="link-underline text-[1.0625rem] text-ink md:col-span-2 md:justify-self-end">
-                    Register interest
+                    View role
                     <ArrowUpRight className="size-4" strokeWidth={1.75} aria-hidden="true" />
                   </span>
                 </Link>

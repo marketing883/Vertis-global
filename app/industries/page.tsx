@@ -10,8 +10,7 @@ import { WhyVertis } from "@/components/blocks/WhyVertis";
 import { IndustryExplorer } from "@/components/industries/IndustryExplorer";
 import { IndustryFaq } from "@/components/industries/IndustryFaq";
 import { INDUSTRY_COUNT } from "@/config/industries";
-import { getLatestInsights } from "@/config/insights";
-import { WHITEPAPERS } from "@/config/resources";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -93,7 +92,7 @@ const AT_WORK = [
 
 export default function IndustriesPage() {
   const posts = getLatestInsights(3);
-  const paper = WHITEPAPERS[0];
+  const paper = getWhitepapers()[0];
 
   return (
     <>

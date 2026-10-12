@@ -6,9 +6,14 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { HireTalentButton } from "@/components/hire/HireTalentButton";
 import { InsightList } from "@/components/blocks/InsightList";
-import { formatInsightDate, getInsight, getInsights } from "@/config/insights";
+import { formatInsightDate } from "@/config/insights";
+import { getInsight, getInsights } from "@/lib/data/content";
+import { Prose } from "@/components/content/Prose";
 
 type Params = Promise<{ slug: string }>;
+
+/* Posts published in the admin after the build render on first visit. */
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return getInsights().map((p) => ({ slug: p.slug }));
@@ -70,22 +75,7 @@ export default async function InsightArticlePage({ params }: { params: Params })
               />
             </div>
 
-            <div className="mt-14 max-w-[64ch]">
-              {post.body.map((block, i) =>
-                block.startsWith("## ") ? (
-                  <h2
-                    key={i}
-                    className="mt-12 text-[clamp(1.5rem,2.4vw,1.875rem)] leading-snug first:mt-0"
-                  >
-                    {block.slice(3)}
-                  </h2>
-                ) : (
-                  <p key={i} className="mt-6 text-[1.125rem] leading-[1.75] text-n-600">
-                    {block}
-                  </p>
-                ),
-              )}
-            </div>
+            <Prose blocks={post.body} />
 
             <footer className="mt-16 border-t border-n-200 pt-10">
               <p className="max-w-[40ch] text-lg text-n-500">

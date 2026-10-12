@@ -4,8 +4,32 @@ import { Logo } from "@/components/brand/Logo";
 import { Container, Section } from "@/components/ui/Section";
 import { FOOTER_COLUMNS, LEGAL_LINKS } from "@/config/navigation";
 import { SITE } from "@/config/site";
+import { hasPublished } from "@/lib/data/content";
+
+/* Case studies, webinars and news get a footer link (under Company,
+   after Whitepapers) once something of that kind is published. */
+const OPTIONAL_LINKS = [
+  { type: "case-study", label: "Case studies", href: "/case-studies" },
+  { type: "webinar", label: "Webinars", href: "/webinars" },
+  { type: "news", label: "News & press", href: "/news" },
+] as const;
+
+function footerColumns() {
+  let extra: { label: string; href: string }[] = [];
+  try {
+    extra = OPTIONAL_LINKS.filter((l) => hasPublished(l.type)).map(({ label, href }) => ({ label, href }));
+  } catch {
+    /* no database: the footer as it always was */
+  }
+  if (!extra.length) return FOOTER_COLUMNS;
+  return FOOTER_COLUMNS.map((col) => {
+    const at = col.links.findIndex((l) => l.href === "/whitepapers");
+    return at === -1 ? col : { ...col, links: [...col.links.slice(0, at + 1), ...extra, ...col.links.slice(at + 1)] };
+  });
+}
 
 export function Footer() {
+  const columns = footerColumns();
   return (
     <Section as="footer" background="ink" spacing="none" className="pt-24 lg:pt-32">
       <Container>
@@ -24,7 +48,7 @@ export function Footer() {
           </div>
 
           <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4 lg:col-span-8">
-            {FOOTER_COLUMNS.map((col) => (
+            {columns.map((col) => (
               <div key={col.heading}>
                 <p className="text-[0.9375rem] font-medium text-white">{col.heading}</p>
                 <ul className="mt-5 space-y-3">

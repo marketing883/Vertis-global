@@ -50,6 +50,9 @@ cd "$APP"
 echo "→ fetching origin/$BRANCH"
 git fetch -q origin "$BRANCH"
 git reset -q --hard "origin/$BRANCH"
+# The admin database, uploads and saved resumes (lib/db). Outside the
+# checkout, private to the vertis user, never touched by a deploy.
+mkdir -p "$APP/../data" && chmod 700 "$APP/../data"
 echo "→ building $(git log --oneline -1)"
 npm ci --no-audit --no-fund --silent
 npm run build 2>&1 | tail -3

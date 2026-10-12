@@ -11,7 +11,8 @@ import { HireTalentScope } from "@/components/hire/HireTalentScope";
 import { DisciplinePanel } from "@/components/industries/DisciplinePanel";
 import { INDUSTRY_PAGES, getIndustryPage } from "@/config/industry-pages";
 import { ALL_INDUSTRIES } from "@/config/industries";
-import { getJobs, formatPosted, jobTypeLabel } from "@/config/jobs";
+import { formatPosted, jobTypeLabel } from "@/config/jobs";
+import { getJobs } from "@/lib/data/jobs";
 
 /* One renderer for every industry page, written as a hiring brief
    rather than a brochure: what we recruit for, in what vocabulary,
@@ -25,7 +26,11 @@ import { getJobs, formatPosted, jobTypeLabel } from "@/config/jobs";
 
 type Params = Promise<{ slug: string }>;
 
-export const dynamicParams = false;
+/* true, not false: these pages list live jobs, so an admin change
+   revalidates them, and Next cannot regenerate a dynamicParams = false
+   page after revalidation (it answers 404 until a restart). Unknown
+   slugs still 404 through notFound() below. */
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return INDUSTRY_PAGES.map((p) => ({ slug: p.slug }));
@@ -395,7 +400,7 @@ export default async function IndustryPage({ params }: { params: Params }) {
               {jobs.map((job) => (
                 <li key={job.id} className="border-b border-n-200">
                   <Link
-                    href={`/candidates?role=${encodeURIComponent(job.title)}#submit-resume`}
+                    href={`/jobs/${job.id}`}
                     className="group grid gap-y-2 py-7 transition-colors hover:bg-paper-2 md:grid-cols-12 md:items-center md:gap-8 md:px-6"
                   >
                     <div className="min-w-0 md:col-span-7">

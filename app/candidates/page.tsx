@@ -10,10 +10,10 @@ import { ResourceGrid } from "@/components/blocks/ResourceGrid";
 import { TalentRange } from "@/components/blocks/TalentRange";
 import { ResumeForm } from "@/components/candidates/ResumeForm";
 import { ALL_INDUSTRIES, INDUSTRY_COUNT } from "@/config/industries";
-import { getJobs, formatPosted, jobTypeLabel } from "@/config/jobs";
-import { getLatestInsights } from "@/config/insights";
+import { formatPosted, jobTypeLabel } from "@/config/jobs";
+import { getJobs } from "@/lib/data/jobs";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
 import { FAQS, PROMISES, STEPS, STRAIGHT_ANSWERS } from "@/config/job-seekers";
-import { WHITEPAPERS } from "@/config/resources";
 
 export const metadata: Metadata = {
   title: "For job seekers",
@@ -177,7 +177,7 @@ export default function CandidatesPage() {
               return (
                 <li key={job.id} className="border-b border-n-200">
                   <Link
-                    href={`/candidates?role=${encodeURIComponent(job.title)}#submit-resume`}
+                    href={`/jobs/${job.id}`}
                     className="group grid gap-y-2 py-7 transition-colors hover:bg-paper md:grid-cols-12 md:items-center md:gap-8 md:px-6"
                   >
                     <div className="min-w-0 md:col-span-7">
@@ -207,7 +207,7 @@ export default function CandidatesPage() {
       {/* ── 7 · Advice ───────────────────────────────────────── */}
       <ResourceGrid
         posts={getLatestInsights(3)}
-        paper={WHITEPAPERS[0]}
+        paper={getWhitepapers()[0]}
         eyebrow="Advice"
         heading="Worth reading before your next move."
       />

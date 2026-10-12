@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { ArrowUpRight, FileText } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/blocks/NewsletterForm";
-import { NEWSLETTER, WHITEPAPERS, whitepaperHref } from "@/config/resources";
+import { NEWSLETTER, whitepaperHref } from "@/config/resources";
+import { getWhitepapers } from "@/lib/data/content";
 import { SITE } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function WhitepapersPage() {
           </div>
 
           <ul className="mt-16 border-t border-n-200 lg:mt-24">
-            {WHITEPAPERS.map((w) => (
+            {getWhitepapers().map((w) => (
               <li key={w.slug} className="border-b border-n-200">
                 <a
                   href={whitepaperHref(w, SITE.staffingEmail)}
@@ -41,8 +42,12 @@ export default function WhitepapersPage() {
                   <div className="min-w-0 md:col-span-8">
                     <p className="tabular text-[0.9375rem] text-n-500">
                       {w.audience}
-                      <span aria-hidden="true"> · </span>
-                      {w.pages} pages
+                      {w.pages > 0 ? (
+                        <>
+                          <span aria-hidden="true"> · </span>
+                          {w.pages} pages
+                        </>
+                      ) : null}
                     </p>
                     <h2 className="mt-3 text-[clamp(1.5rem,2.6vw,2.25rem)] text-ink transition-colors group-hover:text-accent">
                       {w.title}

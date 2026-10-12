@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
 import { HireTalentButton } from "@/components/hire/HireTalentButton";
 import { PRIMARY_NAV, type NavItem } from "@/config/navigation";
-import { LIGHT_HEADER_ROUTES } from "@/config/site";
+import { LIGHT_HEADER_PREFIXES, LIGHT_HEADER_ROUTES } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 /* Logo · six links · one button. The button opens the inquiry modal,
@@ -19,9 +19,9 @@ import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
-  const overInk = !LIGHT_HEADER_ROUTES.some(
-    (r) => pathname === r || pathname.startsWith(r + "/"),
-  );
+  const overInk =
+    !LIGHT_HEADER_ROUTES.some((r) => pathname === r || pathname.startsWith(r + "/")) &&
+    !LIGHT_HEADER_PREFIXES.some((p) => pathname.startsWith(p));
 
   const [condensed, setCondensed] = useState(false);
   const [open, setOpen] = useState<string | null>(null);

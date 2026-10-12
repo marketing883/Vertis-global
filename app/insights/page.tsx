@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { InsightList } from "@/components/blocks/InsightList";
 import { NewsletterForm } from "@/components/blocks/NewsletterForm";
-import { getInsights } from "@/config/insights";
+import { getInsights } from "@/lib/data/content";
 import { NEWSLETTER } from "@/config/resources";
 
 export const metadata: Metadata = {

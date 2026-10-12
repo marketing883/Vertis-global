@@ -5,7 +5,8 @@ import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { Photo } from "@/components/media/Photo";
 import { JobsHero } from "@/components/jobs/JobsHero";
 import { JobList } from "@/components/jobs/JobList";
-import { getJobs, SAMPLE_NOTICE } from "@/config/jobs";
+import { SAMPLE_NOTICE } from "@/config/jobs";
+import { anySampleJobs, getJobs } from "@/lib/data/jobs";
 import { PROMISES, STEPS } from "@/config/job-seekers";
 import { SITE } from "@/config/site";
 
@@ -143,11 +144,14 @@ export default function JobsPage() {
           </div>
 
           {/* Said plainly, because nobody should think they have applied
-              to an opening that is not currently live. */}
-          <p className="mt-12 flex max-w-[80ch] gap-3 rounded-lg bg-paper-2 px-6 py-5 text-[1.0625rem] leading-relaxed text-n-600">
-            <Info className="mt-1 size-5 shrink-0 text-accent" strokeWidth={1.75} aria-hidden="true" />
-            {SAMPLE_NOTICE}
-          </p>
+              to an opening that is not currently live. Shown while any
+              listed role is one of the original representative samples. */}
+          {anySampleJobs() ? (
+            <p className="mt-12 flex max-w-[80ch] gap-3 rounded-lg bg-paper-2 px-6 py-5 text-[1.0625rem] leading-relaxed text-n-600">
+              <Info className="mt-1 size-5 shrink-0 text-accent" strokeWidth={1.75} aria-hidden="true" />
+              {SAMPLE_NOTICE}
+            </p>
+          ) : null}
 
           <div className="mt-16 lg:mt-20">
             <JobList jobs={jobs} />

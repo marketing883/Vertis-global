@@ -2,18 +2,14 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 
-/* A clean list, like a modern job board. The four featured roles
-   are chosen to show the range: a nurse, a production supervisor, a
-   claims adjuster, a developer. Placeholder data until the jobs
-   listing lands; each matches a role in config/jobs.ts. */
-const JOBS = [
-  { title: "Registered Nurse, Med/Surg", meta: "Charlotte, NC · Contract · Nights", posted: "2 days ago" },
-  { title: "Production Supervisor", meta: "Greenville, SC · Permanent · Second shift", posted: "3 days ago" },
-  { title: "Claims Adjuster", meta: "Phoenix, AZ · Permanent · Hybrid", posted: "5 days ago" },
-  { title: "Senior Software Developer", meta: "Remote, US · Permanent", posted: "1 week ago" },
-];
+import { formatPosted, jobTypeLabel } from "@/config/jobs";
+import { getJobs } from "@/lib/data/jobs";
 
+/* A clean list, like a modern job board: the four most recently
+   published roles from /admin/jobs, each linking to its own page. */
 export function FeaturedJobs() {
+  const jobs = getJobs().slice(0, 4);
+  if (jobs.length === 0) return null;
   return (
     <Section background="white">
       <Container>
@@ -29,19 +25,21 @@ export function FeaturedJobs() {
         </div>
 
         <ul className="mt-16 border-t border-n-200 lg:mt-20">
-          {JOBS.map((job) => (
-            <li key={job.title} className="border-b border-n-200">
+          {jobs.map((job) => (
+            <li key={job.id} className="border-b border-n-200">
               <Link
-                href="/jobs"
+                href={`/jobs/${job.id}`}
                 className="group flex flex-col gap-3 py-8 transition-colors hover:bg-paper md:flex-row md:items-center md:gap-8 md:px-6 md:py-9"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="text-[clamp(1.375rem,2.2vw,1.875rem)] text-ink transition-colors group-hover:text-accent">
                     {job.title}
                   </h3>
-                  <p className="mt-2 text-[1.0625rem] text-n-500">{job.meta}</p>
+                  <p className="mt-2 text-[1.0625rem] text-n-500">
+                    {job.location} · {jobTypeLabel(job.type)} · {job.arrangement}
+                  </p>
                 </div>
-                <p className="shrink-0 text-[0.9375rem] text-n-500 md:w-32">{job.posted}</p>
+                <p className="shrink-0 text-[0.9375rem] text-n-500 md:w-32">{formatPosted(job.posted)}</p>
                 <ArrowUpRight
                   className="hidden size-6 shrink-0 text-n-400 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent md:block"
                   strokeWidth={1.5}

@@ -67,6 +67,36 @@ Fallbacks, over your own root SSH access (`vertis-staging` in `~/.ssh/config`): 
 
 **Going live on vertisglobal.com, first time only (done 24 Sep 2026; kept for reference).** Root's `mv` and `cp` are aliased to ask before overwriting, so use `\mv -f`. Production is currently the old static site in `public_html` on the existing nginx config, and nothing above changes that until this is done, in this order: (1) `npm run promote --first-time`, approve the run, and confirm `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3011/` on the server returns 200; (2) on the server, `cp vertisglobal.com.conf vertisglobal.com.conf.static-site-final && mv vertisglobal.com.conf.nextjs-pending vertisglobal.com.conf && nginx -t && systemctl reload nginx` in `/etc/nginx/conf.d`. Rolling back is the reverse rename and a reload; the static site is never deleted.
 
+## Admin dashboard (`/admin`)
+
+Content, jobs and candidates are managed at **`/admin`** on each environment (staging and live have separate databases and separate users). It follows the ACI and ArqAI dashboards' structure and routes, rebuilt on this site's own stack: no Supabase, no shared credentials, nothing shared with ACI or ArqAI.
+
+| Route | What it does | Roles |
+| --- | --- | --- |
+| `/admin` | Overview: new applications, last 7 days, interviews, live jobs, latest applications, content counts; a notice while recruiter emails are paused | admin, hr |
+| `/admin/jobs` (`/new`, `/<id>/edit`, `/<id>/preview`) | Job listings: create, edit, preview, publish, unpublish, delete; search and filter by status and industry; application count per job | admin, hr |
+| `/admin/job-applications` (`/<id>`) | Every job seeker submission: search, filter by status, job, "looking for" and date; detail with resume view and download (or "No resume provided"); status New, Reviewed, Shortlisted, Interview, Rejected; internal notes; CSV export of the current filter; delete (admin only) | admin, hr |
+| `/admin/case-studies`, `/admin/blog`, `/admin/whitepapers`, `/admin/webinars`, `/admin/news` (`/new`, `/<id>/edit`, `/<id>/preview`) | Content: create, edit, preview, publish, unpublish, delete, search, filter; cover image and PDF uploads | admin |
+| `/admin/users`, `/admin/account` | Users (add, reset password, disable, change role) and your own password | admin / everyone |
+
+**Where the data lives.** One SQLite file per environment, `VERTIS_DATA_DIR/vertis.db` (default `../data` beside the checkout, i.e. `/var/www/vertisglobal.com/<env>/data`, mode 700, outside git and never touched by a deploy). Beside it: `applications/` (resumes, files 600, random names) and `media/` (uploaded images and PDFs, served publicly at `/media/<name>`). The schema is created and migrated automatically on first use (`lib/db/migrations.mjs`, versioned with `PRAGMA user_version`); on its first run it also imports the 18 jobs from `config/jobs.ts` (marked as samples), the Insights posts and the whitepapers, so the live site looks the same before anyone edits anything. Back up the `data` directory; `sqlite3 vertis.db ".backup vertis-$(date +%F).db"` is safe while the site runs.
+
+**The public site reads the same tables.** `/jobs`, `/jobs/<slug>` (new: one page per job, with Google JobPosting markup for real vacancies only), the home page's featured jobs, the industry pages, `/insights`, `/whitepapers`, the resources grid and the sitemap all read the database. `/case-studies`, `/webinars` and `/news` exist from day one but return 404 and stay out of the sitemap and footer until something is published. Pages are static and every admin change revalidates them, so a publish is live on the next request; no deploy is needed.
+
+**Applications are real submissions.** The resume form saves every submission that passes screening (`lib/applications.ts`) before it emails or holds anything, linked to the job when the candidate came from a job page (`/candidates?job=<slug>`). Submissions held while recruiter emails were paused are imported automatically, once, by reference. Recruiter emails stay paused exactly as before (`CANDIDATE_NOTIFICATIONS`); the dashboard is where new candidates show up meanwhile. Each application records whether its recruiter email was sent, paused or failed; once saved, a failed email no longer fails the candidate's submission.
+
+**Security.** Sessions are a random token in an httpOnly, SameSite=Lax, Secure cookie (`vg_admin`, 12 hours); only its SHA-256 is stored. Passwords are scrypt hashes, at least 12 characters. Sign-in is throttled per email and per address, gives one generic error, and is timed the same for unknown accounts. `proxy.ts` turns away requests without a session cookie and marks every admin response `noindex`, `no-store`, `DENY` framing; each page, server action and API route then checks the session and the role itself. Roles: `admin` (everything) and `hr` (dashboard, jobs, applications, own account). Resumes are served only through `/api/admin/applications/<id>/resume` (signed in, `no-store`, `nosniff`); the CSV export (`/api/admin/job-applications/export`) neutralises spreadsheet formulas and contains links, never files. Every sign-in, status change, note, resume view, export and delete is recorded in `admin_audit` with ids only, no candidate details. Uploaded images are decoded and re-encoded (metadata such as GPS is stripped), PDFs must carry the PDF signature, links must be http(s), and all content renders as text, never HTML.
+
+**Users are created on the server**, never in code or env files. As `vertis`, from the checkout:
+
+```bash
+su - vertis -c 'cd /var/www/vertisglobal.com/staging/app && node scripts/admin.mjs user:add you@vertisglobal.com "Your Name" admin'
+#   prints a one-time password; sign in at /admin/login and change it at /admin/account
+node scripts/admin.mjs user:list | user:reset <email> | user:disable <email> | user:enable <email> | db:info
+```
+
+After that, admins can add users from `/admin/users`.
+
 ## Positioning
 
 **People first. Staffing for every kind of work.** Vertis places people from frontline and administrative roles to specialised professionals, across 18 industries in four groups. Technology staffing is *one capability*, not the identity.
@@ -180,13 +210,13 @@ Three routes finish the two audiences the site is built around.
 
 `/jobs` opens on its own video hero (`components/jobs/JobsHero.tsx`, a candidate walking into a lobby, "Find work that moves you forward"), then what you get, how it goes, the careers inbox, and only then the listing. It used to be the listing alone, which read as a filter with nothing behind it. The copy it shares with `/candidates` lives in `config/job-seekers.ts` so the two pages cannot drift. The clip is encoded with the same script as the homepage hero: `node scripts/encode-hero-video.mjs <clip> --out public/jobs-video --name jobs-hero --slow 1.3`. `/jobs` came out of `LIGHT_HEADER_ROUTES` when it went dark, so the header overlays it.
 
-The listing itself reads `config/jobs.ts`, filtered by arrangement and industry. **The roles are representative, not a live vacancy feed**, the page says so in a notice, and every action reads "register interest" rather than "apply", so nobody believes they have applied to an opening that does not exist. When a real feed arrives, replace `JOBS`, drop `SAMPLE_NOTICE` and change the card action. Each row deep links to `/candidates?role=<title>#submit-resume`, which prefills the form.
+The listing reads the `jobs` table (managed at `/admin/jobs`), filtered by arrangement and industry; each row opens the job's own page, `/jobs/<slug>`, whose Apply button goes to `/candidates?role=<title>&job=<slug>#submit-resume`. The 18 original roles were imported as **samples**: while any published job is a sample, `/jobs` keeps its "representative roles" notice, and samples get no JobPosting markup. Untick "Representative sample" on a job, or unpublish the samples, once real vacancies are posted. `config/jobs.ts` now only seeds a new database.
 
 **Two inboxes.** `SITE.staffingEmail` (info@) takes employer and general enquiries and is every mailto on the site bar one; `SITE.careersEmail` (careers@) is for resumes and portfolios and appears on `/jobs` and `/contact`. Change either in `config/site.ts` and nothing else needs touching.
 
 `/contact` is deliberately one form short. The employer enquiry is the Hire Talent modal, which already validates, emails and confirms, so the page routes an employer into it rather than repeating the same eight questions. Three doors (employers, job seekers, everything else), what happens next, where we are (`#offices`, which the footer's Locations link now points at), and a close. The US office, 5301 Alpha Rd., Suite 80, Dallas, TX 75240, lives in `SITE.usAddress` and shows in the footer and on the United States card here. India has no confirmed address, so both places name the country only; change or add an address in `config/site.ts`, never in a page.
 
-**The resume form** (`components/candidates/ResumeForm.tsx` and `app/actions/candidate.ts`) takes seven fields and an optional attachment, capped at 5MB and limited to PDF, Word, RTF or text. It emails the recruiter with the file attached and a download link, keeping the file only for the link's 30 days (see Resume download links below); there is still no candidate database. The attachment is why `next.config.ts` raises `serverActions.bodySizeLimit`; the default 1MB would reject most CVs.
+**The resume form** (`components/candidates/ResumeForm.tsx` and `app/actions/candidate.ts`) takes seven fields and an optional attachment, capped at 5MB and limited to PDF, Word, RTF or text. It emails the recruiter with the file attached and a download link, keeping that copy only for the link's 30 days (see Resume download links below). Every submission is also saved to Applications in the admin, with its resume (see Admin dashboard). The attachment is why `next.config.ts` raises `serverActions.bodySizeLimit`; the default 1MB would reject most CVs.
 
 **Candidate submissions: screening and the recruiter email.** Bots were posting random mixed-case strings into every text box (the field mapping was always correct). `app/actions/candidate.ts` now cleans every value (`cleanText` in `lib/validation/candidate.ts`), screens with `lib/spam.ts`, validates, and only then emails. Screening signals: the honeypot, the time on the form (a hidden `t` field the page script fills at submit; under three seconds is a bot, missing means the script never ran), random-looking text (long words that flip case five or more times), and a ten-per-ten-minutes limit per client address (loopback addresses are ignored, so a missing X-Forwarded-For never throttles the whole site). A spam verdict shows the normal thank-you screen, sends nothing, and logs `[candidate:spam]` with its reasons to the pm2 log, so a false positive can be recovered. The recruiter email is HTML plus plain text, subject `New Job Seeker Submission | <name> | <reference>`, with labelled rows (reference, name, email, phone, looking for, kind of work, location, resume, message, date and time in Dallas and India), "Not provided" for anything empty, and the resume attached under its own filename.
 
@@ -270,9 +300,9 @@ Everything else on the page is data at the top of `app/industries/page.tsx`: the
 
 **Why Vertis Global** (`components/blocks/WhyVertis.tsx`) is the proof section: a heading and one headline figure on the left, three ruled rows of figures on the right. The years, the Fortune 500 count, the 48 to 72 hour turnaround and the no-cost replacement come from the company deck; the industry count is derived from `config/industries.ts`. Change a number there, not in the component.
 
-**Insights** are data in `config/insights.ts`. To publish a post, add an entry (slug, title, excerpt, category, ISO date, reading time, image, body paragraphs; a paragraph starting with `## ` becomes a subheading) and drop its 3:2 photograph in `public/photos/`. Nothing else is needed: the homepage resources grid rotates in the three most recent, `/insights` lists all of them newest first, and `/insights/<slug>` renders the article with a category-matched call to action and two more articles beneath. Three sample posts ship with the site; their photographs were generated to the same editorial brief as the rest of the set.
+**Insights** are blog posts, written and published at `/admin/blog` (title, summary, category, cover image uploaded or picked from `/photos/`, body; a blank line starts a paragraph, `## ` a subheading, `- ` a bullet). `config/insights.ts` only seeds a new database. Publishing is all that is needed: the homepage resources grid rotates in the three most recent, `/insights` lists all of them newest first, and `/insights/<slug>` renders the article with a category-matched call to action and two more articles beneath. Three sample posts ship with the site.
 
-**Whitepapers are not Insights.** They are a separate resource with their own route, `/whitepapers`, their own data in `config/resources.ts`, and a footer link under Company. Nothing about them lives in the Insights config or the Insights page. To publish one, add an entry to `WHITEPAPERS` and put the PDF in `public/whitepapers/`, then set `file` to that path. Until `file` is set the link opens a pre-filled "request a copy" email, so nothing ever points at a missing download.
+**Whitepapers are not Insights.** They are a separate resource with their own route, `/whitepapers`, their own data in `config/resources.ts`, and a footer link under Company. Nothing about them lives in the Insights config or the Insights page. They are managed at `/admin/whitepapers`, where the PDF is uploaded; `config/resources.ts` only seeds a new database. Until a PDF is uploaded the link opens a pre-filled "request a copy" email, so nothing ever points at a missing download.
 
 The **newsletter**, "The Shift", also lives in `config/resources.ts`. Its form (`NewsletterForm.tsx`) posts to `app/actions/newsletter.ts`, which delivers through Resend like the inquiry and logs when no key is set. Swapping in a list provider is a one-function change there.
 
@@ -296,7 +326,9 @@ To replace any image, overwrite the file. To fall back to the placeholder, pass 
 
 **In:** homepage · employer inquiry modal · job listings (next) · contact and application forms (next) · industry and service pages (next).
 
-**Out until specifically required:** user accounts, candidate dashboards, employer portals, matching engines, candidate databases, authentication, workflow engines. The architecture leaves room for them; nothing is built.
+**Added since:** the admin dashboard (content, jobs, applications, staff accounts; see above).
+
+**Out until specifically required:** candidate or employer self-service accounts, employer portals, matching engines, workflow engines.
 
 ## Note on `docs/website-blueprint.md`
 

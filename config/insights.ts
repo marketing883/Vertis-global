@@ -26,7 +26,10 @@ export type InsightPost = {
   body: string[];
 };
 
-const POSTS: InsightPost[] = [
+/* SEED_POSTS is now only the one-time seed for the content table
+   (lib/db/seed.ts). Posts are managed at /admin/blog and read with
+   lib/data/content.ts. */
+export const SEED_POSTS: InsightPost[] = [
   {
     slug: "how-to-staff-a-shift-that-starts-monday",
     title: "How to staff a shift that starts Monday",
@@ -107,18 +110,6 @@ const POSTS: InsightPost[] = [
     ],
   },
 ];
-
-export function getInsights(): InsightPost[] {
-  return [...POSTS].sort((a, b) => (a.date < b.date ? 1 : -1));
-}
-
-export function getLatestInsights(count = 3): InsightPost[] {
-  return getInsights().slice(0, count);
-}
-
-export function getInsight(slug: string): InsightPost | null {
-  return POSTS.find((p) => p.slug === slug) ?? null;
-}
 
 export const INSIGHT_CATEGORIES: InsightCategory[] = ["For employers", "For job seekers", "Industry"];
 

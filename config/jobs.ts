@@ -40,11 +40,15 @@ export type Job = {
   /** ISO date the role was listed. */
   posted: string;
   summary: string;
+  /** A representative role from the original sample set, not a live vacancy. */
+  sample?: boolean;
 };
 
 export const SAMPLE_NOTICE =
   "These are representative of the roles we fill rather than a live vacancy list. Tell us what you are looking for and a recruiter will come back to you with what is actually open.";
 
+/* JOBS is now only the one-time seed for the jobs table (lib/db/seed.ts).
+   Jobs are managed at /admin/jobs and read with lib/data/jobs.ts. */
 export const JOBS: Job[] = [
   {
     id: "rn-med-surg-charlotte",
@@ -249,10 +253,6 @@ export const JOBS: Job[] = [
     summary: "Financial spreading, credit memos and annual reviews for a commercial lending team, with a path to underwriter.",
   },
 ];
-
-export function getJobs(): Job[] {
-  return [...JOBS].sort((a, b) => (a.posted < b.posted ? 1 : -1));
-}
 
 export function jobTypeLabel(type: JobType) {
   return JOB_TYPES.find((t) => t.id === type)?.label ?? type;

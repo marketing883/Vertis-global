@@ -22,12 +22,14 @@ const IDLE: CandidateState = { status: "idle" };
 
    Arriving from a job with `?role=` prefills what they are looking
    for, read from window.location rather than useSearchParams so the
-   page stays static. */
+   page stays static. `?job=` (the job's slug) travels with the
+   submission so the application is linked to that job in the admin. */
 export function ResumeForm() {
   const [state, action, pending] = useActionState(submitCandidate, IDLE);
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [role, setRole] = useState("");
+  const [job, setJob] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
   /* Time on the form, for bot screening (lib/spam.ts). Started when the
      form appears, written into the hidden "t" field at submit. A bot
@@ -40,6 +42,8 @@ export function ResumeForm() {
     shownAt.current = performance.now();
     const param = new URLSearchParams(window.location.search).get("role");
     if (param) setRole(param);
+    const slug = new URLSearchParams(window.location.search).get("job");
+    if (slug && /^[a-z0-9-]{1,120}$/.test(slug)) setJob(slug);
   }, []);
 
   const errors = state.status === "error" ? state.errors : {};
@@ -92,6 +96,7 @@ export function ResumeForm() {
         </label>
       </div>
       <input ref={fillTime} type="hidden" name="t" defaultValue="" />
+      <input type="hidden" name="job" value={job} readOnly />
 
       {state.status === "error" && state.message && (
         <p role="alert" className="mb-6 rounded-md bg-paper px-4 py-3 text-[0.9375rem] text-ink">

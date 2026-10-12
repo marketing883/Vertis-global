@@ -2,7 +2,9 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/config/site";
 import { SERVICE_LIST } from "@/config/services";
 import { INDUSTRY_PAGES } from "@/config/industry-pages";
-import { getInsights } from "@/config/insights";
+import { getInsights, listPublished } from "@/lib/data/content";
+import { getJobs } from "@/lib/data/jobs";
+import { CONTENT_TYPES } from "@/lib/content-types";
 
 /* Generated from the content configs, so a new service or article is
    listed the moment it is published. The development only hero video
@@ -52,5 +54,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.5,
     })),
+    /* Job pages, managed at /admin/jobs. */
+    ...getJobs().map((job) => ({
+      url: `${base}/jobs/${job.id}`,
+      lastModified: new Date(`${job.posted}T00:00:00Z`),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    /* Case studies, webinars and news: listed only once something is
+       published, because the index pages 404 while they are empty. */
+    ...CONTENT_TYPES.filter((t) => t.id !== "blog" && t.hasDetailPage).flatMap((t) => {
+      const items = listPublished(t.id);
+      if (items.length === 0) return [];
+      return [
+        { url: `${base}${t.publicPath}`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.6 },
+        ...items
+          .filter((i) => !(t.id === "news" && i.data.externalUrl))
+          .map((i) => ({
+            url: `${base}${t.publicPath}/${i.slug}`,
+            lastModified: new Date(i.updated_at),
+            changeFrequency: "yearly" as const,
+            priority: 0.5,
+          })),
+      ];
+    }),
   ];
 }

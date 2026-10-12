@@ -8,8 +8,7 @@ import { ResourceGrid } from "@/components/blocks/ResourceGrid";
 import { WhyVertis } from "@/components/blocks/WhyVertis";
 import { HireTalentButton } from "@/components/hire/HireTalentButton";
 import { SERVICE_LIST, getListing } from "@/config/services";
-import { getLatestInsights } from "@/config/insights";
-import { WHITEPAPERS } from "@/config/resources";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -260,7 +259,7 @@ export default function ServicesPage() {
         </Container>
       </Section>
 
-      <ResourceGrid posts={getLatestInsights(3)} paper={WHITEPAPERS[0]} />
+      <ResourceGrid posts={getLatestInsights(3)} paper={getWhitepapers()[0]} />
 
       <Section background="ink">
         <Container>

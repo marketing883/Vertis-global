@@ -3,8 +3,9 @@ import Link from "next/link";
 import { ArrowUpRight, BookOpen, Mail } from "lucide-react";
 import { Container, Eyebrow, Section } from "@/components/ui/Section";
 import { NewsletterForm } from "@/components/blocks/NewsletterForm";
-import { formatInsightDate, getLatestInsights, type InsightPost } from "@/config/insights";
-import { NEWSLETTER, WHITEPAPERS } from "@/config/resources";
+import { formatInsightDate, type InsightPost } from "@/config/insights";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
+import { NEWSLETTER } from "@/config/resources";
 import { cn } from "@/lib/utils";
 
 /* The resources grid: the three latest Insights articles as
@@ -40,7 +41,7 @@ export function Resources() {
             eyebrow="Deep dives"
             icon={<BookOpen className="size-5" strokeWidth={1.75} aria-hidden="true" />}
             title="Whitepapers"
-            line={`${WHITEPAPERS.length} guides for the people who sign off: contract-to-hire, peak season planning and more.`}
+            line={`${getWhitepapers().length} guides for the people who sign off: contract-to-hire, peak season planning and more.`}
             href="/whitepapers"
             cta="Browse whitepapers"
           />

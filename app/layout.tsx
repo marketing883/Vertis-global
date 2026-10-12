@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Funnel_Display, Inter, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 import { HireTalentProvider } from "@/components/hire/HireTalentProvider";
 import { SITE } from "@/config/site";
 import "./globals.css";
@@ -101,9 +102,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           >
             Skip to main content
           </a>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
+          <SiteChrome header={<Header />} footer={<Footer />}>
+            {children}
+          </SiteChrome>
         </HireTalentProvider>
       </body>
     </html>

@@ -14,8 +14,7 @@ import { ServiceCompare } from "@/components/services/ServiceCompare";
 import { StickyHireBar } from "@/components/services/StickyHireBar";
 import { SERVICES, getListing, getService } from "@/config/services";
 import { ALL_INDUSTRIES } from "@/config/industries";
-import { getLatestInsights } from "@/config/insights";
-import { WHITEPAPERS } from "@/config/resources";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
 
 /* One renderer for the services drawn from config/services.ts
    (Managed Services and Staffing). Everything that differs between
@@ -28,9 +27,11 @@ import { WHITEPAPERS } from "@/config/resources";
 
 type Params = Promise<{ slug: string }>;
 
-/* Every service in SERVICES is prerendered. An unknown slug is a
-   static 404 rather than a render at request time. */
-export const dynamicParams = false;
+/* Every service in SERVICES is prerendered. dynamicParams stays true
+   because admin changes (whitepapers shown here) revalidate the page,
+   and Next cannot regenerate a dynamicParams = false page after
+   revalidation. An unknown slug is still a 404 through notFound(). */
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -60,9 +61,10 @@ export default async function ServicePage({ params }: { params: Params }) {
     return found ? [found] : [];
   });
   const alternative = getListing(service.notRightIf.alternative);
+  const whitepapers = getWhitepapers();
   const paper =
-    (service.whitepaper ? WHITEPAPERS.find((w) => w.slug === service.whitepaper) : undefined) ??
-    WHITEPAPERS[0];
+    (service.whitepaper ? whitepapers.find((w) => w.slug === service.whitepaper) : undefined) ??
+    whitepapers[0];
 
   return (
     <>

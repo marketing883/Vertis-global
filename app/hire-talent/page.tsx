@@ -11,8 +11,7 @@ import { ServiceProof } from "@/components/services/ServiceProof";
 import { ServiceSteps } from "@/components/services/ServiceSteps";
 import { ServiceCompare } from "@/components/services/ServiceCompare";
 import { INDUSTRY_COUNT, INDUSTRY_GROUPS, TALENT_LEVELS } from "@/config/industries";
-import { getLatestInsights } from "@/config/insights";
-import { WHITEPAPERS } from "@/config/resources";
+import { getLatestInsights, getWhitepapers } from "@/lib/data/content";
 
 export const metadata: Metadata = {
   title: "Hire talent",
@@ -250,7 +249,7 @@ export default function HireTalentPage() {
       </Section>
 
       {/* ── 8 · Resources ────────────────────────────────────── */}
-      <ResourceGrid posts={getLatestInsights(3)} paper={WHITEPAPERS[0]} />
+      <ResourceGrid posts={getLatestInsights(3)} paper={getWhitepapers()[0]} />
 
       {/* ── 9 · Closing call to action ───────────────────────── */}
       <Section background="ink">

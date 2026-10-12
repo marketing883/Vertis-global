@@ -30,4 +30,11 @@ export const LIGHT_HEADER_ROUTES = [
   "/account",
   "/insights",
   "/whitepapers",
+  "/case-studies",
+  "/webinars",
+  "/news",
 ];
+
+/* Paths under these prefixes also have a light top (a job's own page,
+   while the /jobs list itself keeps its dark hero). */
+export const LIGHT_HEADER_PREFIXES = ["/jobs/"];

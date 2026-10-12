@@ -14,12 +14,14 @@ import { clientAddress, emailRateLimited, rateLimited, screen } from "@/lib/spam
 import { candidateNotificationsOn, holdCandidate } from "@/lib/candidate-delivery";
 import { escapeHtml, greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
 import { retentionDays, storeResume } from "@/lib/resume-store";
+import { referenceTaken, saveApplication, setNotification } from "@/lib/applications";
+import { getPublishedJob } from "@/lib/data/jobs";
 import { SITE } from "@/config/site";
 
 /* The job seeker lead. Validated on the server, screened for bots,
-   emailed to the recruiters with the resume attached, and a thank-you
-   to the candidate. Nothing is written to disk or to a database, which
-   is what "no candidate database" means in practice.
+   saved to Applications in the admin (lib/applications.ts), emailed to
+   the recruiters with the resume attached, and a thank-you to the
+   candidate.
 
    Order matters:
      1. clean every value (control and invisible characters, spacing)
@@ -28,9 +30,12 @@ import { SITE } from "@/config/site";
         field of keyboard noise is sent back to be checked
      3. validate shape, length and the allowed options
      4. check the attachment
-     5. email the recruiters, or hold the email while recruiter
+     5. save the application (and its resume) for the admin
+     6. email the recruiters, or hold the email while recruiter
         notifications are paused (lib/candidate-delivery.ts), then
-        thank the candidate
+        thank the candidate. Once the application is saved, a failed
+        email no longer fails the submission: the recruiters see it in
+        the admin, marked "email failed".
 
    Logs never carry what a candidate typed: only the reference, or a
    dropped submission's reasons.
@@ -105,6 +110,7 @@ export async function submitCandidate(
      also enforced in the browser; this is the side that counts. */
   const file = formData.get("resume");
   let attachment: { filename: string; content: string } | null = null;
+  let resume: { bytes: Buffer; filename: string; type: string } | null = null;
   let downloadUrl: string | null = null;
 
   if (file instanceof File && file.size > 0) {
@@ -127,15 +133,31 @@ export async function submitCandidate(
     }
     const bytes = Buffer.from(await file.arrayBuffer());
     attachment = { filename, content: bytes.toString("base64") };
+    resume = { bytes, filename, type: file.type };
     const token = await storeResume(bytes, filename, file.type);
     if (token) downloadUrl = `${siteOrigin(requestHeaders)}/resume/${token}`;
   }
 
   /* ── 5 · The recruiter email ───────────────────────────────── */
-  const reference = makeReference();
+  let reference = makeReference();
+  /* Four random characters a month is plenty, but never reuse one. */
+  for (let i = 0; i < 5 && referenceTaken(reference); i++) reference = makeReference();
   const submitted = new Date();
   const lookingFor =
     CANDIDATE_LOOKING_FOR.find((o) => o.id === lead.lookingFor)?.label ?? NOT_PROVIDED;
+
+  /* The job applied for, when they came from a job page. Only a
+     published job counts; anything else is ignored, not an error. */
+  const jobSlug = cleanText(formData.get("job"));
+  let job: { id: number; title: string } | null = null;
+  if (/^[a-z0-9-]{1,120}$/.test(jobSlug)) {
+    try {
+      const row = getPublishedJob(jobSlug);
+      if (row) job = { id: row.id, title: row.title };
+    } catch {
+      /* database unavailable: the submission still goes through */
+    }
+  }
 
   const rows: Row[] = [
     ["Candidate Reference", reference],
@@ -143,6 +165,7 @@ export async function submitCandidate(
     ["Email", lead.email],
     ["Phone", lead.phone || NOT_PROVIDED],
     ["Looking For", lookingFor],
+    ...(job ? [["Applied For", job.title] as Row] : []),
     ["Kind of Work", lead.work],
     ["Location", lead.location],
     [
@@ -165,9 +188,36 @@ export async function submitCandidate(
     ...(attachment ? { attachments: [attachment] } : {}),
   };
 
-  if (candidateNotificationsOn()) {
+  /* ── 5 · Applications ──────────────────────────────────────── */
+  const notifying = candidateNotificationsOn();
+  let saved: number | null = null;
+  try {
+    saved = await saveApplication({
+      reference,
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone ?? "",
+      lookingFor: lead.lookingFor,
+      work: lead.work,
+      location: lead.location,
+      message: lead.message ?? "",
+      job,
+      resume,
+      screening: screeningNote(fillMs),
+      notification: notifying ? "sent" : "paused",
+      createdAt: submitted.toISOString(),
+    });
+  } catch (err) {
+    console.error(`[candidate] ${reference} not saved to applications:`, err instanceof Error ? err.message : "unknown error");
+  }
+
+  /* ── 6 · Notify ────────────────────────────────────────────── */
+  if (notifying) {
     const sent = await notifyTeam("candidate", email);
-    if (!sent) {
+    if (!sent && saved !== null) {
+      setNotification(saved, "failed");
+      console.error(`[candidate] ${reference} saved, but the recruiter email failed`);
+    } else if (!sent) {
       return {
         status: "error",
         errors: {},
@@ -178,7 +228,7 @@ export async function submitCandidate(
   } else {
     /* Recruiter notifications are paused: keep it for later instead. */
     const held = await holdCandidate({ reference, received: submitted.toISOString(), email });
-    if (!held) {
+    if (!held && saved === null) {
       return {
         status: "error",
         errors: {},
@@ -186,7 +236,7 @@ export async function submitCandidate(
         message: "We couldn't take that just now. Please email your details to",
       };
     }
-    console.info(`[candidate] ${reference} held (recruiter notifications paused)`);
+    console.info(`[candidate] ${reference} ${held ? "held" : "saved, not held"} (recruiter notifications paused)`);
   }
 
   await thankVisitor("candidate", {
