@@ -6,6 +6,7 @@ import { CONTENT_TYPES } from "@/lib/content-types";
 import { contentCounts } from "@/lib/admin/content";
 import { STATUSES, importHeldSubmissions, listApplications, statusCounts } from "@/lib/applications";
 import { candidateNotificationsOn } from "@/lib/candidate-delivery";
+import { subscriberCounts } from "@/lib/subscribers";
 import { Badge, Card, PageHeader, buttonClass, formatWhen } from "@/components/admin/ui";
 
 export const metadata = { title: "Dashboard" };
@@ -33,6 +34,7 @@ export default async function DashboardPage() {
   const recent = listApplications({}, 1).rows.slice(0, 6);
   const showContent = canAccess(user.role, "blog");
   const content = showContent ? contentCounts() : [];
+  const subscribers = showContent ? subscriberCounts() : null;
   const count = (type: string, status: string) => content.find((c) => c.type === type && c.status === status)?.n ?? 0;
 
   return (
@@ -116,6 +118,17 @@ export default async function DashboardPage() {
                   </Link>
                 </li>
               ))}
+              {subscribers ? (
+                <li>
+                  <Link href="/admin/subscribers" className="flex items-center justify-between px-5 py-3 hover:bg-paper">
+                    <span className="text-ink">Newsletter subscribers</span>
+                    <span className="text-sm text-n-500">
+                      {subscribers.total}
+                      {subscribers.lastWeek ? ` · ${subscribers.lastWeek} this week` : ""}
+                    </span>
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           </Card>
         ) : (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useId } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import { subscribeNewsletter } from "@/app/actions/newsletter";
 import type { NewsletterState } from "@/lib/validation/newsletter";
@@ -12,6 +13,8 @@ const IDLE: NewsletterState = { status: "idle" };
 export function NewsletterForm({ tone = "ink", className }: { tone?: "ink" | "paper"; className?: string }) {
   const [state, action, pending] = useActionState(subscribeNewsletter, IDLE);
   const id = useId();
+  /* The page they signed up on, shown in the admin's subscriber list. */
+  const pathname = usePathname();
   const onInk = tone === "ink";
 
   if (state.status === "success") {
@@ -25,6 +28,7 @@ export function NewsletterForm({ tone = "ink", className }: { tone?: "ink" | "pa
 
   return (
     <form action={action} className={className} noValidate>
+      <input type="hidden" name="source" value={pathname ?? ""} readOnly />
       <label htmlFor={id} className="sr-only">
         Email address
       </label>

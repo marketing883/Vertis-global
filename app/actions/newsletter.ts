@@ -1,13 +1,18 @@
 "use server";
 
+import { headers } from "next/headers";
 import { newsletterSchema, type NewsletterState } from "@/lib/validation/newsletter";
 import { NEWSLETTER } from "@/config/resources";
-import { notifyTeam, signOff, thankVisitor } from "@/lib/email";
+import { signOff, thankVisitor } from "@/lib/email";
+import { clientAddress, emailRateLimited, rateLimited } from "@/lib/spam";
+import { addSubscriber } from "@/lib/subscribers";
 
-/* Newsletter signup. Same delivery path as the inquiry (lib/email.ts):
-   the team is told, the subscriber is thanked. Swapping this for a
-   list provider (Resend Audiences, Mailchimp) is a one-function
-   change here; the form does not care. */
+/* Newsletter signup. The address is saved to the subscriber list in
+   the admin (/admin/subscribers); the team is not emailed. A new
+   subscriber gets one thank-you; signing up again changes nothing and
+   sends nothing, so the form cannot be used to email someone over and
+   over. Bots that fill the hidden field, or post too often, are shown
+   the normal success message and nothing is saved or sent. */
 
 export async function subscribeNewsletter(
   _prev: NewsletterState,
@@ -22,15 +27,20 @@ export async function subscribeNewsletter(
   }
   if (parsed.data.website) return { status: "success" }; // honeypot tripped
 
-  const email = parsed.data.email;
-  const sent = await notifyTeam("newsletter", {
-    replyTo: email,
-    subject: `Newsletter signup: ${email}`,
-    text: `New subscriber to ${NEWSLETTER.name}: ${email}`,
-  });
-  if (!sent) {
+  const email = parsed.data.email.trim().toLowerCase();
+  if (rateLimited(clientAddress(await headers())) || emailRateLimited(email)) {
+    console.warn("[newsletter:spam] dropped, rate limited");
+    return { status: "success" };
+  }
+
+  let added: boolean;
+  try {
+    added = addSubscriber(email, parsed.data.source ?? "");
+  } catch (err) {
+    console.error("[newsletter] could not save a signup:", err instanceof Error ? err.message : "unknown error");
     return { status: "error", message: "We couldn't sign you up just now. Please try again." };
   }
+  if (!added) return { status: "success" }; // already subscribed
 
   await thankVisitor("newsletter", {
     to: email,
