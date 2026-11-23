@@ -7,6 +7,7 @@ import { contentCounts } from "@/lib/admin/content";
 import { STATUSES, importHeldSubmissions, listApplications, statusCounts } from "@/lib/applications";
 import { candidateNotificationsOn } from "@/lib/candidate-delivery";
 import { subscriberCounts } from "@/lib/subscribers";
+import { enquiryCounts } from "@/lib/enquiries";
 import { Badge, Card, PageHeader, buttonClass, formatWhen } from "@/components/admin/ui";
 
 export const metadata = { title: "Dashboard" };
@@ -35,6 +36,7 @@ export default async function DashboardPage() {
   const showContent = canAccess(user.role, "blog");
   const content = showContent ? contentCounts() : [];
   const subscribers = showContent ? subscriberCounts() : null;
+  const enquiries = showContent ? enquiryCounts() : null;
   const count = (type: string, status: string) => content.find((c) => c.type === type && c.status === status)?.n ?? 0;
 
   return (
@@ -58,10 +60,21 @@ export default async function DashboardPage() {
         <p className="mb-6 flex gap-3 rounded-lg border border-[#f3d9a4] bg-[#fff8e8] px-4 py-3 text-sm text-n-600">
           <BellOff className="mt-0.5 size-4 shrink-0 text-[#9a6b00]" aria-hidden="true" />
           <span>
-            Recruiter emails for general resume submissions are paused; they are saved here only. Applications to a
-            specific job are emailed to that job&apos;s notification addresses.
+            General resume submissions and employer enquiries are not emailed to anyone; they are saved here only.
+            Applications to a specific job are emailed to that job&apos;s notification addresses.
           </span>
         </p>
+      ) : null}
+
+      {enquiries && subscribers ? (
+        <section aria-labelledby="leads" className="mb-8">
+          <h2 id="leads" className="mb-3 text-sm font-semibold tracking-wide text-n-500 uppercase">Leads</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat label="New enquiries" value={enquiries.new} href="/admin/enquiries?status=new" note={`${enquiries.all} in total; nobody is emailed`} />
+            <Stat label="Contacted" value={enquiries.contacted} href="/admin/enquiries?status=contacted" note="Employers being followed up" />
+            <Stat label="Newsletter subscribers" value={subscribers.total} href="/admin/subscribers" note={`${subscribers.lastWeek} in the last 7 days`} />
+          </div>
+        </section>
       ) : null}
 
       <section aria-labelledby="hiring">
@@ -118,17 +131,7 @@ export default async function DashboardPage() {
                   </Link>
                 </li>
               ))}
-              {subscribers ? (
-                <li>
-                  <Link href="/admin/subscribers" className="flex items-center justify-between px-5 py-3 hover:bg-paper">
-                    <span className="text-ink">Newsletter subscribers</span>
-                    <span className="text-sm text-n-500">
-                      {subscribers.total}
-                      {subscribers.lastWeek ? ` · ${subscribers.lastWeek} this week` : ""}
-                    </span>
-                  </Link>
-                </li>
-              ) : null}
+            
             </ul>
           </Card>
         ) : (

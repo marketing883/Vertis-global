@@ -8,20 +8,29 @@ import {
 } from "@/lib/validation/inquiry";
 import { ALL_INDUSTRIES } from "@/config/industries";
 import { SERVICES } from "@/config/services";
-import { greeting, notifyTeam, signOff, thankVisitor } from "@/lib/email";
+import { headers } from "next/headers";
+import { greeting, signOff, thankVisitor } from "@/lib/email";
+import { clientAddress, emailRateLimited, rateLimited } from "@/lib/spam";
+import { cleanText } from "@/lib/validation/candidate";
+import { enquiryReferenceTaken, saveEnquiry } from "@/lib/enquiries";
 
-/* The employer lead. Validates on the server, then emails the team
-   and thanks the visitor through lib/email.ts, which also documents
-   the env vars. With no key configured both emails are logged and
-   the form still succeeds, so the UX works end to end in development.
+/* The employer lead. Validated on the server, saved to Enquiries in
+   the admin (/admin/enquiries), and the employer thanked through
+   lib/email.ts. Nobody is emailed about a new enquiry: the team works
+   them from the dashboard. If the enquiry cannot be saved, the form
+   says so and asks them to email us, so a lead is never silently lost.
 
-   A CRM hand-off belongs in the same place — see the TODO. */
+   A CRM hand-off belongs in the same place, see the TODO. */
 
 export async function submitInquiry(
   _prev: InquiryState,
   formData: FormData,
 ): Promise<InquiryState> {
-  const raw = Object.fromEntries(formData.entries());
+  /* Every value cleaned of control and invisible characters first; the
+     message keeps its line breaks. */
+  const raw = Object.fromEntries(
+    [...formData.entries()].map(([k, v]) => [k, typeof v === "string" ? cleanText(v, k === "details") : v]),
+  );
   const parsed = inquirySchema.safeParse(raw);
 
   /* Echoed back so a validation error does not cost the person the
@@ -45,7 +54,15 @@ export async function submitInquiry(
     return { status: "success", reference: makeReference() };
   }
 
-  const reference = makeReference();
+  /* Too many from one address or one email: the normal success
+     screen, nothing saved, as for the other forms. */
+  if (rateLimited(clientAddress(await headers())) || emailRateLimited(lead.email)) {
+    console.warn("[inquiry:spam] dropped, rate limited");
+    return { status: "success", reference: makeReference() };
+  }
+
+  let reference = makeReference();
+  for (let i = 0; i < 5 && enquiryReferenceTaken(reference); i++) reference = makeReference();
 
   /* The form submits slugs and ids; the inbox wants readable names.
      Service goes first because it is the strongest routing signal
@@ -58,34 +75,30 @@ export async function submitInquiry(
     : "not specified";
   const need = INQUIRY_NEEDS.find((n) => n.id === lead.need)?.title ?? lead.need;
 
-  const subject = `New staffing inquiry ${reference}: ${lead.company}`;
-  const body = [
-    `Reference: ${reference}`,
-    `Need: ${need}`,
-    `Service: ${service}`,
-    `Industry: ${industry}`,
-    ``,
-    `Name: ${lead.name}`,
-    `Company: ${lead.company}`,
-    `Email: ${lead.email}`,
-    `Phone: ${lead.phone || "not provided"}`,
-    ``,
-    `Who they need: ${lead.talent}`,
-    `Where: ${lead.location}`,
-    `How many: ${lead.positions}`,
-    ``,
-    `Details:`,
-    lead.details || "none",
-  ].join("\n");
-
-  const sent = await notifyTeam("inquiry", { replyTo: lead.email, subject, text: body });
-  if (!sent) {
+  try {
+    saveEnquiry({
+      reference,
+      need,
+      service: lead.service ? service : "",
+      industry: lead.industry ? industry : "",
+      name: lead.name,
+      company: lead.company,
+      email: lead.email.toLowerCase(),
+      phone: lead.phone ?? "",
+      talent: lead.talent,
+      location: lead.location,
+      positions: lead.positions,
+      details: lead.details ?? "",
+    });
+  } catch (err) {
+    console.error(`[inquiry] ${reference} could not be saved:`, err instanceof Error ? err.message : "unknown error");
     return {
       status: "error",
       errors: {},
       message: "We couldn't send that just now. Please email us directly.",
     };
   }
+  console.info(`[inquiry] ${reference} saved to enquiries`);
 
   await thankVisitor("inquiry", {
     to: lead.email,

@@ -28,10 +28,10 @@ try {
 }
 
 const DIR = env.CANDIDATE_HOLD_DIR?.trim() || path.resolve("..", "held-candidates");
-// Defaults must match lib/email.ts.
-const list = (v, fallback) => (v?.trim() ? v : fallback).split(",").map((s) => s.trim()).filter(Boolean);
-const TO = list(env.NOTIFY_TO, "lohith.s@aciinfotech.com");
-const CC = list(env.NOTIFY_CC, "krish.karanam@aciinfotech.com");
+// No default recipients, as in lib/email.ts: release needs NOTIFY_TO.
+const list = (v) => (v ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const TO = list(env.NOTIFY_TO);
+const CC = list(env.NOTIFY_CC);
 const FROM = env.MAIL_FROM?.trim() || "Vertis Global <no-reply@vertisglobal.com>";
 
 async function held() {
@@ -72,6 +72,10 @@ if (cmd === "list" || !cmd) {
 } else if (cmd === "release") {
   if (env.CANDIDATE_NOTIFICATIONS?.trim().toLowerCase() !== "on") {
     console.error("Recruiter notifications are paused. Set CANDIDATE_NOTIFICATIONS=on in .env.local first.");
+    process.exit(1);
+  }
+  if (!TO.length) {
+    console.error("No recipients: set NOTIFY_TO (comma separated) in .env.local first.");
     process.exit(1);
   }
   if (!env.RESEND_API_KEY?.trim()) {

@@ -3,13 +3,17 @@ import { SITE } from "@/config/site";
 /* One delivery path for every form on the site. Each submission sends
    two emails through Resend's REST API:
 
-     1. a notification to the team (NOTIFY_TO, cc NOTIFY_CC), with the
-        visitor as reply-to so answering the lead is one click;
+     1. a notification to whoever handles it, with the visitor as
+        reply-to so answering is one click. Job applications go to the
+        job's own recipients (notifyJobRecipients). The general team
+        inbox (notifyTeam: NOTIFY_TO, cc NOTIFY_CC) has NO default and
+        nobody in it unless the server's environment names someone:
+        employer enquiries and newsletter signups are kept in the
+        admin dashboard instead of emailed;
      2. a thank-you to the visitor, from MAIL_FROM.
 
-   The notification is the one that matters: if it fails, the form
-   reports an error so the visitor emails us instead. A failed
-   thank-you is logged and swallowed; the lead has already arrived.
+   A failed thank-you is logged and swallowed; the lead has already
+   been saved.
 
    With no RESEND_API_KEY both are logged to the server console, so
    the forms still work end to end in development.
@@ -20,11 +24,8 @@ import { SITE } from "@/config/site";
      MAIL_FROM       — defaults to "Vertis Global <no-reply@vertisglobal.com>"
      MAIL_REPLY_TO   — where a visitor's reply to the thank-you lands;
                        defaults to SITE.staffingEmail
-     NOTIFY_TO       — comma separated; defaults to lohith.s@aciinfotech.com
-     NOTIFY_CC       — comma separated; defaults to krish.karanam@aciinfotech.com */
-
-const DEFAULT_NOTIFY_TO = "lohith.s@aciinfotech.com";
-const DEFAULT_NOTIFY_CC = "krish.karanam@aciinfotech.com";
+     NOTIFY_TO       — comma separated; no default (nobody)
+     NOTIFY_CC       — comma separated; no default (nobody) */
 
 type Attachment = { filename: string; content: string };
 
@@ -40,8 +41,8 @@ type Message = {
   attachments?: Attachment[];
 };
 
-function list(value: string | undefined, fallback: string): string[] {
-  return (value?.trim() ? value : fallback)
+function list(value: string | undefined): string[] {
+  return (value ?? "")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
@@ -93,16 +94,23 @@ async function send(tag: string, msg: Message): Promise<boolean> {
   }
 }
 
-/** The lead, to the team. The form fails if this does. */
-export function notifyTeam(
+/** True when the server's environment names a team inbox (NOTIFY_TO). */
+export function teamInboxConfigured(): boolean {
+  return list(process.env.NOTIFY_TO).length > 0;
+}
+
+/** The lead, to the team inbox. Returns false, sending nothing, when
+    NOTIFY_TO names nobody (the default). */
+export async function notifyTeam(
   tag: string,
   msg: { replyTo?: string; subject: string; text: string; html?: string; attachments?: Attachment[] },
 ) {
-  return send(tag, {
-    ...msg,
-    to: list(process.env.NOTIFY_TO, DEFAULT_NOTIFY_TO),
-    cc: list(process.env.NOTIFY_CC, DEFAULT_NOTIFY_CC),
-  });
+  const to = list(process.env.NOTIFY_TO);
+  if (!to.length) {
+    console.warn(`[${tag}] no NOTIFY_TO set; team email not sent`);
+    return false;
+  }
+  return send(tag, { ...msg, to, cc: list(process.env.NOTIFY_CC) });
 }
 
 /** An application to a specific job, to that job's own recipients

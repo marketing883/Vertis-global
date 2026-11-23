@@ -52,8 +52,10 @@ export const inquirySchema = z.object({
   location: z.string().trim().min(2, "Where will the work be?"),
   positions: z.enum(POSITION_COUNTS),
   details: z.string().trim().max(2000).optional().or(z.literal("")),
-  /* honeypot — must stay empty */
-  website: z.string().max(0).optional().or(z.literal("")),
+  /* honeypot: real visitors leave it empty. Not validated here: a
+     filled one is caught in the action and answered with a quiet
+     "success", so a bot learns nothing. */
+  website: z.string().optional(),
 });
 
 export type InquiryInput = z.infer<typeof inquirySchema>;

@@ -4,7 +4,7 @@ import { canAccess, currentUser } from "@/lib/admin/auth";
 
 /* Every page in the admin panel. Signed-out visitors are sent to the
    login page; each page then checks its own section (requirePage). */
-const SECTIONS = ["", "case-studies", "blog", "whitepapers", "webinars", "news", "jobs", "job-applications", "subscribers", "users", "account"];
+const SECTIONS = ["", "case-studies", "blog", "whitepapers", "webinars", "news", "jobs", "job-applications", "enquiries", "subscribers", "users", "account"];
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const user = await currentUser();

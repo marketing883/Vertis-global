@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mail,
+import { Inbox, Mail,
   BookOpen,
   Briefcase,
   ExternalLink,
@@ -48,8 +48,11 @@ const GROUPS: { label: string | null; items: Item[] }[] = [
     ],
   },
   {
-    label: "Marketing",
-    items: [{ href: "/admin/subscribers", label: "Newsletter Subscribers", section: "subscribers", icon: Mail }],
+    label: "Leads",
+    items: [
+      { href: "/admin/enquiries", label: "Enquiries", section: "enquiries", icon: Inbox },
+      { href: "/admin/subscribers", label: "Newsletter Subscribers", section: "subscribers", icon: Mail },
+    ],
   },
   {
     label: "Settings",

@@ -31,8 +31,13 @@ import path from "node:path";
    it" when we do not.
    ============================================================ */
 
+/** On only when CANDIDATE_NOTIFICATIONS=on AND NOTIFY_TO names someone:
+    the team inbox has no default recipients (lib/email.ts). */
 export function candidateNotificationsOn(): boolean {
-  return process.env.CANDIDATE_NOTIFICATIONS?.trim().toLowerCase() === "on";
+  return (
+    process.env.CANDIDATE_NOTIFICATIONS?.trim().toLowerCase() === "on" &&
+    Boolean(process.env.NOTIFY_TO?.trim())
+  );
 }
 
 function holdDir() {
