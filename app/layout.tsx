@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Funnel_Display, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SiteChrome } from "@/components/layout/SiteChrome";
@@ -7,16 +7,26 @@ import { HireTalentProvider } from "@/components/hire/HireTalentProvider";
 import { SITE } from "@/config/site";
 import "./globals.css";
 
-const funnelDisplay = Funnel_Display({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+/* The three typefaces, served from this site. They are the same Google
+   Fonts files (latin, variable weight) that next/font/google used to
+   fetch at build time; bundling them means a deploy no longer fails
+   when the server cannot reach Google, and visitors never contact
+   Google either. All three are under the SIL Open Font License. */
+const funnelDisplay = localFont({
+  src: "./fonts/funnel-display-latin.woff2",
+  weight: "400 800",
   variable: "--font-funnel-display",
   display: "swap",
 });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const inter = localFont({
+  src: "./fonts/inter-latin.woff2",
+  weight: "100 900",
+  variable: "--font-inter",
+  display: "swap",
+});
+const jetbrainsMono = localFont({
+  src: "./fonts/jetbrains-mono-latin.woff2",
+  weight: "400 700",
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
